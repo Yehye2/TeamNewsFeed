@@ -4,7 +4,7 @@ const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 // const postRouter = require("./routes/posts")
 const app = express();
-const PORT = 3002;
+const PORT = 3000;
 
 app.use(express.json());
 app.use(cookieParser());
