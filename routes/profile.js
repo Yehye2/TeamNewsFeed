@@ -72,7 +72,7 @@ router.get('/posts/:userId', async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const post = await Posts.findOne({
+    const post = await Posts.findAll({
       where: { userId },
     });
 
