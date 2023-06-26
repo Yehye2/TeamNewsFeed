@@ -11,18 +11,20 @@ const saltRounds = 10;
 // 회원가입 API
 router.post("/users/signup", async (req, res) => {
   try {
-    var emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordEex = /^[^]{4,}$/ // 아무값[^]
     const nickNameEex = /^[a-z0-9]{3,}$/
+
     // req.body로 받아오기
     const { email, nickname, password, confirmPassword } = req.body
     console.log('email, nickname, password, confirmPassword = ', email, nickname, password, confirmPassword)
-    // 중복되는 닉네임과 이메일검사
+    // 중복되는 이메일검사
     const isExisUser = await Users.findOne({
       where: {
         email : email, 
       }
     })
+    // 중복되는 닉네임 검사
     const isExisNick = await Users.findOne({
       where: {
         nickname : nickname, 
@@ -66,9 +68,9 @@ router.post("/users/signup", async (req, res) => {
       return
     }
     
-    // 위의 패스워드 검증이 다 마치면 패스워드를 암호화
+    // 위의 패스워드 검증이 다 마치면 패스워드를 암호화 saltRounds안에 있는 숫자가 커질수록 암호가 복잡해진다. 대신 그만큼 연산이 느려진다.
     const encryptedPW = await bcrypt.hashSync(password, saltRounds); //비밀번호 암호화
-    console.log('encryptedPW = ', encryptedPW);
+
     // 유저테이블에 이메일 암호화된 패스워드 닉네임을 저장
     await Users.create({ 
       email: email, 
