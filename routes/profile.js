@@ -1,0 +1,93 @@
+const express = require('express');
+const router = express.Router();
+
+const { Users, Posts } = require('../models');
+
+// 프로필 조회 API
+router.get('/users/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params; // userId를 직접 가져옵니다.
+
+    const user = await Users.findOne({
+      attributes: ['userId', 'nickname', 'profileimage'],
+      where: { userId },
+    });
+
+    // 해당 사용자의 존재 여부를 확인합니다.
+    if (!user) {
+      res.status(404).json({ errorMessage: '프로필을 찾을 수 없습니다.' });
+      return; // 추가된 return 문을 통해 함수 실행 종료
+    }
+    // 조회한 사용자 데이터를 응답합니다.
+    res.json({ data: user });
+  } catch (error) {
+    // 오류가 발생한 경우 오류 메시지를 응답합니다.
+    res.status(500).json({ errorMessage: '프로필 조회에 실패했습니다.' });
+  }
+});
+
+// 임시 유저 등록 api
+router.post('/users', async (req, res) => {
+  const { email, pw, nickname } = req.body;
+
+  try {
+    // 새로운 유저를 생성합니다.
+    const createdUser = await Users.create({
+      nickname,
+      email,
+      password: pw, // pw를 password로 수정
+    });
+
+    // 확인 메시지를 응답합니다.
+    res.json({ message: '유저를 생성하였습니다.' });
+  } catch (error) {
+    // 에러 발생 시 에러 메시지를 응답합니다.
+    res.status(500).json({ error: '유저 생성에 실패하였습니다.' });
+  }
+});
+
+// 임시 게시글 등록 api
+router.post('/posts', async (req, res) => {
+  const { title, img, content } = req.body;
+
+  try {
+    const createdPost = await Posts.create({
+      UserId: 1,
+      nickname: 'testNick',
+      title,
+      img,
+      content,
+    });
+
+    res.json({ message: '게시글을 생성하였습니다.' });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ error: '게시글 생성에 실패하였습니다.' });
+  }
+});
+
+// 게시글 목록 조회 API
+router.get('/posts/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const post = await Posts.findOne({
+      where: { userId },
+    });
+
+    // 게시물의 존재 여부를 확인합니다.
+    if (!post || post.length === 0) {
+      // 게시물이 존재하지 않을 경우 에러 응답을 보냅니다.
+      return res.status(404).json({ error: '존재하지 않는 게시물입니다.' });
+    }
+
+    // 조회된 게시물을 응답합니다.
+    res.json({ data: post });
+  } catch (error) {
+    // 오류가 발생한 경우 오류 메시지를 응답합니다.
+    res.status(500).json({ error: '게시물 조회에 실패했습니다.' });
+  }
+});
+
+module.exports = router; // router 모듈을 외부로 내보냅니다.
