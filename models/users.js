@@ -16,46 +16,46 @@ module.exports = (sequelize, DataTypes) => {
       // 1. Users 모델에서
       this.hasMany(models.Posts, {
         // 2. Posts 모델에게 1:N 관계 설정을 합니다.
-        sourceKey: 'id', // 3. Users 모델의 userId 컬럼을
-        foreignKey: 'userId', // 4. Posts 모델의 UserId 컬럼과 연결합니다.
+        sourceKey: 'userId', // 3. Users 모델의 userId 컬럼을
+        foreignKey: 'UserId', // 4. Posts 모델의 UserId 컬럼과 연결합니다.
       });
     }
   }
   Users.init({
-    id: {
+    userId: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
     email: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
     password: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     nickname: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       unique: true,
       allowNull: false
     },
     description: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     profileImage: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     }
   }, {
