@@ -6,6 +6,7 @@ router.post('/posts', create);
 router.get('/posts', getAll);
 router.get('/posts:postId', getOne);
 router.put('/posts:postId', update);
+router.put('/posts:postId', remove);
 
 async function create(req, res) {
   try {
@@ -87,6 +88,29 @@ async function update(req, res) {
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return res.status(400).json({ errorMessage: '게시글 수정에 실패했습니다.' });
+  }
+}
+
+async function remove(req, res) {
+  try {
+    const { postId } = req.params;
+    const post = await Posts.findOne({ where: { postId } });
+
+    // 게시글이 존재하지 않을 경우 404
+    if (!post) {
+      return res.status(404).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
+    } else {
+      try {
+        await Posts.destroy({ where: { postId } });
+        // getAll API 호출
+        getAll(req, res);
+      } catch (error) {
+        res.status(401).json({ errorMessage: '게시글이 정상적으로 삭제되지 않았습니다.' });
+      }
+    }
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    return res.status(400).json({ errorMessage: '게시글 삭제에 실패했습니다.' });
   }
 }
 
