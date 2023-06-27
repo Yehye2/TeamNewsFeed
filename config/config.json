@@ -3,7 +3,7 @@
     "username": "root",
     "password": "wogur0305",
     "database": "jaehyuk_solo",
-    "host": "express-database.cngf2zbcb1fc.ap-northeast-2.rds.amazonaws.com",
+    "host": "expessdatabase.cngf2zbcb1fc.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {

@@ -21,28 +21,10 @@ router.get('/users/:userId', async (req, res) => {
     // 조회한 사용자 데이터를 응답합니다.
     res.json({ data: user });
   } catch (error) {
+    console.log(error);
+
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(500).json({ errorMessage: '프로필 조회에 실패했습니다.' });
-  }
-});
-
-// 임시 유저 등록 api
-router.post('/users', async (req, res) => {
-  const { email, pw, nickname } = req.body;
-
-  try {
-    // 새로운 유저를 생성합니다.
-    const createdUser = await Users.create({
-      nickname,
-      email,
-      password: pw, // pw를 password로 수정
-    });
-
-    // 확인 메시지를 응답합니다.
-    res.json({ message: '유저를 생성하였습니다.' });
-  } catch (error) {
-    // 에러 발생 시 에러 메시지를 응답합니다.
-    res.status(500).json({ error: '유저 생성에 실패하였습니다.' });
   }
 });
 
@@ -52,8 +34,8 @@ router.post('/posts', async (req, res) => {
 
   try {
     const createdPost = await Posts.create({
-      UserId: 1,
-      nickname: 'testNick',
+      UserId: 2, // 게시글 목록 조회 api 테스트 때문에 임시로 하드코딩
+      nickname: 'a123', // 게시글 목록 조회 api 테스트 때문에 임시로 하드코딩
       title,
       img,
       content,
@@ -79,14 +61,16 @@ router.get('/posts/:userId', async (req, res) => {
     // 게시물의 존재 여부를 확인합니다.
     if (!post || post.length === 0) {
       // 게시물이 존재하지 않을 경우 에러 응답을 보냅니다.
-      return res.status(404).json({ error: '존재하지 않는 게시물입니다.' });
+      return res
+        .status(404)
+        .json({ errorMessage: '작성한 게시물이 없습니다.' });
     }
 
     // 조회된 게시물을 응답합니다.
     res.json({ data: post });
   } catch (error) {
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
-    res.status(500).json({ error: '게시물 조회에 실패했습니다.' });
+    res.status(500).json({ errorMessage: '게시물 조회에 실패했습니다.' });
   }
 });
 
