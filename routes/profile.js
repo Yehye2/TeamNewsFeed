@@ -22,7 +22,7 @@ router.get("/users/:userId", async (req, res) => {
   } catch (error) {
     console.log(error);
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
-    res.status(500).json({ errorMessage: "프로필 조회에 실패했습니다." });
+    res.status(400).json({ errorMessage: "프로필 조회에 실패했습니다." });
   }
 });
 
@@ -48,7 +48,7 @@ router.put("/users/:userId", authMiddleware, async (req, res) => {
     res.json({ message: "프로필 수정에 성공했습니다." });
   } catch (error) {
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
-    res.status(500).json({ errorMessage: "프로필 수정에 실패했습니다." });
+    res.status(400).json({ errorMessage: "프로필 수정에 실패했습니다." });
   }
 });
 
@@ -69,7 +69,7 @@ router.get("/users/:userId/posts", async (req, res) => {
     res.json({ data: post });
   } catch (error) {
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
-    res.status(500).json({ errorMessage: "게시물 조회에 실패했습니다." });
+    res.status(400).json({ errorMessage: "게시물 조회에 실패했습니다." });
   }
 });
 
