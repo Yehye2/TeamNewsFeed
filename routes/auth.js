@@ -32,8 +32,6 @@ router.post("/auth/login", async (req, res) => {
       return res.status(412).json({ message: "비밀번호가 일치하지 않습니다." });
     }
 
-    console.log("process.env.ACCESS_TOKEN_KEY = ", process.env.ACCESS_TOKEN_KEY);
-
     // jwt를 생성
     // userId를 jwt로 감싸고 secretKey와 만료기간을 1시간으로 한다.
     const token = jwt.sign({ userId: user.userId }, process.env.ACCESS_TOKEN_KEY, {
@@ -49,7 +47,7 @@ router.post("/auth/login", async (req, res) => {
 });
 
 // 로그아웃
-router.delete("/auth/logout", (req, res) => {
+router.post("/auth/logout", (req, res) => {
   try {
     const { authorization } = req.cookies;
     // authorization가 없으면
