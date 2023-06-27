@@ -85,6 +85,15 @@ app.get('/', (req, res) => {
                 color: #666;
                 text-align: center;
             }
+
+            .bestsellers {
+                margin-top: 20px;
+                font-size: 16px;
+            }
+
+            .bestsellers-item {
+                margin-bottom: 5px;
+            }
         </style>
     </head>
 
@@ -97,6 +106,11 @@ app.get('/', (req, res) => {
             </div>
 
             <div id="searchResults" class="search-results"></div>
+
+            <div class="bestsellers">
+                <h2>Bestsellers</h2>
+                <ul id="bestsellersList"></ul>
+            </div>
         </div>
 
         <script>
@@ -148,6 +162,39 @@ app.get('/', (req, res) => {
                         console.error('Error searching books:', error);
                     });
             }
+
+            function displayBestsellers() {
+                var bestsellersList = document.getElementById('bestsellersList');
+
+                fetch('/bestsellers')
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (bestsellers) {
+                        if (bestsellers && bestsellers.length > 0) {
+                            for (var i = 0; i < bestsellers.length; i++) {
+                                var bestseller = bestsellers[i];
+
+                                var bestsellerItem = document.createElement('li');
+                                bestsellerItem.className = 'bestsellers-item';
+                                bestsellerItem.textContent = bestseller.title;
+
+                                bestsellersList.appendChild(bestsellerItem);
+                            }
+                        } else {
+                            var noBestsellersMessage = document.createElement('li');
+                            noBestsellersMessage.className = 'bestsellers-item';
+                            noBestsellersMessage.textContent = 'No bestsellers found.';
+
+                            bestsellersList.appendChild(noBestsellersMessage);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error('Error fetching bestsellers:', error);
+                    });
+            }
+
+            displayBestsellers();
         </script>
     </body>
     </html>
@@ -182,6 +229,33 @@ app.get('/search', (req, res) => {
         .catch(error => {
             console.error('Error searching books:', error);
             res.status(500).json({ error: 'An error occurred while searching books.' });
+        });
+});
+
+app.get('/bestsellers', (req, res) => {
+    axios
+        .get('http://www.aladin.co.kr/ttb/api/ItemList.aspx', {
+            params: {
+                ttbkey: 'ttbtiwh11427001',
+                QueryType: 'BestSeller',
+                MaxResults: 2,
+                start: 1,
+                output: 'js',
+                Version: '20131101'
+            },
+        })
+        .then(response => {
+            const bestsellers = response.data.item;
+
+            if (bestsellers && bestsellers.length > 0) {
+                res.json(bestsellers);
+            } else {
+                res.json({ message: 'No bestsellers found.' });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching bestsellers:', error);
+            res.status(500).json({ error: 'An error occurred while fetching bestsellers.' });
         });
 });
 
