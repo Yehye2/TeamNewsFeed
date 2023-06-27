@@ -9,7 +9,7 @@ router.get('/users/:userId', async (req, res) => {
     const { userId } = req.params; // userId를 직접 가져옵니다.
 
     const user = await Users.findOne({
-      attributes: ['userId', 'nickname', 'profileimage'],
+      attributes: ['userId', 'nickname', 'description', 'profileimage'],
       where: { userId },
     });
 
@@ -25,6 +25,39 @@ router.get('/users/:userId', async (req, res) => {
 
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(500).json({ errorMessage: '프로필 조회에 실패했습니다.' });
+  }
+});
+
+// 프로필 수정 API authMiddleware 일단 뺌
+router.put('/users/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { nickname, profileImage, description } = req.body;
+  // const { user } = res.locals; // authMiddleware 만든 이후 수정 필요
+  console.log(nickname, profileImage, description);
+
+  try {
+    // userId를 기준으로 해당 사용자의 프로필을 조회합니다.
+    const user = await Users.findOne({ where: { userId } });
+
+    // 사용자 본인이 작성한 게시물인지 검사하는 로직 생각중
+    // 생각생각
+
+    // 프로필을 업데이트합니다.
+    if (nickname) {
+      await user.update({ nickname });
+    }
+    if (profileImage) {
+      await user.update({ profileImage });
+    }
+    if (description) {
+      await user.update({ description });
+    }
+
+    // 확인 메시지를 응답합니다.
+    res.json({ message: '프로필 수정에 성공했습니다.' });
+  } catch (error) {
+    // 오류가 발생한 경우 오류 메시지를 응답합니다.
+    res.status(500).json({ errorMessage: '프로필 수정에 실패했습니다.' });
   }
 });
 
