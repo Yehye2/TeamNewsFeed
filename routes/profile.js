@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const authMiddleware = require("../middlewares/auth-middleware");
 const { Users, Posts } = require("../models");
 
 // 프로필 조회 API
@@ -27,7 +27,7 @@ router.get("/users/:userId", async (req, res) => {
 });
 
 // 프로필 수정 API authMiddleware 일단 뺌
-router.put("/users/:userId", async (req, res) => {
+router.put("/users/:userId", authMiddleware, async (req, res) => {
   const { userId } = req.params;
   const { nickname, profileImage, description } = req.body;
   // const { user } = res.locals; // authMiddleware 만든 이후 수정 필요

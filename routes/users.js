@@ -79,3 +79,5 @@ router.post("/users/signup", async (req, res) => {
     return res.status(400).json({ errMsge: "회원가입에 실패하였습니다." });
   }
 });
+
+module.exports = router; // router 모듈을 외부로 내보냅니다.

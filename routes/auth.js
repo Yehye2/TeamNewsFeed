@@ -16,13 +16,11 @@ router.post("/auth/login", async (req, res) => {
     const { email, password } = req.body;
     // 해당email의 유저가 있는지 확인
     const user = await Users.findOne({
-      where: { email },
+      where: { email }
     });
     // 유저가 존재하지 않으면
     if (!user) {
-      return res
-        .status(412)
-        .json({ message: "일치하는 회원정보가 없습니다. " });
+      return res.status(412).json({ message: "일치하는 회원정보가 없습니다. " });
     }
 
     // 암호화된 password를 comapareSync시켜서 입력받은 password와 비교
@@ -34,19 +32,13 @@ router.post("/auth/login", async (req, res) => {
       return res.status(412).json({ message: "비밀번호가 일치하지 않습니다." });
     }
 
-    console.log(
-      "process.env.ACCESS_TOKEN_KEY = ",
-      process.env.ACCESS_TOKEN_KEY
-    );
+    console.log("process.env.ACCESS_TOKEN_KEY = ", process.env.ACCESS_TOKEN_KEY);
+
     // jwt를 생성
     // userId를 jwt로 감싸고 secretKey와 만료기간을 1시간으로 한다.
-    const token = jwt.sign(
-      { userId: user.userId },
-      process.env.ACCESS_TOKEN_KEY,
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = jwt.sign({ userId: user.userId }, process.env.ACCESS_TOKEN_KEY, {
+      expiresIn: "1h"
+    });
 
     // bearer타입으로 클라이언트에 token을 전달
     res.cookie("authorization", `Bearer ${token}`);
