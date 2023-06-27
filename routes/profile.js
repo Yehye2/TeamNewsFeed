@@ -53,7 +53,7 @@ router.put("/users/:userId", authMiddleware, async (req, res) => {
 });
 
 // 게시글 목록 조회 API
-router.get("/posts/:userId", async (req, res) => {
+router.get("/users/:userId/posts", async (req, res) => {
   const { userId } = req.params;
 
   try {
