@@ -6,9 +6,9 @@ const authMiddleware = require("../middlewares/auth-middleware");
 
 router.post('/posts',authMiddleware, create);
 router.get('/posts', getAll);
-router.get('/posts:postId', getOne);
-router.put('/posts:postId',authMiddleware, update);
-router.delete('/posts:postId',authMiddleware, remove);
+router.get('/posts/:postId', getOne);
+router.put('/posts/:postId',authMiddleware, update);
+router.delete('/posts/:postId',authMiddleware, remove);
 
 async function create(req, res) {
   try {
