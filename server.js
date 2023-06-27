@@ -3,6 +3,11 @@ const axios = require('axios');
 
 const app = express();
 app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+const postsRouter = require('./routes/posts'); // 게시글 라우터 모듈 경로에 따라 수정해주세요.
+app.use('/', postsRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
@@ -20,11 +25,13 @@ app.get('/search', (req, res) => {
                 MaxResults: 10,
                 start: 1,
                 SearchTarget: 'Book',
-                output: 'json',
+                output: 'js', // JSON 형식의 응답을 요청
                 Version: '20131101'
             },
         })
         .then(response => {
+            console.log(response.data); // API 응답 데이터 확인
+
             const books = response.data.item;
 
             if (books && books.length > 0) {
@@ -47,11 +54,14 @@ app.get('/bestsellers', (req, res) => {
                 QueryType: 'BestSeller',
                 MaxResults: 5,
                 start: 1,
-                output: 'json',
+                SearchTarget: 'Book',
+                output: 'js',
                 Version: '20131101'
             },
         })
         .then(response => {
+            console.log('Aladin API response:', response.data); // API 응답 확인
+
             const bestsellers = response.data.item;
 
             if (bestsellers && bestsellers.length > 0) {
