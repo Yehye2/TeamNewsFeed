@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { Posts } = require('../models');
+const authMiddleware = require("../middlewares/auth-middleware");
 
-router.post('/posts', create);
+
+router.post('/posts',authMiddleware, create);
 router.get('/posts', getAll);
 router.get('/posts:postId', getOne);
-router.put('/posts:postId', update);
-router.delete('/posts:postId', remove);
+router.put('/posts:postId',authMiddleware, update);
+router.delete('/posts:postId',authMiddleware, remove);
 
 async function create(req, res) {
   try {
