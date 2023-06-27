@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { Users } = require("../models");
+require("dotenv").config();
 
 module.exports = async (req, res, next) => {
   const { authorization } = req.cookies;
@@ -11,24 +12,30 @@ module.exports = async (req, res, next) => {
   }
   try {
     let tokenErr = false;
-    const decodedToken = jwt.verify(token, "secretKey", (err, decoded) => {
-      if (err) {
-        // console.log(err.name);
-        tokenErr = true;
+    const decodedToken = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_KEY,
+      (err, decoded) => {
+        if (err) {
+          // console.log(err.name);
+          tokenErr = true;
 
-        switch (err.name) {
-          case "TokenExpiredError":
-            // token이 만료됨.
-            return res.status(403).json({ errMsg: "로그인이 만료되었습니다." });
-          default:
-            //? token decoded 에러
-            return res
-              .status(400)
-              .json(`invalid token. error name: ${err.name}`);
+          switch (err.name) {
+            case "TokenExpiredError":
+              // token이 만료됨.
+              return res
+                .status(403)
+                .json({ errMsg: "로그인이 만료되었습니다." });
+            default:
+              //? token decoded 에러
+              return res
+                .status(400)
+                .json(`invalid token. error name: ${err.name}`);
+          }
         }
+        return decoded;
       }
-      return decoded;
-    });
+    );
     if (tokenErr) {
       //! token decoded error
       return;
@@ -46,7 +53,6 @@ module.exports = async (req, res, next) => {
     res.locals.user = user;
     next();
   } catch (error) {
-    // console.log(error)
     return res.status(401).json({
       message: "비정상적인 접근입니다.",
     });

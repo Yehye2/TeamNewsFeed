@@ -3,6 +3,7 @@ const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 // 로그인
 router.post("/auth/login", async (req, res) => {
@@ -33,11 +34,19 @@ router.post("/auth/login", async (req, res) => {
       return res.status(412).json({ message: "비밀번호가 일치하지 않습니다." });
     }
 
+    console.log(
+      "process.env.ACCESS_TOKEN_KEY = ",
+      process.env.ACCESS_TOKEN_KEY
+    );
     // jwt를 생성
     // userId를 jwt로 감싸고 secretKey와 만료기간을 1시간으로 한다.
-    const token = jwt.sign({ userId: user.userId }, "secretKey", {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: user.userId },
+      process.env.ACCESS_TOKEN_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     // bearer타입으로 클라이언트에 token을 전달
     res.cookie("authorization", `Bearer ${token}`);
@@ -47,16 +56,12 @@ router.post("/auth/login", async (req, res) => {
   }
 });
 
-// jwt를 생성
-// userId
-
 // 로그아웃
 router.delete("/auth/logout", (req, res) => {
   try {
     const { authorization } = req.cookies;
-    const [tokenType, token] = authorization.split(" ");
     // authorization가 없으면
-    if (tokenType !== "Bearer" || !token) {
+    if (!authorization) {
       return res.status(401).json({ message: "로그인상태가 아닙니다." });
     }
     // 클라이언트에 있는 jwt삭제

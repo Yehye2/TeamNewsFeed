@@ -2,9 +2,10 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
-// const postRouter = require("./routes/posts")
+require("dotenv").config();
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cookieParser());
