@@ -4,12 +4,10 @@ require("dotenv").config();
 
 module.exports = async (req, res, next) => {
   const { authorization } = req.cookies;
-
   // token 없으면
   if (!authorization) {
     return res.status(401).json({ errorMessage: "로그인 후에 이용가능합니다." });
   }
-
   const [tokenType, token] = authorization.split(" ");
 
   if (tokenType !== "Bearer" || !token) {
