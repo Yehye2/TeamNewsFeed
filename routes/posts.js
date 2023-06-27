@@ -6,7 +6,7 @@ router.post('/posts', create);
 router.get('/posts', getAll);
 router.get('/posts:postId', getOne);
 router.put('/posts:postId', update);
-router.put('/posts:postId', remove);
+router.delete('/posts:postId', remove);
 
 async function create(req, res) {
   try {
