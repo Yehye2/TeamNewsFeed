@@ -6,10 +6,14 @@ module.exports = async (req, res, next) => {
   const { authorization } = req.cookies;
   const [tokenType, token] = authorization.split(" ");
 
-  // authorization가 없으면
+  // token 없으면
+  if (!authorization) {
+    return res.status(401).json({ message: "로그인 후에 이용가능합니다." });
+  }
   if (tokenType !== "Bearer" || !token) {
     return res.status(401).json({ message: "로그인 후에 이용가능합니다." });
   }
+
   try {
     let tokenErr = false;
     const decodedToken = jwt.verify(
