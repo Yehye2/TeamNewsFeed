@@ -52,7 +52,7 @@ router.post("/users/signup", async (req, res) => {
 
     // 패스워드는 최소 4자, 닉네임과 같은 값이 포함되어ㅏ 있으면 에러
 
-    if (!passwordEex.test(password)) {
+    if (!passwordExp.test(password)) {
       res.status(412).json({ errorMessage: "패스워드는 최소 4자리 이상이어야합니다." });
 
       return;
