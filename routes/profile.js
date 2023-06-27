@@ -30,48 +30,25 @@ router.get("/users/:userId", async (req, res) => {
 router.put("/users/:userId", authMiddleware, async (req, res) => {
   const { userId } = req.params;
   const { nickname, profileImage, description } = req.body;
-  // const { user } = res.locals; // authMiddleware 만든 이후 수정 필요
-
+  const nickNameExp = /^[a-z0-9]{3,}$/;
   try {
     // userId를 기준으로 해당 사용자의 프로필을 조회합니다.
     const user = await Users.findOne({ where: { userId } });
-    // 사용자 본인이 작성한 게시물인지 검사하는 로직 생각중
-    // 생각생각
 
+    // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
+    if (!nickNameExp.test(nickname)) {
+      res.status(412).json({ errorMessage: "닉네임은 최소 3자이상, 알파벳 소문자 숫자를 포함하여야합니다." });
+      return;
+    }
     // 프로필을 업데이트합니다.
-    if (nickname) {
-      await user.update({ nickname });
-    }
-    if (profileImage) {
-      await user.update({ profileImage });
-    }
-    if (description) {
-      await user.update({ description });
-    }
+    if (nickname) await user.update({ nickname });
+    if (profileImage) await user.update({ profileImage });
+    if (description) await user.update({ description });
     // 확인 메시지를 응답합니다.
     res.json({ message: "프로필 수정에 성공했습니다." });
   } catch (error) {
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(500).json({ errorMessage: "프로필 수정에 실패했습니다." });
-  }
-});
-
-// 임시 게시글 등록 api
-router.post("/posts", async (req, res) => {
-  const { title, img, content } = req.body;
-
-  try {
-    const createdPost = await Posts.create({
-      UserId: 2, // 게시글 목록 조회 api 테스트 때문에 임시로 하드코딩
-      nickname: "a123", // 게시글 목록 조회 api 테스트 때문에 임시로 하드코딩
-      title,
-      img,
-      content
-    });
-
-    res.json({ message: "게시글을 생성하였습니다." });
-  } catch (error) {
-    res.status(500).json({ error: "게시글 생성에 실패하였습니다." });
   }
 });
 

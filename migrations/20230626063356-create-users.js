@@ -3,26 +3,25 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Users", {
-    await queryInterface.createTable("Users", {
       userId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       email: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: false,
+        allowNull: false
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       nickname: {
         type: Sequelize.STRING(10),
         unique: true,
-        allowNull: false,
+        allowNull: false
       },
       description: {
         type: Sequelize.TEXT
@@ -33,13 +32,13 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn("now")
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
-      },
+        defaultValue: Sequelize.fn("now")
+      }
     });
   },
   async down(queryInterface, Sequelize) {
