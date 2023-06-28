@@ -14,7 +14,7 @@ router.post("/users/signup", async (req, res) => {
     const passwordEex = /^[^]{4,}$/; // 아무값[^]
     const nickNameEex = /^[a-z0-9]{3,}$/;
     // req.body로 받아오기
-    const { email, nickname, password, confirmPassword } = req.body;
+    const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
     // 중복되는 닉네임과 이메일검사
     const isExisUser = await Users.findOne({
       where: {
@@ -44,6 +44,11 @@ router.post("/users/signup", async (req, res) => {
     // 이메일 규칙검사
     if (!emailExp.test(email)) {
       res.status(412).json({ errorMessage: "이메일주소형식이 올바르지 않습니다." });
+      return;
+    }
+
+    if (!verifiedEmail) {
+      res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
       return;
     }
 
