@@ -8,9 +8,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      // define association here
-
+      this.belongsToMany(models.Users, {
+        through: "Followers",
+        as: "followers",
+        foreignKey: "followingId"
+      });
+      this.belongsToMany(models.Users, {
+        through: "Followers",
+        as: "following",
+        foreignKey: "followerId"
+      });
       // 1. Users 모델에서
       this.hasMany(models.Posts, {
         // 2. Posts 모델에게 1:N 관계 설정을 합니다.

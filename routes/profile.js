@@ -27,7 +27,7 @@ router.get("/users/:userId", async (req, res) => {
 });
 
 // 프로필 수정 API authMiddleware 일단 뺌
-router.put("/users/:userId", authMiddleware, async (req, res) => {
+router.patch("/users/:userId", authMiddleware, async (req, res) => {
   const { userId } = req.params;
   const { nickname, profileImage, description } = req.body;
   const nickNameExp = /^[a-z0-9]{3,}$/;
