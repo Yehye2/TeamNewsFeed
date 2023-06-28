@@ -36,9 +36,10 @@ router.post("/users/signup", async (req, res) => {
     }
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
-    if (!nickNameEex.test(nickname)) {
-      res.status(412).json({ errorMessage: "닉네임은 최소 3자이상, 알파벳 소문자 숫자를 포함하여야합니다." });
-      return;
+    if (!nickNameEpx.test(nickname)) {
+      res.status(412).json({
+        errMsg: "닉네임은 최소 3자이상, 알파벳 숫자 조합이어야합니다."
+      });
     }
 
     if (!verifiedEmail) {
@@ -47,8 +48,10 @@ router.post("/users/signup", async (req, res) => {
     }
 
     // 패스워드는 최소 4자, 닉네임과 같은 값이 포함되어ㅏ 있으면 에러
-    if (!passwordEex.test(password)) {
+
+    if (!passwordExp.test(password)) {
       res.status(412).json({ errorMessage: "패스워드는 최소 4자리 이상이어야합니다." });
+
       return;
     }
     if (password.includes(nickname)) {
