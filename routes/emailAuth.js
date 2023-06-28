@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const authTemplate = require("../template/authMail.js");
 
 // 인증 이메일 보내기
-router.post("/mail", async (req, res) => {
+router.post("/auth/mail", async (req, res) => {
   let authNum = Math.random().toString().substring(2, 6);
 
   function validateEmail(email) {
