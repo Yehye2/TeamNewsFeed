@@ -10,20 +10,17 @@ const saltRounds = 10;
 // 회원가입 API
 router.post("/users/signup", async (req, res) => {
   try {
-    const emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    const passwordExp = /^[^]{4,}$/; // 아무값[^]
-    // const nickNameEpx = /^[a-z0-9]{3,}$/;
-    const nickNameEpx = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,}$/;
-
+    const passwordEex = /^[^]{4,}$/; // 아무값[^]
+    const nickNameEex = /^[a-z0-9]{3,}$/;
     // req.body로 받아오기
-    const { email, nickname, password, confirmPassword } = req.body;
-    // 중복되는 이메일검사
-    const isExisUser = await Users.findOne({
+    const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
+    // 중복되는 닉네임과 이메일검사
+    const isExistUser = await Users.findOne({
       where: {
         email: email
       }
     });
-    const isExisNick = await Users.findOne({
+    const isExistNick = await Users.findOne({
       where: {
         nickname: nickname
       }
@@ -31,10 +28,10 @@ router.post("/users/signup", async (req, res) => {
 
     // email이나 nickname이 중복이 되는 유적가 있을 경우
     // eamil중복확인
-    if (isExisUser) {
+    if (isExistUser) {
       return res.status(409).json({ errorMessage: "이미 존재하는 회원입니다." });
     }
-    if (isExisNick) {
+    if (isExistNick) {
       return res.status(412).json({ errorMessage: "이미 존재하는 닉네임입니다." });
     }
 
@@ -44,9 +41,9 @@ router.post("/users/signup", async (req, res) => {
         errMsg: "닉네임은 최소 3자이상, 알파벳 숫자 조합이어야합니다."
       });
     }
-    // 이메일 규칙검사
-    if (!emailExp.test(email)) {
-      res.status(412).json({ errorMessage: "이메일주소형식이 올바르지 않습니다." });
+
+    if (!verifiedEmail) {
+      res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
       return;
     }
 
