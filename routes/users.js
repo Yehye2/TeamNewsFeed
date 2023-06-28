@@ -10,7 +10,6 @@ const saltRounds = 10;
 // 회원가입 API
 router.post("/users/signup", async (req, res) => {
   try {
-    const emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordEex = /^[^]{4,}$/; // 아무값[^]
     const nickNameEex = /^[a-z0-9]{3,}$/;
     // req.body로 받아오기
@@ -41,12 +40,7 @@ router.post("/users/signup", async (req, res) => {
       res.status(412).json({ errorMessage: "닉네임은 최소 3자이상, 알파벳 소문자 숫자를 포함하여야합니다." });
       return;
     }
-    // 이메일 규칙검사
-    if (!emailExp.test(email)) {
-      res.status(412).json({ errorMessage: "이메일주소형식이 올바르지 않습니다." });
-      return;
-    }
-    // TODO: 이메일 인증을 하면 회원가입 API 내에서 형식 검사를 하지 않아도 된다.
+
     if (!verifiedEmail) {
       res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
       return;
