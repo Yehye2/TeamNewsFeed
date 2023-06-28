@@ -11,11 +11,13 @@ const saltRounds = 10;
 router.post("/users/signup", async (req, res) => {
   try {
     const emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    const passwordEex = /^[^]{4,}$/; // 아무값[^]
-    const nickNameEex = /^[a-z0-9]{3,}$/;
+    const passwordExp = /^[^]{4,}$/; // 아무값[^]
+    // const nickNameEpx = /^[a-z0-9]{3,}$/;
+    const nickNameEpx = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,}$/;
+
     // req.body로 받아오기
     const { email, nickname, password, confirmPassword } = req.body;
-    // 중복되는 닉네임과 이메일검사
+    // 중복되는 이메일검사
     const isExisUser = await Users.findOne({
       where: {
         email: email
@@ -37,9 +39,10 @@ router.post("/users/signup", async (req, res) => {
     }
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
-    if (!nickNameEex.test(nickname)) {
-      res.status(412).json({ errorMessage: "닉네임은 최소 3자이상, 알파벳 소문자 숫자를 포함하여야합니다." });
-      return;
+    if (!nickNameEpx.test(nickname)) {
+      res.status(412).json({
+        errMsg: "닉네임은 최소 3자이상, 알파벳 숫자 조합이어야합니다."
+      });
     }
     // 이메일 규칙검사
     if (!emailExp.test(email)) {
@@ -48,8 +51,10 @@ router.post("/users/signup", async (req, res) => {
     }
 
     // 패스워드는 최소 4자, 닉네임과 같은 값이 포함되어ㅏ 있으면 에러
-    if (!passwordEex.test(password)) {
+
+    if (!passwordExp.test(password)) {
       res.status(412).json({ errorMessage: "패스워드는 최소 4자리 이상이어야합니다." });
+
       return;
     }
     if (password.includes(nickname)) {
