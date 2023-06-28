@@ -20,9 +20,6 @@ async function create(req, res) {
     }
 
     await post.save();
-
-    // getAll API 호출
-    getAll(req, res);
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return res.status(400).json({
@@ -80,8 +77,6 @@ async function update(req, res) {
     } else {
       try {
         await Posts.update({ title, content }, { where: { postId } });
-        // getAll API 호출
-        getAll(req, res);
       } catch (error) {
         res.status(401).json({ errorMessage: "게시글이 정상적으로 수정되지 않았습니다." });
       }
@@ -103,8 +98,6 @@ async function remove(req, res) {
     } else {
       try {
         await Posts.destroy({ where: { postId } });
-        // getAll API 호출
-        getAll(req, res);
       } catch (error) {
         res.status(401).json({ errorMessage: "게시글이 정상적으로 삭제되지 않았습니다." });
       }
