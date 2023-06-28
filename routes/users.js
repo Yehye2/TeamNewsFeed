@@ -46,7 +46,7 @@ router.post("/users/signup", async (req, res) => {
       res.status(412).json({ errorMessage: "이메일주소형식이 올바르지 않습니다." });
       return;
     }
-
+    // TODO: 이메일 인증을 하면 회원가입 API 내에서 형식 검사를 하지 않아도 된다.
     if (!verifiedEmail) {
       res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
       return;
