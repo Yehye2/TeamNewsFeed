@@ -16,12 +16,12 @@ router.post("/users/signup", async (req, res) => {
     // req.body로 받아오기
     const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
     // 중복되는 닉네임과 이메일검사
-    const isExisUser = await Users.findOne({
+    const isExistUser = await Users.findOne({
       where: {
         email: email
       }
     });
-    const isExisNick = await Users.findOne({
+    const isExistNick = await Users.findOne({
       where: {
         nickname: nickname
       }
@@ -29,10 +29,10 @@ router.post("/users/signup", async (req, res) => {
 
     // email이나 nickname이 중복이 되는 유적가 있을 경우
     // eamil중복확인
-    if (isExisUser) {
+    if (isExistUser) {
       return res.status(409).json({ errorMessage: "이미 존재하는 회원입니다." });
     }
-    if (isExisNick) {
+    if (isExistNick) {
       return res.status(412).json({ errorMessage: "이미 존재하는 닉네임입니다." });
     }
 
