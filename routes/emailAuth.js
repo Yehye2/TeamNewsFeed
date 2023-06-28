@@ -8,7 +8,7 @@ router.post("/auth/mail", async (req, res) => {
   let authNum = Math.random().toString().substring(2, 6);
 
   function validateEmail(email) {
-    const emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}+$/;
+    const emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
     return emailRegex.test(email);
   }
 

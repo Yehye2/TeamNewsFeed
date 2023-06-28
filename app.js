@@ -6,6 +6,8 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const postsRouter = require("./routes/posts");
 const likesRouter = require("./routes/likes");
+const followRouter = require("./routes/followers");
+const emailAuthRouter = require("./routes/emailAuth");
 const path = require("path");
 
 require("dotenv").config();
@@ -18,7 +20,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/api", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter]);
+app.use("/api", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter, emailAuthRouter]);
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
