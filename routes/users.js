@@ -26,8 +26,8 @@ router.post("/users/signup", async (req, res) => {
       }
     });
 
-    // email이나 nickname이 중복이 되는 유적가 있을 경우
-    // eamil중복확인
+    // email이나 nickname이 중복이 되는 유저가 있을 경우
+    // email중복확인
     if (isExistUser) {
       return res.status(409).json({ errorMessage: "이미 존재하는 회원입니다." });
     }
@@ -77,7 +77,7 @@ router.post("/users/signup", async (req, res) => {
     });
     return res.status(200).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
-    return res.status(400).json({ errorMessagee: "회원가입에 실패하였습니다." });
+    return res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
   }
 });
 
