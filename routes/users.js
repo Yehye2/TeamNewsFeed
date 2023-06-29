@@ -13,7 +13,16 @@ router.post("/users/signup", async (req, res) => {
     const passwordExp = /^[^]{4,}$/; // 아무값[^]
     const nickNameExp = /^[a-z0-9]{3,}$/;
     // req.body로 받아오기
-    const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
+    const { email, nickname, password, confirmPassword } = req.body;
+    // const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
+    console.log(
+      "🚀 ~ file: users.js:17 ~ router.post ~ email, nickname, password, confirmPassword, verifiedEmail:",
+      email,
+      nickname,
+      password,
+      confirmPassword
+      // ,verifiedEmail
+    );
     // 중복되는 닉네임과 이메일검사
     const isExistUser = await Users.findOne({
       where: {
@@ -42,10 +51,10 @@ router.post("/users/signup", async (req, res) => {
       });
     }
 
-    if (!verifiedEmail) {
-      res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
-      return;
-    }
+    // if (verifiedEmail === 0) {
+    //   res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
+    //   return;
+    // }
 
     // 패스워드는 최소 4자, 닉네임과 같은 값이 포함되어ㅏ 있으면 에러
 
