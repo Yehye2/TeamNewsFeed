@@ -7,7 +7,6 @@ const { Followers } = require("../models"); // 팔로워 모델과 사용자 모
 router.get("/users/:userId/followers", async (req, res) => {
   try {
     const userId = req.params.userId;
-
     const getFollowers = await Followers.findAll({ where: { followingId: userId } });
 
     res.status(200).json({ getFollowers });
@@ -62,14 +61,14 @@ router.delete("/users/:targetUserId/unfollow", authMiddleware, async (req, res) 
     // 언팔로우를 하는 유저 userId
     const followerId = res.locals.user.dataValues.userId;
     // 팔로워 관계 조회
-    const existingFollowers = await Followers.findAll({
+    const existingFollowers = await Followers.findOne({
       where: {
         followerId,
         followingId: targetUserId
       }
     });
     // 팔로우 하지 않은 상대를 언팔로우 할 경우 에러 응답 반환
-    if (existingFollowers.length === 0) {
+    if (!existingFollowers) {
       return res.status(400).json({ errorMessage: "팔로우를 한 상대가 아닙니다." });
     }
     // 본인인 경우 에러 응답 반환
