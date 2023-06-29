@@ -47,8 +47,6 @@ app.get("/search", (req, res) => {
       }
     })
     .then(response => {
-      console.log(response.data); // API 응답 데이터 확인
-
       const books = response.data.item;
 
       if (books && books.length > 0) {
@@ -77,8 +75,6 @@ app.get("/bestsellers", (req, res) => {
       }
     })
     .then(response => {
-      console.log("Aladin API response:", response.data); // API 응답 확인
-
       const bestsellers = response.data.item;
 
       if (bestsellers && bestsellers.length > 0) {
