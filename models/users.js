@@ -8,17 +8,30 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // 1. Users 모델에서
-      this.hasMany(models.Posts, {
-        // 2. Posts 모델에게 1:N 관계 설정을 합니다.
-        sourceKey: "userId", // 3. Users 모델의 userId 컬럼을
-        foreignKey: "UserId" // 4. Posts 모델의 UserId 컬럼과 연결합니다.
+      // Users 모델과 Followers 모델 간의 다대다(N:M) 관계 설정
+      Users.belongsToMany(models.Users, {
+        through: "Followers",
+        foreignKey: "followerId",
+        as: "followers"
       });
-      // 2. Likes테이블 만들기
-      this.belongsToMany(models.Posts, {
+
+      Users.belongsToMany(models.Users, {
+        through: "Followers",
+        foreignKey: "followingId",
+        as: "following"
+      });
+
+      // Users 모델과 Posts 모델 간의 1:N 관계 설정
+      Users.hasMany(models.Posts, {
+        foreignKey: "userId",
+        as: "posts"
+      });
+
+      // Users 모델과 Likes 모델 간의 N:M 관계 설정
+      Users.belongsToMany(models.Posts, {
         through: "Likes",
-        foreignKey: "UserId",
-        sourceKey: "userId"
+        foreignKey: "userId",
+        as: "likedPosts"
       });
     }
   }

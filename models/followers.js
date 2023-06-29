@@ -1,15 +1,26 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class followers extends Model {
+  class Followers extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      // Followers 모델과 Users 모델 간의 다대다(N:M) 관계 설정
+      Followers.belongsTo(models.Users, {
+        foreignKey: "followerId",
+        as: "follower"
+      });
+
+      Followers.belongsTo(models.Users, {
+        foreignKey: "followingId",
+        as: "following"
+      });
+    }
   }
-  followers.init(
+  Followers.init(
     {
       id: {
         allowNull: false,
@@ -48,8 +59,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Follower"
+      modelName: "Followers"
     }
   );
-  return followers;
+  return Followers;
 };

@@ -10,8 +10,8 @@ const saltRounds = 10;
 // 회원가입 API
 router.post("/users/signup", async (req, res) => {
   try {
-    const passwordEex = /^[^]{4,}$/; // 아무값[^]
-    const nickNameEex = /^[a-z0-9]{3,}$/;
+    const passwordExp = /^[^]{4,}$/; // 아무값[^]
+    const nickNameExp = /^[a-z0-9]{3,}$/;
     // req.body로 받아오기
     const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
     // 중복되는 닉네임과 이메일검사
@@ -36,7 +36,7 @@ router.post("/users/signup", async (req, res) => {
     }
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
-    if (!nickNameEpx.test(nickname)) {
+    if (!nickNameExp.test(nickname)) {
       res.status(412).json({
         errMsg: "닉네임은 최소 3자이상, 알파벳 숫자 조합이어야합니다."
       });
@@ -77,6 +77,8 @@ router.post("/users/signup", async (req, res) => {
     });
     return res.status(200).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
+    console.log(error);
+
     return res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
   }
 });
