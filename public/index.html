@@ -235,7 +235,9 @@
                 .then(function (response) {
                     return response.json();
                 })
-                .then(function (posts) {
+                .then(function (result) {
+                    var posts = result.posts;
+                    console.log(posts);
                     if (posts && posts.length > 0) {
                         for (var i = 0; i < posts.length; i++) {
                             var post = posts[i];
