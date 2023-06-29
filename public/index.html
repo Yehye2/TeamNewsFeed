@@ -1,145 +1,37 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <title>메인페이지</title>
+    <link rel="stylesheet" href="./assets/index.css" />
+  </head>
 
-<head>
-    <title>Book Search</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-        }
-
-        .title {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .search-form {
-            display: flex;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .search-button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .search-results {
-            margin-top: 20px;
-        }
-
-        .book-container {
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .book-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .book-author {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .book-description {
-            font-size: 14px;
-            color: #333;
-        }
-
-        .no-results {
-            font-size: 16px;
-            color: #666;
-            text-align: center;
-        }
-
-        .bestsellers {
-            margin-top: 20px;
-            font-size: 16px;
-        }
-
-        .bestsellers-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            list-style-type: none;
-        }
-
-        .bestsellers-item {
-            margin: 10px;
-        }
-
-        .posts-list {
-            margin-top: 20px;
-            font-size: 16px;
-        }
-
-        .post-container {
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .post-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .post-content {
-            font-size: 14px;
-            color: #333;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1 class="title">Book Search</h1>
-        <div class="search-form">
-            <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title">
+  <body>
+    <div class="main-container">
+      <section class="section-box">
+        <div>
+          <h1 class="title">Book Search</h1>
+          <div class="search-form">
+            <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title" />
             <button onclick="searchBooks()" class="search-button">Search</button>
+          </div>
         </div>
-
-        <div id="searchResults" class="search-results"></div>
-
+        <div id="searchResults" class="result-list"></div>
+      </section>
+      <section class="section-box">
         <div class="bestsellers">
-            <h2>Bestsellers</h2>
-            <ul id="bestsellersList" class="bestsellers-list"></ul>
+          <h2>Bestsellers</h2>
+          <ul id="bestsellersList" class="bestsellers-list"></ul>
         </div>
-
-        <div class="posts-list">
-            <h2>Posts</h2>
-            <ul id="postsList"></ul>
-        </div>
+      </section>
+      <section class="section-box">
+        <h2>Posts</h2>
+        <div id="posts-list"></div>
+      </section>
     </div>
+<<<<<<< HEAD
 
     <script>
         function searchBooks() {
@@ -277,3 +169,8 @@
 </body>
 
 </html>
+=======
+    <script src="./javascript/main.js"></script>
+  </body>
+</html>
+>>>>>>> origin/TY_mainpage
