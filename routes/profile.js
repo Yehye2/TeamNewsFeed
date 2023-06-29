@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 const authMiddleware = require("../middlewares/auth-middleware");
 const { Users, Posts } = require("../models");
 
@@ -26,24 +27,37 @@ router.get("/users/:userId", async (req, res) => {
   }
 });
 
-// 프로필 수정 API authMiddleware 일단 뺌
+// 프로필 수정 API
 router.patch("/users/:userId", authMiddleware, async (req, res) => {
   const { userId } = req.params;
-  const { nickname, profileImage, description } = req.body;
+  const { nickname, profileImage, description, password, confirmPassword } = req.body;
   const nickNameExp = /^[a-z0-9]{3,}$/;
+
   try {
     // userId를 기준으로 해당 사용자의 프로필을 조회합니다.
     const user = await Users.findOne({ where: { userId } });
+    const allUsers = await Users.findOne({ where: { nickname } });
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
     if (!nickNameExp.test(nickname)) {
       res.status(412).json({ errorMessage: "닉네임은 최소 3자이상, 알파벳 소문자 숫자를 포함하여야합니다." });
       return;
     }
-    // 프로필을 업데이트합니다.
+    // 비밀번호 확인
+    if (password !== confirmPassword) {
+      res.status(412).json({ errorMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다." });
+      return;
+    }
+    if (allUsers) {
+      res.status(412).json({ errorMessage: "닉네임이 중복됩니다." });
+      return;
+    }
+
     if (nickname) await user.update({ nickname });
     if (profileImage) await user.update({ profileImage });
     if (description) await user.update({ description });
+    if (password) await user.update({ password });
+
     // 확인 메시지를 응답합니다.
     res.json({ message: "프로필 수정에 성공했습니다." });
   } catch (error) {
