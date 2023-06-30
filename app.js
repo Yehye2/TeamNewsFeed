@@ -69,7 +69,7 @@ app.get("/bestsellers", (req, res) => {
       params: {
         ttbkey: "ttbtiwh11427001",
         QueryType: "BestSeller",
-        MaxResults: 10,
+        MaxResults: 5,
         start: 1,
         SearchTarget: "Book",
         output: "js",
