@@ -110,7 +110,7 @@
 
             // 서버로 회원가입 폼 데이터 전송 및 처리
             try {
-                const response = await fetch('/users/signup', {
+                const response = await fetch('/api/users/signup', { // URL 수정
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -138,7 +138,8 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/auth/login', {
+                console.log();
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -147,8 +148,10 @@
                 });
 
                 if (response.ok) {
+                    console.log();
                     window.location.href = '/dashboard'; // 로그인 성공 후 이동할 페이지의 경로
                 } else {
+                    console.log();
                     const errorData = await response.json();
                     console.error(errorData.errorMessage);
                 }
