@@ -6,9 +6,11 @@
     <title>Document</title>
     <title>메인페이지</title>
     <link rel="stylesheet" href="./assets/index.css" />
+    <script src="./javascript/includeHTML.js"></script>
   </head>
 
   <body>
+    <header include-html="/header.html"></header>
     <div class="main-container">
       <section class="section-box">
         <div>
@@ -32,5 +34,8 @@
       </section>
     </div>
     <script src="./javascript/main.js"></script>
+    <script>
+      includeHTML();
+    </script>
   </body>
 </html>
