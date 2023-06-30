@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Users, UserInfos } = require("../models");
+const { Users } = require("../models");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 
@@ -14,23 +14,14 @@ router.post("/users/signup", async (req, res) => {
     const nickNameExp = /^[a-z0-9]{3,}$/;
     // req.body로 받아오기
     const { email, nickname, password, confirmPassword, verifiedEmail } = req.body;
-    // 중복되는 닉네임과 이메일검사
-    const isExistUser = await Users.findOne({
-      where: {
-        email: email
-      }
-    });
+    // 중복되는 닉네임검사
     const isExistNick = await Users.findOne({
       where: {
         nickname: nickname
       }
     });
 
-    // email이나 nickname이 중복이 되는 유저가 있을 경우
-    // email중복확인
-    if (isExistUser) {
-      return res.status(409).json({ errorMessage: "이미 존재하는 회원입니다." });
-    }
+    // nickname이 중복이 되는 유저가 있을 경우
     if (isExistNick) {
       return res.status(412).json({ errorMessage: "이미 존재하는 닉네임입니다." });
     }
@@ -42,7 +33,7 @@ router.post("/users/signup", async (req, res) => {
       });
     }
 
-    if (!verifiedEmail) {
+    if (verifiedEmail === 0) {
       res.status(412).json({ errorMessage: "이메일을 인증해주세요." });
       return;
     }
@@ -77,8 +68,6 @@ router.post("/users/signup", async (req, res) => {
     });
     return res.status(200).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
-    console.log(error);
-
     return res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
   }
 });

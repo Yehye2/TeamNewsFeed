@@ -15,13 +15,11 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT;
 
-
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/api", [usersRouter, profileRouter, authRouter, followRouter, likesRouter, emailAuthRouter]);
-app.use("/", postsRouter);
+app.use("/api", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter, emailAuthRouter]);
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
@@ -29,6 +27,10 @@ app.get("/", (req, res) => {
 
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+app.get("/profile", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "profile.html"));
 });
 
 app.get("/search", (req, res) => {
@@ -48,8 +50,6 @@ app.get("/search", (req, res) => {
       }
     })
     .then(response => {
-      console.log(response.data); // API 응답 데이터 확인
-
       const books = response.data.item;
 
       if (books && books.length > 0) {
@@ -78,8 +78,6 @@ app.get("/bestsellers", (req, res) => {
       }
     })
     .then(response => {
-      console.log("Aladin API response:", response.data); // API 응답 확인
-
       const bestsellers = response.data.item;
 
       if (bestsellers && bestsellers.length > 0) {

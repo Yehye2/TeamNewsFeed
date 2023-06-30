@@ -93,10 +93,9 @@ router.delete("/users/:targetUserId/unfollow", authMiddleware, async (req, res) 
 // 팔로우한 유저의 게시글 조회 API
 router.get("/users/:userId/following-posts", authMiddleware, async (req, res) => {
   try {
-    console.log();
     const userId = req.params.userId;
     const following = await Followers.findAll({ where: { followerId: userId } });
-    const followingIds = following.map((follow) => follow.followingId);
+    const followingIds = following.map(follow => follow.followingId);
 
     const posts = await Posts.findAll({
       where: { UserId: followingIds },

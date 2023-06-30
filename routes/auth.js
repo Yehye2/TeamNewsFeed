@@ -18,6 +18,8 @@ router.post("/auth/login", async (req, res) => {
     const user = await Users.findOne({
       where: { email }
     });
+    console.log(user);
+
     // 유저가 존재하지 않으면
     if (!user) {
       return res.status(412).json({ errorMessage: "일치하는 회원정보가 없습니다. " });
