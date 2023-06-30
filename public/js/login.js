@@ -30,9 +30,6 @@ signupForm.addEventListener("submit", async e => {
   const password = document.getElementById("signup-password").value;
   const confirmPassword = document.getElementById("signup-confirm-password").value;
 
-  console.log("🚀email, nickname, password, confirmPassword, verifiedEmail:", email, nickname, password, confirmPassword, verifiedEmail);
-  console.log(typeof email, typeof nickname, typeof password, typeof confirmPassword, typeof verifiedEmail);
-
   // 서버로 회원가입 폼 데이터 전송 및 처리
   try {
     const response = await fetch("/api/users/signup", {
@@ -40,8 +37,7 @@ signupForm.addEventListener("submit", async e => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ email, nickname, password, confirmPassword })
-      // body: JSON.stringify({ email, nickname, password, confirmPassword, verifiedEmail })
+      body: JSON.stringify({ email, nickname, password, confirmPassword, verifiedEmail })
     });
 
     if (response.ok) {
@@ -50,6 +46,10 @@ signupForm.addEventListener("submit", async e => {
     } else {
       const errorData = await response.json();
       console.error(errorData.errorMessage);
+
+      const errMessage = document.querySelector("#errMessage");
+      errMessage.innerText = errorData.errorMessage;
+      errMessage.style.color = "red";
     }
   } catch (error) {
     console.error("회원가입에 실패했습니다.", error);
@@ -107,14 +107,12 @@ emailAuthButton.addEventListener("click", async e => {
     if (result.errorMessage) {
       // 인증코드 입력칸 아래에 메시지를 나타내는 태그가 보이도록한다.
       emailHelp.style.color = "red";
-
       emailHelp.innerText = result.errorMessage;
-      return (emailHelp.style.display = "block");
+      emailHelp.style.display = "block";
+      return;
     }
-    console.log(result);
     // 이메일 보내기에 성공하면 프론트로 코드를 보낸다.그리고 인증코드 입력칸을 보이게 한다. 그리고 '인증코드가 입력된 이메일로 전송되었습니다.'
     auhNum = result.authNum;
-    console.log(auhNum);
     authNumform.classList.replace("d-none", "show");
 
     emailAuthButton.classList.toggle("invisible");
@@ -124,7 +122,7 @@ emailAuthButton.addEventListener("click", async e => {
   } catch (error) {
     console.error(error);
   }
-
+  // 인증코드 확인
   const submitCodeButton = document.querySelector("#submitCode");
   submitCodeButton.addEventListener("click", e => {
     try {
@@ -132,12 +130,12 @@ emailAuthButton.addEventListener("click", async e => {
       const authNumform = document.getElementById("email-auth");
       const emailHelp = document.getElementById("emailHelp");
 
+      // 인증코드 일치하면 인증코드폼을 감춘다.
       if (inputCode === auhNum) {
         verifiedEmail = 1;
         authNumform.classList.replace("show", "d-none");
         emailHelp.style.color = "green";
         emailHelp.innerText = "인증이 완료되었습니다.";
-        console.log(verifiedEmail);
       } else {
         emailHelp.style.color = "red";
         emailHelp.innerText = "인증코드가 일치하지 않습니다.";
