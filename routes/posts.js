@@ -20,6 +20,7 @@ async function create(req, res) {
     }
 
     await post.save();
+    res.status(200).json({ message: "게시글 작성에 성공했습니다." });
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return res.status(400).json({
