@@ -121,7 +121,7 @@
 
 
         function displayPosts() {
-            var postsList = document.getElementById('postsList');
+            var postsList = document.getElementById('posts-list');
 
             fetch('/posts')
                 .then(function (response) {
@@ -164,9 +164,9 @@
         }
 
         function displayFollowingPosts() {
-            var postsList = document.getElementById('postsList');
+            var postsList = document.getElementById('posts-list');
 
-            fetch('/api/users/:userId/following-posts') // 팔로우한 사용자의 게시글을 제공하는 API 엔드포인트로 수정해야 합니다
+            fetch('/api/users/:userId/following-posts')
                 .then(function (response) {
                     return response.json();
                 })

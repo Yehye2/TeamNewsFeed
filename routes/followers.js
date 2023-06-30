@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middlewares/auth-middleware");
-const { Followers } = require("../models"); // 팔로워 모델과 사용자 모델을 가져옵니다.
+const { Followers, Posts } = require("../models"); // 팔로워 모델과 사용자 모델을 가져옵니다.
 
 // 사용자 팔로워 수 조회 API
 router.get("/users/:userId/followers", async (req, res) => {
@@ -93,6 +93,7 @@ router.delete("/users/:targetUserId/unfollow", authMiddleware, async (req, res) 
 // 팔로우한 유저의 게시글 조회 API
 router.get("/users/:userId/following-posts", authMiddleware, async (req, res) => {
   try {
+    console.log();
     const userId = req.params.userId;
     const following = await Followers.findAll({ where: { followerId: userId } });
     const followingIds = following.map((follow) => follow.followingId);
