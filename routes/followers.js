@@ -4,7 +4,7 @@ const authMiddleware = require("../middlewares/auth-middleware");
 const { Followers, Posts } = require("../models"); // 팔로워 모델과 사용자 모델을 가져옵니다.
 
 // 사용자 팔로워 수 조회 API
-router.get("/users/:userId/followers", async (req, res) => {
+router.get("/users/:userId/followers", authMiddleware, async (req, res) => {
   try {
     const userId = req.params.userId;
     const getFollowers = await Followers.findAll({ where: { followingId: userId } });

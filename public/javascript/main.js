@@ -1,20 +1,33 @@
-function isLoggedIn() {
-  const token = getCookie('authorization');
-  return token !== null;
-}
-
-function getCookie(name) {
-  const cookies = document.cookie;
-  const cookieList = cookies.split(';');
-
-  for (let i = 0; i < cookieList.length; i++) {
-    const cookie = cookieList[i].trim();
-    if (cookie.startsWith(name + '=')) {
-      return cookie.substring(name.length + 1);
+async function isLoggedIn() {
+  try {
+    const response = await fetch("/api/check-login");
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } else {
+      throw new Error("Error checking login status");
     }
+  } catch (error) {
+    console.error("Error checking login status:", error);
+    return false;
   }
-  return null;
 }
+
+async function updateLoginStatus() {
+  const data = await isLoggedIn(); // 로그인 상태 확인
+  const loggedIn = data.isLoggedIn; // 로그인 상태 확인
+
+  const loginStatusElement = document.getElementById("loginStatus");
+  if (loggedIn) {
+    loginStatusElement.textContent = "로그인 완료";
+  } else {
+    loginStatusElement.textContent = "로그인 안됨";
+  }
+}
+
+updateLoginStatus();
+
 
 const searchBooks = () => {
   const query = document.getElementById("searchInput").value;
@@ -119,10 +132,16 @@ function displayPosts() {
     });
 }
 
-function displayFollowingPosts() {
-  var postsList = document.getElementById('posts-list');
 
-  fetch('/api/users/:userId/following-posts')
+
+async function displayFollowingPosts() {
+  const postsList = document.getElementById('posts-list');
+  //const loggedIn = await isLoggedIn(); // 로그인 상태 확인
+  let data = await isLoggedIn();
+  let userId = data.user.id;
+  console.log('test', userId);
+
+  fetch(`/api/users/${userId}/following-posts`)
     .then(function (response) {
       return response.json();
     })
@@ -162,10 +181,15 @@ function displayFollowingPosts() {
     });
 }
 
+
+
 searchBooks();
 displayBestsellers();
-function initializePage() {
-  if (isLoggedIn()) {
+
+async function initializePage() {
+  const loggedIn = await isLoggedIn(); // 로그인 상태 확인
+
+  if (loggedIn) {
     displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
   } else {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
