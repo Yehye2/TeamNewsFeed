@@ -1,0 +1,176 @@
+@charset "UTF-8";
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #bdc3c7;
+}
+
+.main-container {
+  width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-box {
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: white;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+/* 검색 */
+.main-container > .section-box:nth-child(1) > div {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.search-box {
+  position: relative;
+  display: flex;
+}
+
+.search-input {
+  right: 10px;
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-button {
+  /* position: absolute; */
+  right: 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-results {
+  margin-top: 20px;
+}
+
+.book-container {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.book-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.book-author {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.book-description {
+  font-size: 14px;
+  color: #333;
+}
+
+.no-results {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+/* 베스트셀러 */
+
+.bestsellers-list {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px solid black; */
+  /* display: grid;
+  justify-items: center;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(10, 1fr); */
+}
+.list-item {
+  border: 1px solid black;
+  width: 100px;
+}
+
+.list-item > .img-box {
+  /* height: 250px; */
+  /* border: 1px solid black; */
+}
+
+.list-item > .img-box > .book-img {
+  width: 100%;
+  height: 150px;
+  background-size: contain;
+  object-fit: cover;
+}
+
+.list-item > .title {
+  height: 40px;
+  overflow: hidden;
+}
+
+/* .bestsellers-item > image {
+} */
+
+/* 포스트 */
+#posts-list {
+  display: grid;
+  justify-items: center;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  /* grid-auto-rows: minmax(500px, auto); */
+}
+
+/* #posts-list > div {
+  width: 300px;
+} */
+.post-container {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.post-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.post-content {
+  font-size: 14px;
+  color: #333;
+}
