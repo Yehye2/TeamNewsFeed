@@ -7,9 +7,12 @@
     <title>Document</title>
     <title>메인페이지</title>
     <link rel="stylesheet" href="./assets/index.css" />
+    <script src="./javascript/includeHTML.js"></script>
 </head>
 
 <body>
+    <header include-html="/header.html"></header>
+    <!-- <header include-html="header.html"></header> -->
     <div class="main-container">
         <section class="section-box">
             <div>
@@ -32,6 +35,7 @@
             <div id="posts-list"></div>
         </section>
     </div>
+<<<<<<< Updated upstream
 
     <script>
         function searchBooks() {
@@ -222,6 +226,12 @@
         displayBestsellers();
         displayPosts();
     </script>
+=======
+>>>>>>> Stashed changes
 </body>
+<script src="./javascript/main.js"></script>
+<script>
+    includeHTML();
+</script>
 
 </html>

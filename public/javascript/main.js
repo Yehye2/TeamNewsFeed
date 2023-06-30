@@ -1,3 +1,21 @@
+function isLoggedIn() {
+  const token = getCookie('authorization');
+  return token !== null;
+}
+
+function getCookie(name) {
+  const cookies = document.cookie;
+  const cookieList = cookies.split(';');
+
+  for (let i = 0; i < cookieList.length; i++) {
+    const cookie = cookieList[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return null;
+}
+
 const searchBooks = () => {
   const query = document.getElementById("searchInput").value;
   const url = "/search?q=" + encodeURIComponent(query);
@@ -64,7 +82,7 @@ function displayBestsellers() {
 function displayPosts() {
   const postsList = document.getElementById("posts-list");
   console.log("postsList = ", postsList);
-  fetch("/posts")
+  fetch("api/posts")
     .then(function (response) {
       return response.json();
     })
@@ -100,6 +118,58 @@ function displayPosts() {
       console.error("Error fetching posts:", error);
     });
 }
+
+function displayFollowingPosts() {
+  var postsList = document.getElementById('posts-list');
+
+  fetch('/api/users/:userId/following-posts')
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (result) {
+      var posts = result.posts;
+      console.log(posts);
+      if (posts && posts.length > 0) {
+        for (var i = 0; i < posts.length; i++) {
+          var post = posts[i];
+
+          var postContainer = document.createElement('div');
+          postContainer.className = 'post-container';
+
+          var postTitle = document.createElement('h3');
+          postTitle.className = 'post-title';
+          postTitle.textContent = post.title;
+
+          var postContent = document.createElement('p');
+          postContent.className = 'post-content';
+          postContent.textContent = post.content;
+
+          postContainer.appendChild(postTitle);
+          postContainer.appendChild(postContent);
+
+          postsList.appendChild(postContainer);
+        }
+      } else {
+        var noPostsMessage = document.createElement('p');
+        noPostsMessage.className = 'no-results';
+        noPostsMessage.textContent = '게시글이 없습니다.';
+
+        postsList.appendChild(noPostsMessage);
+      }
+    })
+    .catch(function (error) {
+      console.error('게시글 가져오기 오류:', error);
+    });
+}
+
 searchBooks();
 displayBestsellers();
-displayPosts();
+function initializePage() {
+  if (isLoggedIn()) {
+    displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
+  } else {
+    displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
+  }
+}
+
+initializePage();
