@@ -32,13 +32,3 @@
   text-decoration: none;
   cursor: pointer;
 }
-
-/* #email-auth {
-  display: inline-block;
-} */
-
-#emailAuthResult {
-  display: none;
-  /* display: contents; */
-  color: red;
-}
