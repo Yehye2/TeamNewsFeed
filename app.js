@@ -15,13 +15,11 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT;
 
-
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/api", [usersRouter, profileRouter, authRouter, followRouter, likesRouter, emailAuthRouter]);
-app.use("/", postsRouter);
+app.use("/api", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter, emailAuthRouter]);
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
