@@ -1,14 +1,11 @@
 const searchBooks = () => {
   const query = document.getElementById("searchInput").value;
-  console.log("query = ", query);
   const url = "/search?q=" + encodeURIComponent(query);
-  console.log("url = ", url);
   fetch(url)
     .then(function (response) {
       return response.json();
     })
     .then(function (books) {
-      console.log("books = ", books);
       const resultsContainer = document.getElementById("searchResults");
       if (books.message === "No books found.") {
         const noResultsMessage = document.createElement("p");
@@ -19,7 +16,6 @@ const searchBooks = () => {
         resultsContainer.innerHTML = "";
         console.log("resultsContainer = ", resultsContainer);
         books.forEach(x => {
-          console.log(x);
           const searchResults = document.createElement("div");
           searchResults.innerHTML = `<div class="list-item">
                                       <div class="img-box">
@@ -36,9 +32,7 @@ const searchBooks = () => {
 };
 
 function displayBestsellers() {
-  console.log("displayBestsellers");
   const bestsellersList = document.getElementById("bestsellersList");
-
   fetch("/bestsellers")
     .then(function (response) {
       return response.json();
@@ -47,7 +41,6 @@ function displayBestsellers() {
       if (bestsellers && bestsellers.length > 0) {
         bestsellers.map(x => {
           const bestsellerItem = document.createElement("div");
-          console.log(x);
           bestsellerItem.innerHTML = `<div class="list-item">
                                         <div class="img-box">
                                           <img class="book-img" src="${x.cover}" alt="" srcset="">
@@ -77,7 +70,6 @@ function displayPosts() {
     })
     .then(function (response) {
       const { posts } = response;
-      console.log("posts = ", posts);
       if (posts) {
         posts.forEach(x => {
           console.log(x);
