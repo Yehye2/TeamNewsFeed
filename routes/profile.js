@@ -19,7 +19,7 @@ router.get("/users/:userId", async (req, res) => {
       return; // 추가된 return 문을 통해 함수 실행 종료
     }
     // 조회한 사용자 데이터를 응답합니다.
-    res.json({ data: user });
+    res.json(user);
   } catch (error) {
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(400).json({ errorMessage: "프로필 조회에 실패했습니다." });
@@ -52,14 +52,19 @@ router.patch("/users/:userId", authMiddleware, async (req, res) => {
       return;
     }
 
+    // 위의 패스워드 검증이 다 마치면 패스워드를 암호화 <- 있어야됩니다.
+    const encryptedPW = await bcrypt.hashSync(password, 10); //비밀번호 암호화
+
     if (nickname) await user.update({ nickname });
     if (profileImage) await user.update({ profileImage });
     if (description) await user.update({ description });
-    if (password) await user.update({ password });
+    if (password) await user.update({ password: encryptedPW });
 
     // 확인 메시지를 응답합니다.
     res.json({ message: "프로필 수정에 성공했습니다." });
   } catch (error) {
+    console.log(error);
+
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(400).json({ errorMessage: "프로필 수정에 실패했습니다." });
   }

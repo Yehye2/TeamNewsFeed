@@ -42,28 +42,26 @@
     <div class="container-1">
         <div class="row">
             <div class="profile-img">
-                <img
+                <img id="proImg"
                     src="https://item.kakaocdn.net/do/dc9561970173c28a13654c3f14180b4b617ea012db208c18f6e83b1a90a7baa7" />
             </div>
 
             <div class="profile-section">
                 <div class="profile-nickname">
-                    <h2>닉네임 입니다.</h2>
+                    <h2 id="nickname">닉네임 입니다.</h2>
                     <div class="profile-settings">
                         <button id="open-settings">프로필 수정</button> <!-- 프로필 수정 버튼 -->
                     </div>
                 </div>
 
                 <div class="post-follow">
-                    <p>팔로워: <span id="follow-count">0</span></p>
+                    <p>팔로워: <span id="followers-count">0</span></p>
                     <p>게시글: <span>0</span></p>
                     <button>팔로우</button>
                     <button id="open-post">게시글 작성</button> <!-- 게시글 작성 버튼 -->
                 </div>
                 <div class="profile-introduction">
-                    <p>안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요
-                        나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를
-                        소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.</p>
+                    <p id="introduction"> </p>
                 </div>
 
             </div>
@@ -127,6 +125,22 @@
 </body>
 
 <script>
+    async function isLoggedIn() {
+        try {
+            const response = await fetch("/api/check-login");
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error("Error checking login status");
+            }
+        } catch (error) {
+            console.error("Error checking login status:", error);
+            return false;
+        }
+    }
+
+
     // 모달 띄우기 js 코드 
     const openButton = document.getElementById("open-settings"); // 프로필 수정 버튼 
     const openBtn = document.getElementById("open-post"); // 게시글 작성 버튼
@@ -182,16 +196,64 @@
         closeBtn.addEventListener("click", postModalClose);
     }
 
-
-    // 팔로워 수 조회 
+    // 페이지 들어갔을시 실행되는 함수 
     $(document).ready(function () {
+        getProfile()
+        getFollowers()
+    });
+
+    // 닉네임, 자기소개, 이미지 조회
+    async function getProfile() {
         try {
-            const userId = 2
-            // 팔로워 수 조회
-            const allFollowers = document.getElementById("follow-count");
-            fetch(`/api/users/${userId}/followers`) // 임시 테스트로 userId 하드코딩
+            let data = await isLoggedIn()
+
+            let userId = data.user.id
+            let nicknameId = document.getElementById("nickname");
+            let proImgId = document.getElementById("proImg");
+            let introductionId = document.getElementById("introduction");
+
+            fetch(`/api/users/${userId}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
                 .then(response => response.json())
                 .then(data => {
+                    // 이미지 url이 존재할때만 innerText로 저장하기
+                    if (data.profileimage) {
+                        $(".profile-img").empty();
+                        const imgUrl = data.profileimage
+                        let temp_html = ` <div class="profile-img">
+                                            <img id="proImg"
+                                                src="${imgUrl}" />
+                                         </div>`
+                        $(".profile-img").append(temp_html)
+                    }
+                    nicknameId.innerText = data.nickname
+                    introductionId.innerText = data.description
+                })
+                .catch(error => {
+                    console.error('데이터를 가져오는 중에 에러가 발생했습니다.', error);
+                });
+        } catch (error) {
+            console.error('알 수 없는 에러가 발생했습니다.', error);
+        }
+
+
+    }
+
+    // 팔로워 수 조회 
+    async function getFollowers() {
+        try {
+            let data = await isLoggedIn()
+
+            let userId = data.user.id
+            const allFollowers = document.getElementById("followers-count");
+            fetch(`/api/users/${userId}/followers`)
+                .then(response => response.json())
+                .then(data => {
+
 
                     const followersCount = data.getFollowers.length;
                     allFollowers.innerText = followersCount;
@@ -202,9 +264,8 @@
         } catch (error) {
             console.error('알 수 없는 에러가 발생했습니다.', error);
         }
-    }); 
+    }
 </script>
-
 
 
 </html>
