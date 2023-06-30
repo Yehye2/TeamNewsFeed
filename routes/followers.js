@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middlewares/auth-middleware");
-const { Followers } = require("../models"); // 팔로워 모델과 사용자 모델을 가져옵니다.
+const { Followers, Posts } = require("../models"); // 팔로워 모델과 사용자 모델을 가져옵니다.
 
 // 사용자 팔로워 수 조회 API
 router.get("/users/:userId/followers", async (req, res) => {
@@ -87,6 +87,27 @@ router.delete("/users/:targetUserId/unfollow", authMiddleware, async (req, res) 
     res.status(200).json({ message: "언팔로우를 성공했습니다." });
   } catch (error) {
     res.status(400).json({ errorMessage: "알 수 없는 에러가 발생했습니다." });
+  }
+});
+
+// 팔로우한 유저의 게시글 조회 API
+router.get("/users/:userId/following-posts", authMiddleware, async (req, res) => {
+  try {
+    console.log();
+    const userId = req.params.userId;
+    const following = await Followers.findAll({ where: { followerId: userId } });
+    const followingIds = following.map((follow) => follow.followingId);
+
+    const posts = await Posts.findAll({
+      where: { UserId: followingIds },
+      attributes: ["postId", "UserId", "nickname", "title", "content", "createdAt", "updatedAt"],
+      order: [["createdAt", "DESC"]]
+    });
+
+    res.status(200).json({ posts });
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    res.status(400).json({ errorMessage: "게시글 조회에 실패했습니다." });
   }
 });
 
