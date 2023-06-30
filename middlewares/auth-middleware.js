@@ -4,7 +4,7 @@ const { request } = require("express");
 require("dotenv").config();
 
 module.exports = async (req, res, next) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   const { authorization } = req.cookies;
   // token 없으면
   if (!authorization) {
@@ -20,7 +20,6 @@ module.exports = async (req, res, next) => {
     let tokenErr = false;
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, decoded) => {
       if (err) {
-        // console.log(err.name);
         tokenErr = true;
 
         switch (err.name) {

@@ -21,7 +21,6 @@ router.get("/users/:userId", async (req, res) => {
     // 조회한 사용자 데이터를 응답합니다.
     res.json({ data: user });
   } catch (error) {
-    console.log(error);
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(400).json({ errorMessage: "프로필 조회에 실패했습니다." });
   }

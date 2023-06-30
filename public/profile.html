@@ -8,7 +8,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="./assets/profile.css" />
-    <title>profile page</title>
+    <title>Profile Page</title>
 </head>
 
 <body>
@@ -17,31 +17,23 @@
         <div class="profile-title">
             <h1>3조 문구</h1>
         </div>
-        <div class="profile-settings">
-            <button id="open-settings">설정</button>
-        </div>
-
-        <div class="modal hidden">
-
+        <!-- 프로필 수정 모달창 -->
+        <div id="profileModal" class="modal hidden">
             <div class="modal_overlay"></div>
-
             <div class="modal_content">
-                <h1>내 정보 수정</h1>
+                <h1>프로필 수정</h1>
                 <div class="input-group">
                     <div class="input-form">
-                        <input type="text" class="form-control" placeholder="제목을 작성하세요.">
+                        <input type="text" class="form-control" placeholder="수정할 닉네임을 입력하세요.">
                         <input type="text" class="form-control" placeholder="이미지 URL을 넣어주세요.">
-                        <input type="text" class="form-control" placeholder="본문을 작성하세요.">
+                        <input type="text" class="form-control-content" placeholder="한마디를 작성해주세요.">
                     </div>
-
                     <div class="modal-btn">
                         <button>수정</button>
-                        <button id="close">닫기</button>
+                        <button id="settingsModal-close">취소</button> <!-- 프로필 수정 모달에 있는 취소 버튼 -->
                     </div>
-
                 </div>
             </div>
-
         </div>
 
     </header>
@@ -57,22 +49,45 @@
             <div class="profile-section">
                 <div class="profile-nickname">
                     <h2>닉네임 입니다.</h2>
+                    <div class="profile-settings">
+                        <button id="open-settings">프로필 수정</button> <!-- 프로필 수정 버튼 -->
+                    </div>
                 </div>
 
                 <div class="post-follow">
                     <p>팔로워: <span id="follow-count">0</span></p>
                     <p>게시글: <span>0</span></p>
                     <button>팔로우</button>
-                    <button>게시글 작성</button>
+                    <button id="open-post">게시글 작성</button> <!-- 게시글 작성 버튼 -->
                 </div>
                 <div class="profile-introduction">
-                    <p>안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요
-                        나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를
+                    <p>안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요
+                        나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를
                         소개합니다.안녕하세요 나를 소개합니다.안녕하세요 나를 소개합니다.</p>
                 </div>
 
             </div>
         </div>
+
+        <!-- 게시글 작성 모달창 -->
+        <div id="postModal" class="postModal hidden">
+            <div class="postModal_overlay"></div>
+            <div class="postModal_content">
+                <h1>게시글 작성</h1>
+                <div class="input-group">
+                    <div class="input-form">
+                        <input type="text" class="form-control" placeholder="제목을 작성하세요.">
+                        <input type="text" class="form-control" placeholder="이미지 URL을 넣어주세요.">
+                        <input type="text" class="form-control-content" placeholder="본문을 작성하세요.">
+                    </div>
+                    <div class="postModal-btn">
+                        <button>게시글 등록</button>
+                        <button id="postModal-close">취소</button> <!-- 게시글 작성 모달에 있는 취소 버튼 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- 게시글 정보 -->
@@ -113,24 +128,62 @@
 
 <script>
     // 모달 띄우기 js 코드 
-    const openButton = document.getElementById("open-settings");
-    const modal = document.querySelector(".modal");
+    const openButton = document.getElementById("open-settings"); // 프로필 수정 버튼 
+    const openBtn = document.getElementById("open-post"); // 게시글 작성 버튼
+
+    const modal = document.getElementById("profileModal");
+    const postModal = document.getElementById("postModal");
+
     const overlay = modal.querySelector(".modal_overlay");
-    const closeBtn = modal.querySelector("#close");
+    const postModalOverlay = postModal.querySelector(".postModal_overlay");
+
+    const closeButton = modal.querySelector("#settingsModal-close"); // 프로필 수정 모달에 있는 취소버튼
+    const closeBtn = postModal.querySelector("#postModal-close"); // 게시글 작성 모달에 있는 취소버튼
 
     const openModal = () => {
         modal.classList.remove("hidden");
+    };
+
+    const postModalOpen = () => {
+        postModal.classList.remove("hidden");
     };
 
     const closeModal = () => {
         modal.classList.add("hidden");
     };
 
-    openButton.addEventListener("click", openModal);
-    overlay.addEventListener("click", closeModal);
-    closeBtn.addEventListener("click", closeModal);
+    const postModalClose = () => {
+        postModal.classList.add("hidden");
+    };
+
+    // 프로필 수정 모달
+    if (overlay) {
+        overlay.addEventListener("click", closeModal);
+    }
+
+    if (openButton) {
+        openButton.addEventListener("click", openModal);
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener("click", closeModal);
+    }
+
+    // 게시글 작성 모달
+    if (postModalOverlay) {
+        postModalOverlay.addEventListener("click", postModalClose);
+    }
+
+    if (openBtn) {
+        openBtn.addEventListener("click", postModalOpen);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener("click", postModalClose);
+    }
 
 
+    // 팔로워 수 조회 
     $(document).ready(function () {
         try {
             const userId = 2
@@ -147,14 +200,11 @@
                     console.error('팔로워 수 조회에 실패했습니다.', error);
                 });
         } catch (error) {
-            console.error('팔로워 수 조회에 실패했습니다.', error);
+            console.error('알 수 없는 에러가 발생했습니다.', error);
         }
-    });
-
-
-
-
+    }); 
 </script>
+
 
 
 </html>
