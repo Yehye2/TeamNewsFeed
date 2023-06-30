@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { Users } = require("../models");
+const { request } = require("express");
 require("dotenv").config();
 
 module.exports = async (req, res, next) => {
+  console.log(req.cookies);
   const { authorization } = req.cookies;
   // token 없으면
   if (!authorization) {
