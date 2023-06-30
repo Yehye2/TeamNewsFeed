@@ -64,7 +64,7 @@ document.getElementById("login-form").addEventListener("submit", async e => {
   const password = document.getElementById("password").value;
 
   try {
-    const response = await fetch("/auth/login", {
+    const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -73,7 +73,7 @@ document.getElementById("login-form").addEventListener("submit", async e => {
     });
 
     if (response.ok) {
-      window.location.href = "/dashboard"; // 로그인 성공 후 이동할 페이지의 경로
+      window.location.href = "/"; // 로그인 성공 후 이동할 페이지의 경로
     } else {
       const errorData = await response.json();
       console.error(errorData.errorMessage);
