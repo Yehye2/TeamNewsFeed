@@ -69,6 +69,7 @@
 
 .profile-header .modal .modal_content .input-group .modal-btn {
   width: 100%;
+  margin-top: 2rem;
 }
 
 .profile-header .modal .modal_content .input-group .modal-btn button {
@@ -108,20 +109,24 @@
   width: 5rem;
 }
 
-.container {
-  margin-top: 2rem;
-  height: 20rem;
-  border-radius: 15px;
-  box-shadow: 1.5px 1.5px 1.5px 1.5px #4b4848;
+.container-1 {
   background-color: white;
-
-  text-align: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 1320px;
+  height: auto;
+  margin: 3rem;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 15px;
+  box-shadow: 1.5px 1.5px 1.5px 1.5px #4b4848;
 }
 
-.container .row .profile-img {
+.container-1 .row {
+  flex-wrap: nowrap;
+}
+
+.container-1 .row .profile-img {
   width: 35rem;
   height: 15rem;
   margin: 1rem;
@@ -133,13 +138,13 @@
   background-color: rgb(193, 192, 192);
 }
 
-.container .row .profile-img img {
+.container-1 .row .profile-img img {
   border-radius: 10px;
   width: 95%;
   height: 90%;
 }
 
-.container .row .profile-section {
+.container-1 .row .profile-section {
   font-family: "Jua", sans-serif;
   width: 35rem;
   height: 15rem;
@@ -149,23 +154,23 @@
   background-color: rgb(193, 192, 192);
 }
 
-.container .row .profile-section .profile-nickname h2 {
+.container-1 .row .profile-section .profile-nickname h2 {
   margin-top: 1rem;
 }
 
-.container .row .profile-section .post-follow {
+.container-1 .row .profile-section .post-follow {
   justify-content: center;
   width: 100%;
   display: inline-flex;
 }
 
-.container .row .profile-section .post-follow p {
+.container-1 .row .profile-section .post-follow p {
   font-size: 1.5rem;
 
   margin: 1rem;
 }
 
-.container .row .profile-section .post-follow button {
+.container-1 .row .profile-section .post-follow button {
   font-size: 1.3rem;
   background-color: rgb(180, 210, 228);
 
@@ -173,7 +178,7 @@
   border-radius: 10px;
 }
 
-.container .row .profile-section .profile-introduction {
+.container-1 .row .profile-section .profile-introduction {
   font-size: 1.3rem;
   background-color: white;
   border-radius: 10px;
@@ -182,20 +187,20 @@
   height: 100px;
 }
 
-.container .row .profile-section .profile-introduction::-webkit-scrollbar {
+.container-1 .row .profile-section .profile-introduction::-webkit-scrollbar {
   width: 11px; /* 스크롤바의 너비 */
 }
-.container .row .profile-section .profile-introduction::-webkit-scrollbar-thumb {
+.container-1 .row .profile-section .profile-introduction::-webkit-scrollbar-thumb {
   height: 30%; /* 스크롤바의 길이 */
   background: #3d3d3d; /* 스크롤바의 색상 */
   border-radius: 10px;
 }
 
-.container .row .profile-section .profile-introduction::-webkit-scrollbar-track {
+.container-1 .row .profile-section .profile-introduction::-webkit-scrollbar-track {
   background: #84848447; /*스크롤바 뒷 배경 색상*/
 }
 
-.container .row .profile-section .profile-introduction p {
+.container-1 .row .profile-section .profile-introduction p {
   margin: 0.5rem;
 }
 

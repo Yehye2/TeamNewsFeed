@@ -110,7 +110,7 @@
 
             // 서버로 회원가입 폼 데이터 전송 및 처리
             try {
-                const response = await fetch('/users/signup', {
+                const response = await fetch('/api/users/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -138,7 +138,7 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/auth/login', {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
