@@ -24,7 +24,9 @@ module.exports = async (req, res, next) => {
         switch (err.name) {
           case "TokenExpiredError":
             // token이 만료됨.
-            return res.status(403).json({ errorMessage: "로그인이 만료되었습니다." });
+            // 클라이언트에 있는 jwt삭제
+            res.clearCookie("authorization");
+            return res.status(200).json({ message: "시간이 만료되어 로그아웃되었습니다." });
           default:
             //? token decoded 에러
             return res.status(400).json(`invalid token. error name: ${err.name}`);
