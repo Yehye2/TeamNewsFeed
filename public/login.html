@@ -149,13 +149,14 @@
 
                 if (response.ok) {
                     console.log();
-                    window.location.href = '/dashboard'; // 로그인 성공 후 이동할 페이지의 경로
+                    window.location.href = '/'; // 로그인 성공 후 이동할 페이지의 경로
                 } else {
                     console.log();
                     const errorData = await response.json();
                     console.error(errorData.errorMessage);
                 }
             } catch (error) {
+                console.log();
                 console.error('로그인에 실패했습니다.', error);
             }
         });

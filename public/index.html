@@ -1,42 +1,227 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <title>메인페이지</title>
     <link rel="stylesheet" href="./assets/index.css" />
-    <script src="./javascript/includeHTML.js"></script>
-  </head>
+</head>
 
-  <body>
-    <header include-html="/header.html"></header>
+<body>
     <div class="main-container">
-      <section class="section-box">
-        <div>
-          <h1 class="title">Book Search</h1>
-          <div class="search-form">
-            <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title" />
-            <button onclick="searchBooks()" class="search-button">Search</button>
-          </div>
-        </div>
-        <div id="searchResults" class="search-results"></div>
-      </section>
-      <section class="section-box">
-        <div class="bestsellers">
-          <h2>Bestsellers</h2>
-          <ul id="bestsellersList" class="bestsellers-list"></ul>
-        </div>
-      </section>
-
-      <section class="section-box">
-        <h2>Posts</h2>
-        <div id="posts-list"></div>
-      </section>
+        <section class="section-box">
+            <div>
+                <h1 class="title">Book Search</h1>
+                <div class="search-form">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title" />
+                    <button onclick="searchBooks()" class="search-button">Search</button>
+                </div>
+            </div>
+            <div id="searchResults" class="result-list"></div>
+        </section>
+        <section class="section-box">
+            <div class="bestsellers">
+                <h2>Bestsellers</h2>
+                <ul id="bestsellersList" class="bestsellers-list"></ul>
+            </div>
+        </section>
+        <section class="section-box">
+            <h2>Posts</h2>
+            <div id="posts-list"></div>
+        </section>
     </div>
-    <script src="./javascript/main.js"></script>
+
     <script>
-      includeHTML();
+        function searchBooks() {
+            var query = document.getElementById('searchInput').value;
+            var url = '/search?q=' + encodeURIComponent(query);
+
+            fetch(url)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (books) {
+                    var resultsContainer = document.getElementById('searchResults');
+                    resultsContainer.innerHTML = '';
+
+                    if (books && books.length > 0) {
+                        for (var i = 0; i < books.length; i++) {
+                            var book = books[i];
+
+                            var bookContainer = document.createElement('div');
+                            bookContainer.className = 'book-container';
+
+                            var bookTitle = document.createElement('h3');
+                            bookTitle.className = 'book-title';
+                            bookTitle.textContent = book.title;
+
+                            var bookAuthor = document.createElement('p');
+                            bookAuthor.className = 'book-author';
+                            bookAuthor.textContent = 'Author: ' + book.author;
+
+                            var bookDescription = document.createElement('p');
+                            bookDescription.className = 'book-description';
+                            bookDescription.textContent = 'Description: ' + book.description;
+
+                            bookContainer.appendChild(bookTitle);
+                            bookContainer.appendChild(bookAuthor);
+                            bookContainer.appendChild(bookDescription);
+
+                            resultsContainer.appendChild(bookContainer);
+                        }
+                    } else {
+                        var noResultsMessage = document.createElement('p');
+                        noResultsMessage.className = 'no-results';
+                        noResultsMessage.textContent = '찾을 수 없습니다.';
+                        resultsContainer.appendChild(noResultsMessage);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error searching books:', error);
+                });
+        }
+
+        function displayBestsellers() {
+            var bestsellersList = document.getElementById('bestsellersList');
+
+            fetch('/bestsellers')
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (bestsellers) {
+                    if (bestsellers && bestsellers.length > 0) {
+                        for (var i = 0; i < bestsellers.length; i++) {
+                            var bestseller = bestsellers[i];
+
+                            var bestsellerItem = document.createElement('li');
+                            bestsellerItem.className = 'bestsellers-item';
+
+                            // Create an <img> element for the book cover
+                            var coverImage = document.createElement('img');
+                            coverImage.src = bestseller.cover; // Assuming the API response provides the cover image URL
+                            coverImage.alt = bestseller.title; // Assuming the API response provides the book title
+                            bestsellerItem.appendChild(coverImage);
+
+                            bestsellersList.appendChild(bestsellerItem);
+                        }
+                    } else {
+                        var noBestsellersMessage = document.createElement('li');
+                        noBestsellersMessage.className = 'bestsellers-item';
+                        noBestsellersMessage.textContent = '찾을 수 없습니다.';
+
+                        bestsellersList.appendChild(noBestsellersMessage);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error fetching bestsellers:', error);
+                });
+        }
+
+
+        function displayPosts() {
+            var postsList = document.getElementById('postsList');
+
+            fetch('/posts')
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (result) {
+                    var posts = result.posts;
+                    console.log(posts);
+                    if (posts && posts.length > 0) {
+                        for (var i = 0; i < posts.length; i++) {
+                            var post = posts[i];
+
+                            var postContainer = document.createElement('div');
+                            postContainer.className = 'post-container';
+
+                            var postTitle = document.createElement('h3');
+                            postTitle.className = 'post-title';
+                            postTitle.textContent = post.title;
+
+                            var postContent = document.createElement('p');
+                            postContent.className = 'post-content';
+                            postContent.textContent = post.content;
+
+                            postContainer.appendChild(postTitle);
+                            postContainer.appendChild(postContent);
+
+                            postsList.appendChild(postContainer);
+                        }
+                    } else {
+                        var noPostsMessage = document.createElement('li');
+                        noPostsMessage.className = 'no-results';
+                        noPostsMessage.textContent = '게시글이 없습니다.';
+
+                        postsList.appendChild(noPostsMessage);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error fetching posts:', error);
+                });
+        }
+
+        function displayFollowingPosts() {
+            var postsList = document.getElementById('postsList');
+
+            fetch('/api/users/:userId/following-posts') // 팔로우한 사용자의 게시글을 제공하는 API 엔드포인트로 수정해야 합니다
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (result) {
+                    var posts = result.posts;
+                    console.log(posts);
+                    if (posts && posts.length > 0) {
+                        for (var i = 0; i < posts.length; i++) {
+                            var post = posts[i];
+
+                            var postContainer = document.createElement('div');
+                            postContainer.className = 'post-container';
+
+                            var postTitle = document.createElement('h3');
+                            postTitle.className = 'post-title';
+                            postTitle.textContent = post.title;
+
+                            var postContent = document.createElement('p');
+                            postContent.className = 'post-content';
+                            postContent.textContent = post.content;
+
+                            postContainer.appendChild(postTitle);
+                            postContainer.appendChild(postContent);
+
+                            postsList.appendChild(postContainer);
+                        }
+                    } else {
+                        var noPostsMessage = document.createElement('p');
+                        noPostsMessage.className = 'no-results';
+                        noPostsMessage.textContent = '게시글이 없습니다.';
+
+                        postsList.appendChild(noPostsMessage);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('게시글 가져오기 오류:', error);
+                });
+        }
+
+        displayBestsellers();
+
+        // 사용자가 로그인한 경우에만 팔로우한 게시글을 표시합니다
+        if (isLoggedIn()) {
+            displayFollowingPosts();
+        }
+
+        // 실제 구현에 맞게 로그인 상태인지를 확인하는 isLoggedIn() 함수를 구현해야 합니다
+        function isLoggedIn() {
+            // 사용자가 로그인되어 있는지 확인하고, 로그인 상태에 따라 true 또는 false를 반환합니다
+            return true; // 실제 로직에 맞게 수정해 주세요
+        }
+
+        displayBestsellers();
+        displayPosts();
     </script>
-  </body>
+</body>
+
 </html>

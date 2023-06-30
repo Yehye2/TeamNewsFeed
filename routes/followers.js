@@ -90,4 +90,24 @@ router.delete("/users/:targetUserId/unfollow", authMiddleware, async (req, res) 
   }
 });
 
+// 팔로우한 유저의 게시글 조회 API
+router.get("/users/:userId/following-posts", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const following = await Followers.findAll({ where: { followerId: userId } });
+    const followingIds = following.map((follow) => follow.followingId);
+
+    const posts = await Posts.findAll({
+      where: { UserId: followingIds },
+      attributes: ["postId", "UserId", "nickname", "title", "content", "createdAt", "updatedAt"],
+      order: [["createdAt", "DESC"]]
+    });
+
+    res.status(200).json({ posts });
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    res.status(400).json({ errorMessage: "게시글 조회에 실패했습니다." });
+  }
+});
+
 module.exports = router; // router 모듈을 외부로 내보냅니다.
