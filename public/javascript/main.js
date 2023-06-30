@@ -64,7 +64,7 @@ function displayBestsellers() {
 function displayPosts() {
   const postsList = document.getElementById("posts-list");
   console.log("postsList = ", postsList);
-  fetch("/posts")
+  fetch("/api/posts")
     .then(function (response) {
       return response.json();
     })
@@ -103,3 +103,4 @@ function displayPosts() {
 searchBooks();
 displayBestsellers();
 displayPosts();
+console.log("main.js 실행");
