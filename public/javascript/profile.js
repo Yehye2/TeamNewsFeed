@@ -217,3 +217,48 @@ async function getUserPosts() {
       });
     });
 }
+
+// 프로필 수정 모달창에 수정버튼 이벤트 추가
+const editProfileBtn = document.getElementById("editProfileBtn");
+editProfileBtn.addEventListener("click", editProfile);
+
+async function editProfile() {
+  try {
+    const data = await isLoggedIn();
+    const userId = data.user.id;
+    const newNicknameInput = document.getElementById("newNickname").value;
+    const newUrlInput = document.getElementById("newUrl").value;
+    const newIntroductionInput = document.getElementById("newIntroduction").value;
+    const newPasswordInput = document.getElementById("newPassword").value;
+    const newConfirmPasswordInput = document.getElementById("newConfirmPassword").value;
+
+    // 비밀번호 확인 로직 추가
+    if (newPasswordInput !== newConfirmPasswordInput) {
+      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+      return;
+    }
+
+    const requestBody = {
+      nickname: newNicknameInput,
+      profileImage: newUrlInput,
+      password: newPasswordInput,
+      confirmPassword: newConfirmPasswordInput,
+      description: newIntroductionInput
+    };
+
+    const response = await fetch(`/api/users/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
+    const responseData = await response.json();
+    // 전달받은 값에 벨류 값을 얼럿으로 띄움
+    alert(Object.values(responseData)[0]);
+    // 새로고침
+    window.location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+}
