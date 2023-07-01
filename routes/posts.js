@@ -6,7 +6,7 @@ const authMiddleware = require("../middlewares/auth-middleware");
 router.post("/posts", authMiddleware, create);
 router.get("/posts", getAll);
 router.get("/posts/:postId", getOne);
-router.put("/posts/:postId", authMiddleware, update);
+router.patch("/posts/:postId", authMiddleware, update);
 router.delete("/posts/:postId", authMiddleware, remove);
 
 async function create(req, res) {
@@ -75,10 +75,13 @@ async function update(req, res) {
 
     if (!post) {
       res.status(404).json({ errorMessage: "게시글 조회에 실패하였습니다." });
+      return;
     } else {
       try {
         await Posts.update({ title, content }, { where: { postId } });
+        res.status(200).json({ message: "게시글 수정에 성공했습니다." });
       } catch (error) {
+        console.log(error);
         res.status(401).json({ errorMessage: "게시글이 정상적으로 수정되지 않았습니다." });
       }
     }
@@ -103,6 +106,7 @@ async function remove(req, res) {
         res.status(401).json({ errorMessage: "게시글이 정상적으로 삭제되지 않았습니다." });
       }
     }
+    res.status(200).json({ message: "게시글이 삭제되었습니다." });
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return res.status(400).json({ errorMessage: "게시글 삭제에 실패했습니다." });
