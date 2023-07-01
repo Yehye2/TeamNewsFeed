@@ -34,6 +34,10 @@ app.get("/profile", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "profile.html"));
 });
 
+app.get("/posts/:postId", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "detail.html"));
+});
+
 app.get("/search", (req, res) => {
   const query = req.query.q;
 

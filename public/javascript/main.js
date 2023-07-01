@@ -181,6 +181,7 @@ async function displayFollowingPosts() {
 
 searchBooks();
 displayBestsellers();
+<<<<<<< HEAD
 
 async function initializePage() {
   const loggedIn = await isLoggedIn(); // 로그인 상태 확인
@@ -193,3 +194,10 @@ async function initializePage() {
 }
 
 initializePage();
+<<<<<<< HEAD
+=======
+displayPosts();
+console.log("main.js 실행");
+>>>>>>> parent of e545c8b (게시글 상세 페이지 시작)
+=======
+>>>>>>> mainpage-show-img
