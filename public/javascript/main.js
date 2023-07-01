@@ -13,11 +13,9 @@ async function isLoggedIn() {
     return false;
   }
 }
-
 async function updateLoginStatus() {
   const data = await isLoggedIn(); // 로그인 상태 확인
   const loggedIn = data.isLoggedIn; // 로그인 상태 확인
-
   const loginStatusElement = document.getElementById("loginStatus");
   if (loggedIn) {
     loginStatusElement.textContent = "로그인 완료";
@@ -25,10 +23,12 @@ async function updateLoginStatus() {
     loginStatusElement.textContent = "로그인 안됨";
   }
 }
-
 updateLoginStatus();
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 const searchBooks = () => {
   const query = document.getElementById("searchInput").value;
   const url = "/search?q=" + encodeURIComponent(query);
@@ -61,7 +61,6 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
-
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -70,20 +69,21 @@ function displayBestsellers() {
     })
     .then(function (bestsellers) {
       if (bestsellers && bestsellers.length > 0) {
-        bestsellers.map(x => {
+        bestsellers.forEach(book => {
           const bestsellerItem = document.createElement("div");
           bestsellerItem.innerHTML = `<div class="list-item">
                                         <div class="img-box">
-                                          <img class="book-img" src="${x.cover}" alt="" srcset="">
+                                          <a href="${book.link}" target="_blank">
+                                            <img class="book-img" src="${book.cover}" alt="" srcset="">
+                                          </a>
                                         </div>
                                       </div>`;
           bestsellersList.append(bestsellerItem);
         });
       } else {
-        var noBestsellersMessage = document.createElement("li");
+        const noBestsellersMessage = document.createElement("li");
         noBestsellersMessage.className = "bestsellers-item";
         noBestsellersMessage.textContent = "찾을 수 없습니다.";
-
         bestsellersList.appendChild(noBestsellersMessage);
       }
     })
@@ -108,7 +108,7 @@ function displayPosts() {
           postResult.innerHTML = `<div class="item" >
                                     <div class="front">
                                       <img
-                                        src="${x.img}"
+                                        src=""
                                         alt=""
                                         onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
                                       />
@@ -131,16 +131,18 @@ function displayPosts() {
       console.error("Error fetching posts:", error);
     });
 }
+<<<<<<< Updated upstream
 
 
 
+=======
+>>>>>>> Stashed changes
 async function displayFollowingPosts() {
-  const postsList = document.getElementById("posts-list");
+  const postsList = document.getElementById('posts-list');
   //const loggedIn = await isLoggedIn(); // 로그인 상태 확인
   let data = await isLoggedIn();
   let userId = data.user.id;
-  console.log("test", userId);
-
+  console.log('test', userId);
   fetch(`/api/users/${userId}/following-posts`)
     .then(function (response) {
       return response.json();
@@ -151,48 +153,48 @@ async function displayFollowingPosts() {
       if (posts && posts.length > 0) {
         for (var i = 0; i < posts.length; i++) {
           var post = posts[i];
-
-          var postContainer = document.createElement("div");
-          postContainer.className = "post-container";
-
-          var postTitle = document.createElement("h3");
-          postTitle.className = "post-title";
+          var postContainer = document.createElement('div');
+          postContainer.className = 'post-container';
+          var postTitle = document.createElement('h3');
+          postTitle.className = 'post-title';
           postTitle.textContent = post.title;
-
-          var postContent = document.createElement("p");
-          postContent.className = "post-content";
+          var postContent = document.createElement('p');
+          postContent.className = 'post-content';
           postContent.textContent = post.content;
-
           postContainer.appendChild(postTitle);
           postContainer.appendChild(postContent);
-
           postsList.appendChild(postContainer);
         }
       } else {
-        var noPostsMessage = document.createElement("p");
-        noPostsMessage.className = "no-results";
-        noPostsMessage.textContent = "게시글이 없습니다.";
-
+        var noPostsMessage = document.createElement('p');
+        noPostsMessage.className = 'no-results';
+        noPostsMessage.textContent = '게시글이 없습니다.';
         postsList.appendChild(noPostsMessage);
       }
     })
     .catch(function (error) {
-      console.error("게시글 가져오기 오류:", error);
+      console.error('게시글 가져오기 오류:', error);
     });
 }
+<<<<<<< Updated upstream
 
 
 
+=======
+>>>>>>> Stashed changes
 searchBooks();
 displayBestsellers();
 async function initializePage() {
   const loggedIn = await isLoggedIn(); // 로그인 상태 확인
-
   if (loggedIn) {
     displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
   } else {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
   }
 }
+<<<<<<< Updated upstream
 
 initializePage();
+=======
+initializePage();
+>>>>>>> Stashed changes
