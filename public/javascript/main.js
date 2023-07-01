@@ -108,7 +108,7 @@ function displayPosts() {
           postResult.innerHTML = `<div class="item" >
                                     <div class="front">
                                       <img
-                                        src=""
+                                        src="${x.img}"
                                         alt=""
                                         onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
                                       />
@@ -135,11 +135,11 @@ function displayPosts() {
 
 
 async function displayFollowingPosts() {
-  const postsList = document.getElementById('posts-list');
+  const postsList = document.getElementById("posts-list");
   //const loggedIn = await isLoggedIn(); // 로그인 상태 확인
   let data = await isLoggedIn();
   let userId = data.user.id;
-  console.log('test', userId);
+  console.log("test", userId);
 
   fetch(`/api/users/${userId}/following-posts`)
     .then(function (response) {
@@ -152,15 +152,15 @@ async function displayFollowingPosts() {
         for (var i = 0; i < posts.length; i++) {
           var post = posts[i];
 
-          var postContainer = document.createElement('div');
-          postContainer.className = 'post-container';
+          var postContainer = document.createElement("div");
+          postContainer.className = "post-container";
 
-          var postTitle = document.createElement('h3');
-          postTitle.className = 'post-title';
+          var postTitle = document.createElement("h3");
+          postTitle.className = "post-title";
           postTitle.textContent = post.title;
 
-          var postContent = document.createElement('p');
-          postContent.className = 'post-content';
+          var postContent = document.createElement("p");
+          postContent.className = "post-content";
           postContent.textContent = post.content;
 
           postContainer.appendChild(postTitle);
@@ -169,15 +169,15 @@ async function displayFollowingPosts() {
           postsList.appendChild(postContainer);
         }
       } else {
-        var noPostsMessage = document.createElement('p');
-        noPostsMessage.className = 'no-results';
-        noPostsMessage.textContent = '게시글이 없습니다.';
+        var noPostsMessage = document.createElement("p");
+        noPostsMessage.className = "no-results";
+        noPostsMessage.textContent = "게시글이 없습니다.";
 
         postsList.appendChild(noPostsMessage);
       }
     })
     .catch(function (error) {
-      console.error('게시글 가져오기 오류:', error);
+      console.error("게시글 가져오기 오류:", error);
     });
 }
 

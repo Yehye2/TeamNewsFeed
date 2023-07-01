@@ -65,7 +65,7 @@ async function getOne(req, res) {
 async function update(req, res) {
   try {
     const { postId } = req.params;
-    const { title, content } = req.body;
+    const { title, content, } = req.body;
     const post = await Posts.findOne({ where: { postId } });
 
     if (!title || !content) {
