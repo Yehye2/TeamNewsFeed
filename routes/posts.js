@@ -105,11 +105,11 @@ async function remove(req, res) {
     } else {
       try {
         await Posts.destroy({ where: { postId } });
+        res.status(200).json({ message: "게시글이 삭제되었습니다." });
       } catch (error) {
         res.status(401).json({ errorMessage: "게시글이 정상적으로 삭제되지 않았습니다." });
       }
     }
-    res.status(200).json({ message: "게시글이 삭제되었습니다." });
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return res.status(400).json({ errorMessage: "게시글 삭제에 실패했습니다." });
