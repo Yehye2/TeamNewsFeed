@@ -65,7 +65,7 @@ postDeleteButton.addEventListener("click", async e => {
     if (response.ok) {
       // TODO: 삭제 성공시 개인페이지로 리디렉션
       console.log("게시글이 삭제되었습니다.");
-      window.location.href = "/login";
+      window.location.href = "/profile";
     } else {
       const result = await response.json();
       console.error(result.errorMessage);
