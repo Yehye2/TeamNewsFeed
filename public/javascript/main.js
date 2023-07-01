@@ -173,7 +173,6 @@ async function displayFollowingPosts() {
       console.error("게시글 가져오기 오류:", error);
     });
 }
-<<<<<<< Updated upstream
 
 searchBooks();
 displayBestsellers();
@@ -185,7 +184,6 @@ async function initializePage() {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
   }
 }
-<<<<<<< Updated upstream
+
 
 initializePage();
-displayPosts();
