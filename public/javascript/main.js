@@ -145,7 +145,7 @@ async function displayFollowingPosts() {
     })
     .then(function (result) {
       var posts = result.posts;
-      console.log(posts);
+      console.log("follow=posts", posts);
       if (posts && posts.length > 0) {
         for (var i = 0; i < posts.length; i++) {
           var post = posts[i];
