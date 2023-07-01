@@ -13,11 +13,9 @@ async function isLoggedIn() {
     return false;
   }
 }
-
 async function updateLoginStatus() {
   const data = await isLoggedIn(); // 로그인 상태 확인
   const loggedIn = data.isLoggedIn; // 로그인 상태 확인
-
   const loginStatusElement = document.getElementById("loginStatus");
   if (loggedIn) {
     loginStatusElement.textContent = "로그인 완료";
@@ -25,7 +23,6 @@ async function updateLoginStatus() {
     loginStatusElement.textContent = "로그인 안됨";
   }
 }
-
 updateLoginStatus();
 
 const searchBooks = () => {
@@ -60,7 +57,6 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
-
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -69,20 +65,21 @@ function displayBestsellers() {
     })
     .then(function (bestsellers) {
       if (bestsellers && bestsellers.length > 0) {
-        bestsellers.map(x => {
+        bestsellers.forEach(book => {
           const bestsellerItem = document.createElement("div");
           bestsellerItem.innerHTML = `<div class="list-item">
                                         <div class="img-box">
-                                          <img class="book-img" src="${x.cover}" alt="" srcset="">
+                                          <a href="${book.link}" target="_blank">
+                                            <img class="book-img" src="${book.cover}" alt="" srcset="">
+                                          </a>
                                         </div>
                                       </div>`;
           bestsellersList.append(bestsellerItem);
         });
       } else {
-        var noBestsellersMessage = document.createElement("li");
+        const noBestsellersMessage = document.createElement("li");
         noBestsellersMessage.className = "bestsellers-item";
         noBestsellersMessage.textContent = "찾을 수 없습니다.";
-
         bestsellersList.appendChild(noBestsellersMessage);
       }
     })
@@ -160,10 +157,8 @@ async function displayFollowingPosts() {
           var postContent = document.createElement("p");
           postContent.className = "post-content";
           postContent.textContent = post.content;
-
           postContainer.appendChild(postTitle);
           postContainer.appendChild(postContent);
-
           postsList.appendChild(postContainer);
         }
       } else {
@@ -178,19 +173,19 @@ async function displayFollowingPosts() {
       console.error("게시글 가져오기 오류:", error);
     });
 }
+<<<<<<< Updated upstream
 
 searchBooks();
 displayBestsellers();
-
 async function initializePage() {
   const loggedIn = await isLoggedIn(); // 로그인 상태 확인
-
   if (loggedIn) {
     displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
   } else {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
   }
 }
+<<<<<<< Updated upstream
 
 initializePage();
 displayPosts();
