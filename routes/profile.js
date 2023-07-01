@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const saltRounds = 10;
 const authMiddleware = require("../middlewares/auth-middleware");
 const { Users, Posts } = require("../models");
 
@@ -53,7 +54,7 @@ router.patch("/users/:userId", authMiddleware, async (req, res) => {
     }
 
     // 위의 패스워드 검증이 다 마치면 패스워드를 암호화 <- 있어야됩니다.
-    const encryptedPW = await bcrypt.hashSync(password, 10); //비밀번호 암호화
+    const encryptedPW = await bcrypt.hash(password, saltRounds); // 비밀번호 암호화
 
     if (nickname) await user.update({ nickname });
     if (profileImage) await user.update({ profileImage });
@@ -82,12 +83,13 @@ router.get("/users/:userId/posts", async (req, res) => {
     // 게시물의 존재 여부를 확인합니다.
     if (!post || post.length === 0) {
       // 게시물이 존재하지 않을 경우 에러 응답을 보냅니다.
-
       console.log("작성한 게시물이 없습니다.");
     }
     // 조회된 게시물을 응답합니다.
     res.json(post);
   } catch (error) {
+    console.log(error);
+
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(400).json({ errorMessage: "게시물 조회에 실패했습니다." });
   }
