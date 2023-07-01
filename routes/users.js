@@ -23,14 +23,16 @@ router.post("/users/signup", async (req, res) => {
 
     // nickname이 중복이 되는 유저가 있을 경우
     if (isExistNick) {
-      return res.status(412).json({ errorMessage: "이미 존재하는 닉네임입니다." });
+      res.status(412).json({ errorMessage: "이미 존재하는 닉네임입니다." });
+      return;
     }
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
     if (!nickNameExp.test(nickname)) {
       res.status(412).json({
-        errMsg: "닉네임은 최소 3자이상, 알파벳 숫자 조합이어야합니다."
+        errorMessage: "닉네임은 최소 3자이상, 알파벳 숫자 조합이어야합니다."
       });
+      return;
     }
 
     if (verifiedEmail === 0) {
@@ -42,7 +44,6 @@ router.post("/users/signup", async (req, res) => {
 
     if (!passwordExp.test(password)) {
       res.status(412).json({ errorMessage: "패스워드는 최소 4자리 이상이어야합니다." });
-
       return;
     }
     if (password.includes(nickname)) {
@@ -66,9 +67,9 @@ router.post("/users/signup", async (req, res) => {
       password: encryptedPW,
       nickname: nickname
     });
-    return res.status(200).json({ message: "회원가입이 완료되었습니다." });
+    res.status(200).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
-    return res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
+    res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
   }
 });
 
