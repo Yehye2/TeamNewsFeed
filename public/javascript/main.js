@@ -194,4 +194,3 @@ async function initializePage() {
 
 initializePage();
 displayPosts();
-console.log("main.js 실행");
