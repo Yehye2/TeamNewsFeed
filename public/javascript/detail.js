@@ -85,7 +85,15 @@ postDeleteButton.addEventListener("click", async e => {
 // 게시물 상세 조회
 async function getPosts() {
   const response = await fetch(`/api/posts/${postId}`);
-  const { post } = await response.json();
+  const result = await response.json();
+  if (!response.ok) {
+    window.alert("게시글을 찾을 수 없습니다.");
+    window.location.href = "/profile";
+    return console.log(result.errorMessage);
+  }
+
+  const { post } = result;
+
   // if 작성 날짜 추가 시, 년월일만을 createdAt에 할당
   // const createdAt = post.createdAt.split("T")[0];
 
