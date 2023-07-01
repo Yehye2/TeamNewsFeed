@@ -3,9 +3,9 @@ const url = window.location.pathname;
 const postId = url.split("/posts/")[1];
 
 // 요소 가져오기
-const postUpdateButton = document.getElementById("postUpdate");
-const postUpdateModal = document.getElementById("postUpdateModal");
-const postUpdateModalClose = document.getElementById("postUpdateModalClose");
+const postUpdateButton = document.querySelector("#postUpdate");
+const postUpdateModal = document.querySelector("#postUpdateModal");
+const postUpdateModalClose = document.querySelector("#postUpdateModalClose");
 
 // '수정' 버튼 : 수정 모달을 연다.(보이게한다.)
 postUpdateButton.addEventListener("click", e => {
@@ -19,7 +19,7 @@ postUpdateModalClose.addEventListener("click", () => {
 
 // 수정 모달폼 - 수정하기 버튼
 //TODO: 모달 수정버튼 요소 교체
-modalUpdateButton = document.getElementById("modalUpdateButton");
+modalUpdateButton = document.querySelector("#modalUpdateButton");
 
 modalUpdateButton.addEventListener("click", async e => {
   console.log("수정 로직 실행");
@@ -50,7 +50,7 @@ modalUpdateButton.addEventListener("click", async e => {
   }
 });
 
-const postDeleteButton = document.getElementById("postDelete");
+const postDeleteButton = document.querySelector("#postDelete");
 
 // 게시글 삭제 버튼에 이벤트 추가
 postDeleteButton.addEventListener("click", async e => {
@@ -65,7 +65,7 @@ postDeleteButton.addEventListener("click", async e => {
     if (response.ok) {
       // TODO: 삭제 성공시 개인페이지로 리디렉션
       console.log("게시글이 삭제되었습니다.");
-      window.location.href = "/login";
+      window.location.href = "/profile";
     } else {
       const result = await response.json();
       console.error(result.errorMessage);
@@ -85,7 +85,15 @@ postDeleteButton.addEventListener("click", async e => {
 // 게시물 상세 조회
 async function getPosts() {
   const response = await fetch(`/api/posts/${postId}`);
-  const { post } = await response.json();
+  const result = await response.json();
+  if (!response.ok) {
+    window.alert("게시글을 찾을 수 없습니다.");
+    window.location.href = "/profile";
+    return console.log(result.errorMessage);
+  }
+
+  const { post } = result;
+
   // if 작성 날짜 추가 시, 년월일만을 createdAt에 할당
   // const createdAt = post.createdAt.split("T")[0];
 
