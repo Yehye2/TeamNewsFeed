@@ -124,6 +124,11 @@ body {
   width: 100px;
 }
 
+.front > img {
+  width: 480px;
+  height: 360px;
+}
+
 .list-item > .img-box > .book-img {
   width: 100%;
   height: 150px;

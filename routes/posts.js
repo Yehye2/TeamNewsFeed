@@ -9,6 +9,7 @@ router.get("/posts/:postId", getOne);
 router.put("/posts/:postId", authMiddleware, update);
 router.delete("/posts/:postId", authMiddleware, remove);
 
+// 게시글등록
 async function create(req, res) {
   try {
     console.log("create");
@@ -33,7 +34,7 @@ async function create(req, res) {
 async function getAll(req, res) {
   try {
     const posts = await Posts.findAll({
-      attributes: ["postId", "UserId", "nickname", "title", "createdAt", "updatedAt"],
+      attributes: ["postId", "UserId", "nickname", "title", "createdAt", "updatedAt", "img"],
       order: [["createdAt", "DESC"]]
     });
     res.status(200).json({ posts });
