@@ -38,7 +38,7 @@ router.patch("/users/:userId", authMiddleware, async (req, res) => {
     const allUsers = await Users.findOne({ where: { nickname } });
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
-    if (!nickNameExp.test(nickname)) {
+    if (nickname.length !== 0 && !nickNameExp.test(nickname)) {
       res.status(412).json({ errorMessage: "닉네임은 최소 3자이상, 알파벳 소문자 숫자를 포함하여야합니다." });
       return;
     }
@@ -76,15 +76,17 @@ router.get("/users/:userId/posts", async (req, res) => {
 
   try {
     const post = await Posts.findAll({
-      where: { userId }
+      where: { UserId: userId },
+      order: [["createdAt", "desc"]]
     });
     // 게시물의 존재 여부를 확인합니다.
     if (!post || post.length === 0) {
       // 게시물이 존재하지 않을 경우 에러 응답을 보냅니다.
-      return res.status(404).json({ errorMessage: "작성한 게시물이 없습니다." });
+
+      console.log("작성한 게시물이 없습니다.");
     }
     // 조회된 게시물을 응답합니다.
-    res.json({ data: post });
+    res.json(post);
   } catch (error) {
     // 오류가 발생한 경우 오류 메시지를 응답합니다.
     res.status(400).json({ errorMessage: "게시물 조회에 실패했습니다." });

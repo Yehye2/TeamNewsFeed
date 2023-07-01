@@ -11,15 +11,15 @@ router.delete("/posts/:postId", authMiddleware, remove);
 
 async function create(req, res) {
   try {
-    const { title, content } = req.body;
+    const { title, content, img } = req.body;
     const { userId: UserId, nickname } = res.locals.user;
-    const post = new Posts({ UserId, nickname, title, content });
+    const post = new Posts({ UserId, nickname, title, content, img });
 
     if (!title || !content) {
       return res.status(412).json({ errorMessage: "데이터 형식이 올바르지 않습니다." });
     }
-
     await post.save();
+
     res.status(200).json({ message: "게시글 작성에 성공했습니다." });
   } catch (error) {
     console.error(`Error: ${error.message}`);
