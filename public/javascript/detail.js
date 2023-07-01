@@ -1,39 +1,43 @@
 const postUpdateButton = document.getElementById("postUpdate");
 const postUpdateModal = document.getElementById("postUpdateModal");
+const updateForm = document.getElementById("updateForm");
+const updateTitleInput = document.getElementById("updateTitle");
+const updateContentInput = document.getElementById("updateContent");
 
 postUpdateButton.addEventListener("click", e => {
   postUpdateModal.style.display = "block";
-
-  //이벤트 테스트
-  let postId = 13;
-  window.location.href = `/posts/${postId}`;
 });
 
-const postDeleteButton = document.getElementById("postDelete");
+updateForm.addEventListener("submit", async e => {
+  e.preventDefault();
 
-postDeleteButton.addEventListener("click", async e => {
-  //이벤트 테스트
-  let postId = 5;
-  window.location.href = `/posts/${postId}`;
+  const url = window.location.pathname;
+  const postId = url.split("/posts/")[1];
+  const title = updateTitleInput.value;
+  const content = updateContentInput.value;
 
-  // try {
-  //   const response = await fetch("/api/posts/${postId}", {
-  //     method: "DELETE"
-  //   });
-  // } catch (error) {}
+  try {
+    const response = await fetch(`/api/posts/${postId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ title, content })
+    });
+
+    if (response.ok) {
+      // 수정 성공 시 처리
+      // 예를 들어, 성공 메시지 표시하거나 수정된 게시글로 리다이렉트하는 등의 동작 수행
+      console.log("게시글이 성공적으로 수정되었습니다.");
+    } else {
+      // 수정 실패 시 처리
+      // 예를 들어, 에러 메시지 표시하거나 실패 상황에 대한 처리 수행
+      console.log("게시글 수정에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+  }
 });
-
-// // 모달 닫기 버튼 클릭 시 모달 닫기
-// postUpdateModalClose.addEventListener("click", () => {
-//   postUpdateModal.style.display = "none";
-// });
-
-// // 모달 외부 클릭 시 모달 닫기
-// window.addEventListener("click", e => {
-//   if (e.target === postUpdateModal) {
-//     postUpdateModal.style.display = "none";
-//   }
-// });
 
 // 게시물 상세 조회
 async function getPosts() {
@@ -41,12 +45,8 @@ async function getPosts() {
   const postId = url.split("/posts/")[1];
   const response = await fetch(`/api/posts/${postId}`);
   const { post } = await response.json();
-  // 작성 날짜 추가 시, 년월일만을 createdAt에 할당
-  // const createdAt = post.createdAt.split("T")[0];
 
   const contentWrapper = document.querySelector(".content");
-  // const postTitle = document.querySelector("#post-title");
-  // const postNickname = document.querySelector("#post-nickname");
 
   const postHtml = `<div class="card">
                       <h2>${post.title}</h2>
@@ -55,4 +55,5 @@ async function getPosts() {
                     </div>`;
   contentWrapper.innerHTML = postHtml;
 }
+
 getPosts();

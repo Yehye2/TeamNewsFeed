@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/detail.css" />
-    <script src="/javascript/detail.js" defer></script>
-  </head>
-  <body>
-    <div class="header">
-      <h2>Header</h2>
-    </div>
 
-    <div class="content">
-      <div class="card">
-        <h2 id="post-title">title</h2>
-        <h4 id="post-nickname"></h4>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/assets/detail.css" />
+  <script src="/javascript/detail.js" defer></script>
+</head>
 
-        <p id="post-content"></p>
-      </div>
-    </div>
-    <div class="buttons">
-      <button id="postUpdate">수정</button>
-      <button id="postDelete">삭제</button>
-    </div>
-    <!-- TODO: 게시물 수정 모달 -->
-    <div id="postUpdateModal" class="modal"></div>
+<body>
+  <div class="header">
+    <h2>헤더</h2>
+  </div>
 
-    <div class="footer">
-      <h2>Footer</h2>
+  <div class="content">
+    <div class="card">
+      <h2 id="post-title">제목</h2>
+      <h4 id="post-nickname"></h4>
+      <p id="post-content"></p>
     </div>
-  </body>
+  </div>
+  <div class="buttons">
+    <button id="postUpdate">수정</button>
+    <button id="postDelete">삭제</button>
+  </div>
+
+  <!-- 수정 모달 -->
+  <div id="postUpdateModal" class="modal" style="display: none;">
+    <form id="updateForm">
+      <input type="text" id="updateTitle" placeholder="제목" />
+      <textarea id="updateContent" placeholder="내용"></textarea>
+      <button type="submit">수정하기</button>
+    </form>
+  </div>
+
+  <div class="footer">
+    <h2>푸터</h2>
+  </div>
+</body>
+
 </html>

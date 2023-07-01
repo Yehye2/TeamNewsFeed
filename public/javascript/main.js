@@ -185,7 +185,6 @@ async function displayFollowingPosts() {
 
 searchBooks();
 displayBestsellers();
-
 async function initializePage() {
   const loggedIn = await isLoggedIn(); // 로그인 상태 확인
 
