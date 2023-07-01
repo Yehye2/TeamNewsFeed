@@ -13,11 +13,9 @@ async function isLoggedIn() {
     return false;
   }
 }
-
 async function updateLoginStatus() {
   const data = await isLoggedIn(); // 로그인 상태 확인
   const loggedIn = data.isLoggedIn; // 로그인 상태 확인
-
   const loginStatusElement = document.getElementById("loginStatus");
   if (loggedIn) {
     loginStatusElement.textContent = "로그인 완료";
@@ -25,7 +23,6 @@ async function updateLoginStatus() {
     loginStatusElement.textContent = "로그인 안됨";
   }
 }
-
 updateLoginStatus();
 
 const searchBooks = () => {
@@ -60,7 +57,6 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
-
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -69,20 +65,21 @@ function displayBestsellers() {
     })
     .then(function (bestsellers) {
       if (bestsellers && bestsellers.length > 0) {
-        bestsellers.map(x => {
+        bestsellers.forEach(book => {
           const bestsellerItem = document.createElement("div");
           bestsellerItem.innerHTML = `<div class="list-item">
                                         <div class="img-box">
-                                          <img class="book-img" src="${x.cover}" alt="" srcset="">
+                                          <a href="${book.link}" target="_blank">
+                                            <img class="book-img" src="${book.cover}" alt="" srcset="">
+                                          </a>
                                         </div>
                                       </div>`;
           bestsellersList.append(bestsellerItem);
         });
       } else {
-        var noBestsellersMessage = document.createElement("li");
+        const noBestsellersMessage = document.createElement("li");
         noBestsellersMessage.className = "bestsellers-item";
         noBestsellersMessage.textContent = "찾을 수 없습니다.";
-
         bestsellersList.appendChild(noBestsellersMessage);
       }
     })
@@ -118,6 +115,10 @@ function displayPosts() {
                                       <h3>${x.nickname}</h3>
                                     </div>
                                   </div>`;
+          postResult.addEventListener("click", function () {
+            // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
+            window.location.href = `/posts/${x.postId}`
+          });
           postsList.append(postResult);
         });
       } else {
@@ -143,53 +144,54 @@ async function displayFollowingPosts() {
     .then(function (response) {
       return response.json();
     })
-    .then(function (result) {
-      var posts = result.posts;
-      console.log("follow=posts", posts);
-      if (posts && posts.length > 0) {
-        for (var i = 0; i < posts.length; i++) {
-          var post = posts[i];
-
-          var postContainer = document.createElement("div");
-          postContainer.className = "post-container";
-
-          var postTitle = document.createElement("h3");
-          postTitle.className = "post-title";
-          postTitle.textContent = post.title;
-
-          var postContent = document.createElement("p");
-          postContent.className = "post-content";
-          postContent.textContent = post.content;
-
-          postContainer.appendChild(postTitle);
-          postContainer.appendChild(postContent);
-
-          postsList.appendChild(postContainer);
-        }
+    .then(function (response) {
+      const { posts } = response;
+      if (posts) {
+        posts.forEach(x => {
+          console.log(x);
+          // console.log(x)
+          const postResult = document.createElement("div");
+          postResult.innerHTML = `<div class="item" >
+                                  <div class="front">
+                                    <img
+                                      src="${x.img}"
+                                      alt=""
+                                      onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
+                                    />
+                                  </div>
+                                  <div class="movie-info">
+                                    <h2>${x.title}</h2>
+                                    <h3>${x.nickname}</h3>
+                                  </div>
+                                </div>`;
+          postResult.addEventListener("click", function () {
+            // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
+            window.location.href = `/posts/${x.postId}`
+          });
+          postsList.append(postResult);
+        });
       } else {
-        var noPostsMessage = document.createElement("p");
+        var noPostsMessage = document.createElement("li");
         noPostsMessage.className = "no-results";
         noPostsMessage.textContent = "게시글이 없습니다.";
-
         postsList.appendChild(noPostsMessage);
       }
     })
     .catch(function (error) {
-      console.error("게시글 가져오기 오류:", error);
+      console.error("Error fetching posts:", error);
     });
 }
 
 searchBooks();
 displayBestsellers();
-
 async function initializePage() {
   const loggedIn = await isLoggedIn(); // 로그인 상태 확인
-
   if (loggedIn) {
     displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
   } else {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
   }
 }
+
 
 initializePage();
