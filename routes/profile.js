@@ -36,7 +36,7 @@ router.patch("/users/:userId", authMiddleware, async (req, res) => {
   try {
     // userId를 기준으로 해당 사용자의 프로필을 조회합니다.
     const user = await Users.findOne({ where: { userId } });
-    const allUsers = await Users.findOne({ where: { nickname } });
+    const getUserNickname = await Users.findOne({ where: { nickname } });
 
     // 닉네임 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성
     if (nickname.length !== 0 && !nickNameExp.test(nickname)) {
@@ -48,7 +48,7 @@ router.patch("/users/:userId", authMiddleware, async (req, res) => {
       res.status(412).json({ errorMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다." });
       return;
     }
-    if (allUsers) {
+    if (getUserNickname) {
       res.status(412).json({ errorMessage: "닉네임이 중복됩니다." });
       return;
     }
