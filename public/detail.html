@@ -11,7 +11,11 @@
 
 <body>
   <div class="header">
+<<<<<<< Updated upstream
     <h2>헤더</h2>
+=======
+    <h2>Header</h2>
+>>>>>>> Stashed changes
   </div>
 
   <div class="content">
@@ -19,6 +23,7 @@
       <h2 id="post-title">제목</h2>
       <h4 id="post-nickname"></h4>
       <p id="post-content"></p>
+<<<<<<< Updated upstream
     </div>
   </div>
   <div class="buttons">
@@ -35,6 +40,37 @@
     </form>
   </div>
 
+=======
+    </div>
+  </div>
+  <div class="buttons">
+    <button id="postUpdate">수정</button>
+    <button id="postDelete">삭제</button>
+  </div>
+  <!-- TODO: 게시물 수정 모달 -->
+  <!-- <div id="postUpdateModal" class="modal"></div> -->
+
+  <div id="postUpdateModal" class="postModal d-none">
+    <span id="postUpdateModalClose">&times;</span>
+    <div class="postModal_overlay"></div>
+    <div class="postModal_content">
+      <h1>게시글 작성</h1>
+      <div class="input-group">
+        <div class="input-form">
+          <input type="text" id="update-title" class="form-control" placeholder="제목을 작성하세요." />
+          <input type="text" class="form-control" placeholder="이미지 URL을 넣어주세요." />
+          <input type="text" id="update-content" class="form-control-content" placeholder="본문을 작성하세요." />
+        </div>
+        <div class="postModal-btn">
+          <button type="click" id="modalUpdateButton">수정하기</button>
+          <button id="postModal-close">취소</button>
+          <!-- 게시글 작성 모달에 있는 취소 버튼 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+>>>>>>> Stashed changes
   <div class="footer">
     <h2>푸터</h2>
   </div>
