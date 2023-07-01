@@ -103,4 +103,3 @@ function displayPosts() {
 searchBooks();
 displayBestsellers();
 displayPosts();
-console.log("main.js 실행");
