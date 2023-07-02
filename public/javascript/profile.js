@@ -1,5 +1,7 @@
+import { updateLoginStatus } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
 myPage();
+updateLoginStatus();
 
 const profileUrl = window.location.pathname;
 let userId = profileUrl.split("/profile/")[1];
