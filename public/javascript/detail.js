@@ -38,10 +38,11 @@ modalUpdateButton.addEventListener("click", async e => {
     });
     const result = await response.json();
     if (response.ok) {
-      console.log(result.message);
+      alert(Object.values(result)[0]);
       location.reload();
     } else {
-      console.log(result.errorMessage);
+      alert(Object.values(result)[0]);
+      location.reload();
     }
   } catch (error) {
     console.error(error);
