@@ -1,6 +1,7 @@
-import isLoggedIn from "./isLoggedIn.js";
+import { isLoggedIn, updateLoginStatus } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
 myPage();
+updateLoginStatus();
 
 // 페이지 url에서 postId 추출
 const url = window.location.pathname;

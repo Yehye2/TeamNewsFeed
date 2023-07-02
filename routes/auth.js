@@ -42,9 +42,9 @@ router.post("/auth/login", async (req, res) => {
 
     // bearer타입으로 클라이언트에 token을 전달
     res.cookie("authorization", `Bearer ${token}`);
-    return res.status(200).json({ message: "로그인되었습니다." });
+    return res.status(400).json({ message: "로그인되었습니다." });
   } catch (error) {
-    return res.status(400).json({ errorMessage: error });
+    return res.status(200).json({ errorMessage: error });
   }
 });
 

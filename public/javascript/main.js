@@ -1,17 +1,6 @@
-import isLoggedIn from "./isLoggedIn.js";
+import { isLoggedIn, updateLoginStatus } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
 myPage();
-
-async function updateLoginStatus() {
-  const data = await isLoggedIn(); // 로그인 상태 확인
-  const loggedIn = data.isLoggedIn; // 로그인 상태 확인
-  const loginStatusElement = document.getElementById("loginStatus");
-  if (loggedIn) {
-    loginStatusElement.textContent = "로그인 완료";
-  } else {
-    loginStatusElement.textContent = "로그인 안됨";
-  }
-}
 updateLoginStatus();
 
 const searchBooks = () => {
@@ -47,6 +36,9 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
+const searchBtn = document.getElementById("search-btn");
+searchBtn.addEventListener("click", searchBooks);
+
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -121,8 +113,7 @@ function generatePostCards(posts, postsList) {
 
 function displayPosts() {
   const postsList = document.getElementById("posts-list");
-  console.log("postsList = ", postsList);
-  fetch("api/posts")
+  fetch("/api/posts")
     .then(function (response) {
       return response.json();
     })

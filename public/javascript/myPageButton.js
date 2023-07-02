@@ -1,4 +1,4 @@
-import isLoggedIn from "./isLoggedIn.js";
+import { isLoggedIn } from "./isLoggedIn.js";
 
 export default function myPage() {
   const myPageButton = document.querySelector("#my-page");
