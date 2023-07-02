@@ -82,7 +82,7 @@ router.get("/users/all-users", middleware, async (req, res) => {
     where: {
       userId: { [Op.ne]: userId }
     },
-    attributes: ["userId", "nickname", "img"]
+    attributes: ["userId", "nickname", "profileImage"]
   });
 
   res.status(200).json({ usersData: allUsers });

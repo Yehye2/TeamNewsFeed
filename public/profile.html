@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="./assets/header.css" />
     <title>Profile Page</title>
     <script src="./javascript/profile.js" defer></script>
+    <script src="./javascript/logout.js"></script>
   </head>
 
   <body>
@@ -23,14 +24,14 @@
         <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
       </a>
       <ul>
-        <li>
-          <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
+        <li id="all-user">
+          <a class="category_btn" href="/allUser">모든 유저</a>
         </li>
         <li>
           <a id="top_rated" class="category_btn" href="/profile">마이페이지</a>
         </li>
         <li>
-          <span id="loginStatus"></span>
+          <a id="popular" class="category_btn" onclick="logout()" href="/">로그아웃</a>
         </li>
       </ul>
     </nav>

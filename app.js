@@ -39,7 +39,7 @@ app.get("/posts/:postId", (req, res) => {
 });
 
 app.get("/allUser", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "allUsers.html"));
+  res.sendFile(path.join(__dirname, "public", "allUser.html"));
 });
 
 app.get("/search", (req, res) => {

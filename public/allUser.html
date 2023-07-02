@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>모든 유저들</title>
+    <link rel="stylesheet" href="./assets/allUsers.css" />
     <link rel="stylesheet" href="./assets/header.css" />
-
     <link rel="stylesheet" href="./assets/container.css" />
-    <script src="./javascript/allUsers.js" defer></script>
+    <script src="./javascript/allUser.js" defer></script>
+    <script src="./javascript/logout.js"></script>
   </head>
   <body>
     <nav>
@@ -15,14 +16,14 @@
         <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
       </a>
       <ul>
-        <li>
-          <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
+        <li id="all-user">
+          <a class="category_btn" href="/allUser">모든 유저</a>
         </li>
         <li>
           <a id="top_rated" class="category_btn" href="/profile">마이페이지</a>
         </li>
         <li>
-          <span id="loginStatus"></span>
+          <a id="popular" class="category_btn" onclick="logout()" href="/">로그아웃</a>
         </li>
       </ul>
     </nav>
@@ -39,7 +40,18 @@
       </section>
       <section class="section-box">
         <h2>모든 유저</h2>
-        <div id="user-list"></div>
+        <div id="user-list">
+          <div class="user-card">
+            <div class="img-box">
+              <img src="https://item.kakaocdn.net/do/dc9561970173c28a13654c3f14180b4b617ea012db208c18f6e83b1a90a7baa7" alt="" />
+            </div>
+            <h3>닉네임</h3>
+            <div>
+              <button>팔로우</button>
+              <button>팔로우취소</button>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </body>

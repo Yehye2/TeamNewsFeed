@@ -1,9 +1,11 @@
+let userNickname;
+
 async function isLoggedIn() {
   try {
     const response = await fetch("/api/check-login");
     if (response.ok) {
+      console.log("response", response);
       const data = await response.json();
-      console.log(data);
       return data;
     } else {
       throw new Error("Error checking login status");
@@ -16,13 +18,36 @@ async function isLoggedIn() {
 async function updateLoginStatus() {
   const data = await isLoggedIn(); // 로그인 상태 확인
   const loggedIn = data.isLoggedIn; // 로그인 상태 확인
-  const loginStatusElement = document.getElementById("loginStatus");
+  // const loginStatusElement = document.getElementById("loginStatus");
+  const navMenu = document.getElementById("nav-menu");
+  const temp = document.createElement("li");
+
+  // 로그인을 했을때
   if (loggedIn) {
-    loginStatusElement.textContent = "로그인 완료";
+    const loginSignup = document.getElementById("login-signup");
+    loginSignup.remove();
+    temp.id = "logout";
+    temp.innerHTML = `<a id="popular" class="category_btn" onclick="logout()" href="/">로그아웃</a>`;
+    navMenu.append(temp);
   } else {
-    loginStatusElement.textContent = "로그인 안됨";
+    // 안했을때
+    const allUser = document.getElementById("all-user");
+    const myPage = document.getElementById("my-page");
+    const logout = document.getElementById("logout");
+    console.log("myPage = ", myPage);
+    allUser.remove();
+    myPage.remove();
+    logout.remove();
+    temp.id = "login-signup";
+    temp.innerHTML = `<a class="category_btn" href="/login">로그인/회원가입</a>`;
+    navMenu.append(temp);
   }
 }
+
+function logout() {
+  console.log("로그아웃");
+}
+
 updateLoginStatus();
 
 const searchBooks = () => {
@@ -99,8 +124,6 @@ function displayPosts() {
       const { posts } = response;
       if (posts) {
         posts.forEach(x => {
-          console.log(x);
-          // console.log(x)
           const postResult = document.createElement("div");
           postResult.innerHTML = `<div class="item" >
                                     <div class="front">
@@ -115,6 +138,10 @@ function displayPosts() {
                                       <h3>${x.nickname}</h3>
                                     </div>
                                   </div>`;
+          postResult.addEventListener("click", function () {
+            // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
+            window.location.href = `/posts/${x.postId}`;
+          });
           postsList.append(postResult);
         });
       } else {
@@ -140,37 +167,41 @@ async function displayFollowingPosts() {
     .then(function (response) {
       return response.json();
     })
-    .then(function (result) {
-      var posts = result.posts;
-      console.log("follow=posts", posts);
-      if (posts && posts.length > 0) {
-        for (var i = 0; i < posts.length; i++) {
-          var post = posts[i];
-
-          var postContainer = document.createElement("div");
-          postContainer.className = "post-container";
-
-          var postTitle = document.createElement("h3");
-          postTitle.className = "post-title";
-          postTitle.textContent = post.title;
-
-          var postContent = document.createElement("p");
-          postContent.className = "post-content";
-          postContent.textContent = post.content;
-          postContainer.appendChild(postTitle);
-          postContainer.appendChild(postContent);
-          postsList.appendChild(postContainer);
-        }
+    .then(function (response) {
+      const { posts } = response;
+      if (posts) {
+        posts.forEach(x => {
+          console.log(x);
+          // console.log(x)
+          const postResult = document.createElement("div");
+          postResult.innerHTML = `<div class="item" >
+                                  <div class="front">
+                                    <img
+                                      src="${x.img}"
+                                      alt=""
+                                      onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
+                                    />
+                                  </div>
+                                  <div class="movie-info">
+                                    <h2>${x.title}</h2>
+                                    <h3>${x.nickname}</h3>
+                                  </div>
+                                </div>`;
+          postResult.addEventListener("click", function () {
+            // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
+            window.location.href = `/posts/${x.postId}`;
+          });
+          postsList.append(postResult);
+        });
       } else {
-        var noPostsMessage = document.createElement("p");
+        var noPostsMessage = document.createElement("li");
         noPostsMessage.className = "no-results";
         noPostsMessage.textContent = "게시글이 없습니다.";
-
         postsList.appendChild(noPostsMessage);
       }
     })
     .catch(function (error) {
-      console.error("게시글 가져오기 오류:", error);
+      console.error("Error fetching posts:", error);
     });
 }
 
@@ -184,5 +215,4 @@ async function initializePage() {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
   }
 }
-
 initializePage();
