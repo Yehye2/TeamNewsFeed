@@ -103,3 +103,26 @@ async function getPosts() {
   }
 }
 getPosts();
+
+// 좋아요 조회
+async function getLikes() {
+  const like = document.querySelector(".like");
+
+  try {
+    const response = await fetch(`/api/likes/${postId}`);
+    const result = await response.json();
+    if (result.errorMessage) {
+      return console.log(result.errorMessage);
+    }
+    console.log(`result : ${result}`);
+    console.log(result.data);
+    // 조회가 되는가? 유저가 이 게시물에 좋아요를 눌렀는가?
+    if (result.data) {
+      like.classList.remove("liked");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+getLikes();
