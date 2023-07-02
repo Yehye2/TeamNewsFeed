@@ -47,8 +47,6 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
-const searchBtn = document.getElementById("search-btn");
-searchBtn.addEventListener("click", searchBooks);
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -158,6 +156,36 @@ async function displayFollowingPosts() {
       console.error("Error fetching posts:", error);
     });
 }
+
+const nav = document.querySelector("nav ul");
+const logoutButton = document.createElement("li");
+logoutButton.innerHTML = `<button class="logout-btn" id="logoutButton">로그아웃</button>`;
+nav.appendChild(logoutButton);
+
+const logoutButtonElement = document.getElementById("logoutButton");
+
+logoutButtonElement.addEventListener("click", async () => {
+  try {
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result.message);
+      // 로그아웃 성공 시 페이지 리로드 또는 다른 동작 수행
+      location.reload();
+    } else {
+      const result = await response.json();
+      console.log(result.errorMessage);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 searchBooks();
 displayBestsellers();

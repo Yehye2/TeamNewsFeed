@@ -93,3 +93,22 @@ nav input:focus {
   background-color: #0f2027;
   color: #fff;
 }
+
+.logout-btn {
+  background-color: #fff;
+  border: none;
+  border-radius: 3px;
+  color: #0f2027;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  height: 31px;
+  margin-left: 10px;
+  padding: 0 10px;
+  transition: 0.5s;
+}
+
+.logout-btn:hover {
+  background-color: #0f2027;
+  color: #fff;
+}
