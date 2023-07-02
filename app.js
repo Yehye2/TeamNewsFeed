@@ -8,7 +8,7 @@ const postsRouter = require("./routes/posts");
 const likesRouter = require("./routes/likes");
 const followRouter = require("./routes/followers");
 const emailAuthRouter = require("./routes/emailAuth");
-const checkLoginRouter = require('./routes/checkLogin');
+const checkLoginRouter = require("./routes/checkLogin");
 const path = require("path");
 
 require("dotenv").config();
@@ -30,7 +30,7 @@ app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
-app.get("/profile", (req, res) => {
+app.get("/profile/:userId", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "profile.html"));
 });
 

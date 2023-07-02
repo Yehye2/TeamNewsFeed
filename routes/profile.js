@@ -86,7 +86,7 @@ router.get("/users/:userId/posts", async (req, res) => {
       console.log("작성한 게시물이 없습니다.");
     }
     // 조회된 게시물을 응답합니다.
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     console.log(error);
 
