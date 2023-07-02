@@ -1,6 +1,3 @@
-import myPage from "./myPageButton.js";
-myPage();
-
 // 회원가입 모달 관련 코드
 const signupButton = document.getElementById("signup-button");
 const signupModal = document.getElementById("signup-modal");
