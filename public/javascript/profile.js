@@ -1,17 +1,8 @@
-async function isLoggedIn() {
-  try {
-    const response = await fetch("/api/check-login");
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      throw new Error("Error checking login status");
-    }
-  } catch (error) {
-    console.error("Error checking login status:", error);
-    return false;
-  }
-}
+import myPage from "./myPageButton.js";
+myPage();
+
+const profileUrl = window.location.pathname;
+let userId = profileUrl.split("/profile/")[1];
 
 // 모달 띄우기 js 코드
 const openButton = document.getElementById("open-settings"); // 프로필 수정 버튼
@@ -103,8 +94,10 @@ async function createPost() {
 // 닉네임, 자기소개, 이미지 조회
 async function getProfile() {
   try {
-    let data = await isLoggedIn();
-    let userId = data.user.id;
+    // let data = await isLoggedIn();
+    // console.log(data.user.id);
+    // let userId = data.user.id;
+    // console.log(userId);
 
     let nicknameId = document.getElementById("nickname");
     let proImgId = document.getElementById("proImg");
@@ -142,8 +135,8 @@ async function getProfile() {
 // 팔로워 수 조회
 async function getFollowers() {
   try {
-    let data = await isLoggedIn();
-    let userId = data.user.id;
+    // let data = await isLoggedIn();
+    // let userId = data.user.id;
 
     const allFollowers = document.getElementById("followers-count");
     fetch(`/api/users/${userId}/followers`)
@@ -163,8 +156,8 @@ async function getFollowers() {
 // 해당 사용자의 게시글 수 조회
 async function getPostsCount() {
   try {
-    let data = await isLoggedIn();
-    let userId = data.user.id;
+    // let data = await isLoggedIn();
+    // let userId = data.user.id;
 
     const userPostsCount = document.getElementById("posts-count");
     fetch(`/api/users/${userId}/posts`)
@@ -183,28 +176,29 @@ async function getPostsCount() {
 
 // 해당 사용자의 게시글 조회
 async function getUserPosts() {
-  let data = await isLoggedIn();
-  let userId = data.user.id;
+  try {
+    // let data = await isLoggedIn();
+    // let userId = data.user.id;
 
-  let postImg = document.getElementById("post-img");
-  let postTitle = document.getElementById("post-title");
-  let postContent = document.getElementById("post-content");
-  const response = await fetch(`/api/users/${userId}/posts`);
-  const result = await response.json();
+    let postImg = document.getElementById("post-img");
+    let postTitle = document.getElementById("post-title");
+    let postContent = document.getElementById("post-content");
+    const response = await fetch(`/api/users/${userId}/posts`);
+    const result = await response.json();
 
-  $(".row-2").empty();
+    $(".row-2").empty();
 
-  result.forEach(item => {
-    let img = item.img;
-    // if (!img) {
-    //   img =
-    //     "https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg";
-    // }
+    result.forEach(item => {
+      let img = item.img;
+      // if (!img) {
+      //   img =
+      //     "https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg";
+      // }
 
-    let title = item.title;
-    let content = item.content;
+      let title = item.title;
+      let content = item.content;
 
-    let temp_html = `<div data-post-id="${item.postId}" class="post-container">
+      let temp_html = `<div data-post-id="${item.postId}" class="post-container">
                                   <div id="post-img">
                                       <img src="${img}" onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"/>
                                   </div>
@@ -213,18 +207,21 @@ async function getUserPosts() {
                                       <p>${content}</p>
                                   </div>
                               </div>`;
-    $(".row-2").append(temp_html);
-  });
-
-  const postCards = document.querySelectorAll(".post-container");
-  postCards.forEach(postCard => {
-    postCard.addEventListener("click", () => {
-      // Retrieve the postId from the clicked card
-      const postId = postCard.getAttribute("data-post-id");
-      // Redirect to the post detail page with the postId
-      window.location.href = `/posts/${postId}`;
+      $(".row-2").append(temp_html);
     });
-  });
+
+    const postCards = document.querySelectorAll(".post-container");
+    postCards.forEach(postCard => {
+      postCard.addEventListener("click", () => {
+        // Retrieve the postId from the clicked card
+        const postId = postCard.getAttribute("data-post-id");
+        // Redirect to the post detail page with the postId
+        window.location.href = `/posts/${postId}`;
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // 프로필 수정 모달창에 수정버튼 이벤트 추가
@@ -233,8 +230,8 @@ editProfileBtn.addEventListener("click", editProfile);
 
 async function editProfile() {
   try {
-    const data = await isLoggedIn();
-    const userId = data.user.id;
+    // const data = await isLoggedIn();
+    // const userId = data.user.id;
     const newNicknameInput = document.getElementById("newNickname").value;
     const newUrlInput = document.getElementById("newUrl").value;
     const newIntroductionInput = document.getElementById("newIntroduction").value;
