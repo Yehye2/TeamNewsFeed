@@ -195,10 +195,11 @@ async function initializePage() {
   const result = await isLoggedIn(); // 로그인 상태 확인
   // 로그인 상태인 경우
   if (!result.errorMessage) {
+    const allUsers = document.createElement("li");
+    allUsers.innerHTML = ``;
     const logoutButton = document.createElement("li");
     logoutButton.innerHTML = `<button class="logout-btn" id="logoutButton">로그아웃</button>`;
     nav.appendChild(logoutButton);
-
     const logoutButtonElement = document.getElementById("logoutButton");
 
     logoutButtonElement.addEventListener("click", async () => {

@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+}
+
+#user-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.user-card {
+  width: 150px;
+  height: 300px;
+}
+
+.img-box {
+  text-align: center;
+}
+
+.img-box > img {
+  width: inherit;
+  height: 180px;
+}
