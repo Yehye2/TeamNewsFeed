@@ -46,6 +46,7 @@ const searchBooks = () => {
           const searchResults = document.createElement("div");
           searchResults.innerHTML = `<div class="list-item">
                                       <div class="img-box">
+                                      <a href="${x.link}" target="_blank">
                                         <img class="book-img" src="${x.cover}" alt="" srcset="">
                                       </div>
                                     </div>`;
