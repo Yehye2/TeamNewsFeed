@@ -78,10 +78,38 @@ function displayBestsellers() {
     });
 }
 
+// async function getUserNickname() {
+//   let data = await isLoggedIn();
+//   let userId = data.user.id;
+
+//   fetch(`/api/users/${userId}`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json"
+//     }
+//   })
+//     .then(response => response.json())
+//     .then(data => {
+//       const userNickname = data;
+//       generatePostCards(userNickname);
+//     });
+// }
+// getUserNickname();
 function generatePostCards(posts, postsList) {
   posts.forEach(post => {
-    const postResult = document.createElement("div");
-    postResult.innerHTML = `<div class="item" >
+    const userId = post.UserId;
+    fetch(`/api/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        let userNickname = data.nickname;
+
+        const postResult = document.createElement("div");
+        postResult.innerHTML = `<div class="item" >
                               <div class="front">
                                 <img
                                   src="${post.img}"
@@ -91,19 +119,20 @@ function generatePostCards(posts, postsList) {
                               </div>
                               <div class="movie-info">
                                 <h2>${post.title}</h2>
-                                <h3 data-user-id=${post.UserId} >${post.nickname}</h3>
+                                <h3 data-user-id=${post.UserId} >${userNickname}</h3>
                               </div>
                             </div>`;
-    postResult.addEventListener("click", function (e) {
-      if (e.target.hasAttribute("data-user-id")) {
-        //닉네임 클릭 시 개인 페이지로
-        window.location.href = `/profile/${post.UserId}`;
-      } else {
-        window.location.href = `/posts/${post.postId}`;
-      }
-      // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
-    });
-    postsList.append(postResult);
+        postResult.addEventListener("click", function (e) {
+          if (e.target.hasAttribute("data-user-id")) {
+            //닉네임 클릭 시 개인 페이지로
+            window.location.href = `/profile/${post.UserId}`;
+          } else {
+            window.location.href = `/posts/${post.postId}`;
+          }
+          // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
+        });
+        postsList.append(postResult);
+      });
   });
 }
 
@@ -116,6 +145,7 @@ function displayPosts() {
     })
     .then(function (response) {
       const { posts } = response;
+
       if (posts) {
         generatePostCards(posts, postsList);
       } else {
@@ -169,8 +199,8 @@ logoutButtonElement.addEventListener("click", async () => {
     const response = await fetch("/api/auth/logout", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
 
     if (response.ok) {
