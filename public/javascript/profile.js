@@ -1,4 +1,4 @@
-import { updateLoginStatus } from "./isLoggedIn.js";
+import { updateLoginStatus, isLoggedIn } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
 myPage();
 updateLoginStatus();
@@ -170,15 +170,11 @@ async function getPostsCount() {
 // 해당 사용자의 게시글 조회
 async function getUserPosts() {
   try {
-    let postImg = document.getElementById("post-img");
-    let postTitle = document.getElementById("post-title");
-    let postContent = document.getElementById("post-content");
     const response = await fetch(`/api/users/${userId}/posts`);
     const result = await response.json();
 
     result.forEach(item => {
       let img = item.img;
-
       let title = item.title;
       let content = item.content;
 
@@ -252,3 +248,82 @@ async function editProfile() {
     console.log(error);
   }
 }
+
+// 팔로우 함수
+function follow() {
+  fetch(`/api/users/${userId}/follow`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(Object.values(data)[0]);
+      window.location.reload();
+    })
+    .catch(err => console.log(err));
+}
+
+const followBtn = document.getElementById("follow-btn");
+followBtn.addEventListener("click", follow);
+
+// 언팔로우 함수
+function unfollow() {
+  fetch(`/api/users/${userId}/unfollow`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(Object.values(data)[0]);
+      window.location.reload();
+    })
+    .catch(err => console.log(err));
+}
+
+const unfollowBtn = document.getElementById("unfollow-btn");
+unfollowBtn.addEventListener("click", unfollow);
+
+// 여기
+const nav = document.querySelector("nav ul");
+async function initializePage() {
+  const result = await isLoggedIn(); // 로그인 상태 확인
+  // 로그인 상태인 경우
+  if (!result.errorMessage) {
+    const logoutButton = document.createElement("li");
+    logoutButton.innerHTML = `<button class="logout-btn1" id="logoutButton">로그아웃</button>`;
+    nav.appendChild(logoutButton);
+
+    const logoutButtonElement = document.getElementById("logoutButton");
+
+    logoutButtonElement.addEventListener("click", async () => {
+      try {
+        const response = await fetch("/api/auth/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result.message);
+          // 로그아웃 성공 시 페이지 리로드 또는 다른 동작 수행
+          location.reload();
+        } else {
+          const result = await response.json();
+          console.log(result.errorMessage);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  } else {
+    console.log("에러");
+  }
+}
+
+initializePage();

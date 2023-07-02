@@ -5,6 +5,7 @@ export default function myPage() {
   myPageButton.addEventListener("click", async e => {
     try {
       const result = await isLoggedIn();
+
       if (result.errorMessage) {
         window.location.href = `/login`;
       } else {

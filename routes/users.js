@@ -74,7 +74,7 @@ router.post("/users/signup", async (req, res) => {
   }
 });
 
-// 모든 유저의 닉네임 유저아이디 가져오김
+// 모든 유저의 닉네임 유저아이디 가져오기
 router.get("/users/all-users", middleware, async (req, res) => {
   const { userId } = res.locals.user;
   // 자신을 제외한 모든 유저정보 가져오기

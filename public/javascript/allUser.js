@@ -1,3 +1,6 @@
+const profileUrl = window.location.pathname;
+let userId = profileUrl.split("/profile/")[1];
+
 function allUsers() {
   try {
     console.log("모든 유저 가져오기");
@@ -43,34 +46,4 @@ function allUsers() {
   }
 }
 
-function follow(userId) {
-  console.log("팔로우", userId);
-  fetch(`api/users/${userId}/follow`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => console.log(err));
-}
-
-function unfollow(userId) {
-  console.log("팔로우취소", userId);
-  fetch(`api/users/${userId}/unfollow`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => console.log(err));
-}
-
-allUsers();
+// allUsers();

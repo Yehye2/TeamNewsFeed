@@ -162,8 +162,8 @@ async function displayFollowingPosts() {
 
 searchBooks();
 displayBestsellers();
-const nav = document.querySelector("nav ul");
 
+const nav = document.querySelector("nav ul");
 async function initializePage() {
   const result = await isLoggedIn(); // 로그인 상태 확인
   // 로그인 상태인 경우

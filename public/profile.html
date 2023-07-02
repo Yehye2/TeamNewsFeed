@@ -11,6 +11,13 @@
   <link rel="stylesheet" href="/assets/header.css" />
   <title>Profile Page</title>
   <script type="module" src="/javascript/profile.js" defer></script>
+  <style>
+    .logout-btn1 {
+      background-color: transparent;
+      border: none;
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
@@ -76,7 +83,8 @@
         <div class="post-follow">
           <p>팔로워: <span id="followers-count">0</span></p>
           <p>게시글: <span id="posts-count">0</span></p>
-          <button><a id="popular" class="category_btn" href="/profile/allUser">팔로우</a></button>
+          <button id="follow-btn" class="category_btn">팔로우</button>
+          <button id="unfollow-btn">언팔로우</button>
           <button id="open-post">게시글 작성</button>
           <!-- 게시글 작성 버튼 -->
         </div>
@@ -116,6 +124,9 @@
       <!-- 게시물 더미데이터 삭제했습니다 -->
     </div>
   </div>
+
+  <script src="./javascript/allUser.js"></script>
+
 </body>
 
 </html>
