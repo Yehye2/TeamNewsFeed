@@ -1,137 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-      crossorigin="anonymous"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/assets/profile.css" />
-    <link rel="stylesheet" href="/assets/header.css" />
-    <title>Profile Page</title>
-    <script type="module" src="/javascript/profile.js" defer></script>
-  </head>
 
-  <body>
-    <!-- 헤더 -->
-    <nav>
-      <a id="home" href="/">
-        <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
-      </a>
-      <ul>
-        <li>
-          <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
-        </li>
-        <li>
-          <a id="my-page" class="category_btn">마이페이지</a>
-        </li>
-        <li>
-          <span id="loginStatus"></span>
-        </li>
-      </ul>
-    </nav>
-    <div class="profile-header">
-      <div id="profileModal" class="modal hidden">
-        <div class="modal_overlay"></div>
-        <div class="modal_content">
-          <h1>프로필 수정</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/assets/profile.css" />
+  <link rel="stylesheet" href="/assets/header.css" />
+  <title>Profile Page</title>
+  <script type="module" src="/javascript/profile.js" defer></script>
+</head>
+
+<body>
+  <!-- 헤더 -->
+  <nav>
+    <a id="home" href="/">
+      <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
+    </a>
+    <ul>
+      <li>
+        <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
+      </li>
+      <li>
+        <a id="my-page" class="category_btn">마이페이지</a>
+      </li>
+      <li>
+        <span id="loginStatus"></span>
+      </li>
+    </ul>
+  </nav>
+  <div class="profile-header">
+    <div id="profileModal" class="modal hidden">
+      <div class="modal_overlay"></div>
+      <div class="modal_content">
+        <h1>프로필 수정</h1>
+        <div class="input-group">
+          <div class="input-form">
+            <input type="text" class="form-control" id="newNickname" placeholder="수정할 닉네임을 입력하세요." />
+            <input type="text" class="form-control" id="newUrl" placeholder="이미지 URL을 넣어주세요." />
+            <input type="text" class="form-control" id="newPassword" placeholder="패스워드를 입력하세요." />
+            <input type="text" class="form-control" id="newConfirmPassword" placeholder="패스워드를 한번 더 입력하세요." />
+            <input type="text" class="form-control-content" id="newIntroduction" placeholder="한마디를 작성해주세요." />
+          </div>
+          <div class="modal-btn">
+            <button id="editProfileBtn">수정</button>
+            <button id="settingsModal-close">취소</button>
+            <!-- 프로필 수정 모달에 있는 취소 버튼 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 프로필 정보  -->
+  <div class="container-1">
+    <div class="row">
+      <div class="profile-img">
+        <img id="proImg"
+          src="https://item.kakaocdn.net/do/dc9561970173c28a13654c3f14180b4b617ea012db208c18f6e83b1a90a7baa7" />
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-nickname">
+          <h2 id="nickname">닉네임 입니다.</h2>
+          <div class="profile-settings">
+            <button id="open-settings">프로필 수정</button>
+            <!-- 프로필 수정 버튼 -->
+          </div>
+        </div>
+
+        <div class="post-follow">
+          <p>팔로워: <span id="followers-count">0</span></p>
+          <p>게시글: <span id="posts-count">0</span></p>
+          <button>팔로우</button>
+          <button id="open-post">게시글 작성</button>
+          <!-- 게시글 작성 버튼 -->
+        </div>
+        <div class="profile-introduction">
+          <p id="introduction"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 게시글 작성 모달창 -->
+    <div id="postModal" class="postModal hidden">
+      <div class="postModal_overlay"></div>
+      <div class="postModal_content">
+        <h1>게시글 작성</h1>
+        <form action="" id="create_post">
           <div class="input-group">
             <div class="input-form">
-              <input type="text" class="form-control" id="newNickname" placeholder="수정할 닉네임을 입력하세요." />
-              <input type="text" class="form-control" id="newUrl" placeholder="이미지 URL을 넣어주세요." />
-              <input type="text" class="form-control" id="newPassword" placeholder="패스워드를 입력하세요." />
-              <input type="text" class="form-control" id="newConfirmPassword" placeholder="패스워드를 한번 더 입력하세요." />
-              <input type="text" class="form-control-content" id="newIntroduction" placeholder="한마디를 작성해주세요." />
+              <input id="title" type="text" class="form-control" placeholder="제목을 작성하세요." />
+              <input id="img" type="text" class="form-control" placeholder="이미지 URL을 넣어주세요." />
+              <input id="content" type="text" class="form-control-content" placeholder="본문을 작성하세요." />
             </div>
-            <div class="modal-btn">
-              <button id="editProfileBtn">수정</button>
-              <button id="settingsModal-close">취소</button>
-              <!-- 프로필 수정 모달에 있는 취소 버튼 -->
+            <div class="postModal-btn">
+              <button type="button" id="post-btn">게시글등록</button>
+              <!-- <button>게시글 등록</button> -->
+              <button id="postModal-close">취소</button>
+              <!-- 게시글 작성 모달에 있는 취소 버튼 -->
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 게시글 정보 -->
+  <div class="container-2">
+    <div class="row-2">
+      <div class="post-container">
+        <div id="post-img">
+          <img src="https://image.yes24.com/goods/102347474/XL" />
+        </div>
+        <div class="post-text">
+          <h3>게시글 제목</h3>
+          <p>게시글 샘플입니다.</p>
+        </div>
+      </div>
+      <div class="post-container">
+        <div id="post-img">
+          <img src="https://image.yes24.com/goods/102347474/XL" />
+        </div>
+        <div class="post-text">
+          <h3>게시글 제목</h3>
+          <p>게시글 샘플입니다.</p>
         </div>
       </div>
     </div>
+  </div>
+</body>
 
-    <!-- 프로필 정보  -->
-    <div class="container-1">
-      <div class="row">
-        <div class="profile-img">
-          <img id="proImg" src="https://item.kakaocdn.net/do/dc9561970173c28a13654c3f14180b4b617ea012db208c18f6e83b1a90a7baa7" />
-        </div>
-
-        <div class="profile-section">
-          <div class="profile-nickname">
-            <h2 id="nickname">닉네임 입니다.</h2>
-            <div class="profile-settings">
-              <button id="open-settings">프로필 수정</button>
-              <!-- 프로필 수정 버튼 -->
-            </div>
-          </div>
-
-          <div class="post-follow">
-            <p>팔로워: <span id="followers-count">0</span></p>
-            <p>게시글: <span id="posts-count">0</span></p>
-            <button>팔로우</button>
-            <button id="open-post">게시글 작성</button>
-            <!-- 게시글 작성 버튼 -->
-          </div>
-          <div class="profile-introduction">
-            <p id="introduction"></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 게시글 작성 모달창 -->
-      <div id="postModal" class="postModal hidden">
-        <div class="postModal_overlay"></div>
-        <div class="postModal_content">
-          <h1>게시글 작성</h1>
-          <form action="" id="create_post">
-            <div class="input-group">
-              <div class="input-form">
-                <input id="title" type="text" class="form-control" placeholder="제목을 작성하세요." />
-                <input id="img" type="text" class="form-control" placeholder="이미지 URL을 넣어주세요." />
-                <input id="content" type="text" class="form-control-content" placeholder="본문을 작성하세요." />
-              </div>
-              <div class="postModal-btn">
-                <button type="button" onclick="createPost()">게시글등록</button>
-                <!-- <button>게시글 등록</button> -->
-                <button id="postModal-close">취소</button>
-                <!-- 게시글 작성 모달에 있는 취소 버튼 -->
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- 게시글 정보 -->
-    <div class="container-2">
-      <div class="row-2">
-        <div class="post-container">
-          <div id="post-img">
-            <img src="https://image.yes24.com/goods/102347474/XL" />
-          </div>
-          <div class="post-text">
-            <h3>게시글 제목</h3>
-            <p>게시글 샘플입니다.</p>
-          </div>
-        </div>
-        <div class="post-container">
-          <div id="post-img">
-            <img src="https://image.yes24.com/goods/102347474/XL" />
-          </div>
-          <div class="post-text">
-            <h3>게시글 제목</h3>
-            <p>게시글 샘플입니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
 </html>

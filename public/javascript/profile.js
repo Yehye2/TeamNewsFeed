@@ -91,6 +91,9 @@ async function createPost() {
   }
 }
 
+const postBtn = document.getElementById("post-btn");
+postBtn.addEventListener("click", createPost);
+
 // 닉네임, 자기소개, 이미지 조회
 async function getProfile() {
   try {
