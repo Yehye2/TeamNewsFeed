@@ -52,4 +52,19 @@ router.delete("/:postId/unlike", authMiddleware, async (req, res) => {
   return res.status(200).json({ message: "좋아요를 취소했습니다." });
 });
 
+// 좋아요 조회
+router.get("/likes/:postId", authMiddleware, async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const { userId } = res.locals.user;
+
+    const { likes } = await Likes.findOne({
+      where: { UserId: userId, PostId: postId }
+    });
+    res.status(200).json({ data: likes });
+  } catch (error) {
+    res.status(400).json({ errorMessage: "좋아요 조회에 실패했습니다." });
+  }
+});
+
 module.exports = router;

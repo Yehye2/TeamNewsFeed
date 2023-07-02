@@ -1,0 +1,12 @@
+.like {
+  width: 50px;
+  height: 50px;
+  background-image: url("../img/dislike.png");
+  background-size: contain;
+  cursor: pointer;
+}
+.liked {
+  background-image: url("../img/like.png");
+  background-size: contain;
+  cursor: pointer;
+}
