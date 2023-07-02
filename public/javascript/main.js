@@ -47,6 +47,8 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
+const searchBtn = document.getElementById("search-btn");
+searchBtn.addEventListener("click", searchBooks);
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
