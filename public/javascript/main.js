@@ -77,6 +77,35 @@ function displayBestsellers() {
     });
 }
 
+function generatePostCards(posts, postsList) {
+  posts.forEach(post => {
+    const postResult = document.createElement("div");
+    postResult.innerHTML = `<div class="item" >
+                              <div class="front">
+                                <img
+                                  src="${post.img}"
+                                  alt=""
+                                  onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
+                                />
+                              </div>
+                              <div class="movie-info">
+                                <h2>${post.title}</h2>
+                                <h3 data-user-id=${post.UserId} >${post.nickname}</h3>
+                              </div>
+                            </div>`;
+    postResult.addEventListener("click", function (e) {
+      if (e.target.hasAttribute("data-user-id")) {
+        //닉네임 클릭 시 개인 페이지로
+        window.location.href = `/profile/${post.UserId}`;
+      } else {
+        window.location.href = `/posts/${post.postId}`;
+      }
+      // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
+    });
+    postsList.append(postResult);
+  });
+}
+
 function displayPosts() {
   const postsList = document.getElementById("posts-list");
   console.log("postsList = ", postsList);
@@ -87,33 +116,7 @@ function displayPosts() {
     .then(function (response) {
       const { posts } = response;
       if (posts) {
-        posts.forEach(post => {
-          console.log(post);
-          // console.log(x)
-          const postResult = document.createElement("div");
-          postResult.innerHTML = `<div class="item" >
-                                    <div class="front">
-                                      <img
-                                        src="${post.img}"
-                                        alt=""
-                                        onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
-                                      />
-                                    </div>
-                                    <div class="movie-info">
-                                      <h2>${post.title}</h2>
-                                      <h3 data-user-id=${post.UserId} >${post.nickname}</h3>
-                                    </div>
-                                  </div>`;
-          postResult.addEventListener("click", function (e) {
-            if (e.target.hasAttribute("data-user-id")) {
-              window.location.href = `/${post.UserId}`;
-            } else {
-              window.location.href = `/posts/${post.postId}`;
-            }
-            // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
-          });
-          postsList.append(postResult);
-        });
+        generatePostCards(posts, postsList);
       } else {
         var noPostsMessage = document.createElement("li");
         noPostsMessage.className = "no-results";
@@ -140,29 +143,7 @@ async function displayFollowingPosts() {
     .then(function (response) {
       const { posts } = response;
       if (posts) {
-        posts.forEach(x => {
-          console.log(x);
-          // console.log(x)
-          const postResult = document.createElement("div");
-          postResult.innerHTML = `<div class="item" >
-                                  <div class="front">
-                                    <img
-                                      src="${x.img}"
-                                      alt=""
-                                      onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
-                                    />
-                                  </div>
-                                  <div class="movie-info">
-                                    <h2>${x.title}</h2>
-                                    <h3>${x.nickname}</h3>
-                                  </div>
-                                </div>`;
-          postResult.addEventListener("click", function () {
-            // 이미지 클릭 시 상세 페이지로 이동하는 로직을 작성합니다.
-            window.location.href = `/posts/${x.postId}`;
-          });
-          postsList.append(postResult);
-        });
+        generatePostCards(posts, postsList);
       } else {
         var noPostsMessage = document.createElement("li");
         noPostsMessage.className = "no-results";
@@ -178,9 +159,10 @@ async function displayFollowingPosts() {
 searchBooks();
 displayBestsellers();
 async function initializePage() {
-  const loggedIn = await isLoggedIn(); // 로그인 상태 확인
-  console.log(loggedIn);
-  if (loggedIn) {
+  const result = await isLoggedIn(); // 로그인 상태 확인
+  //로그인 상태가 아니면 에러메시지가 온다.
+  console.log(result);
+  if (!result.errorMessage) {
     displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
   } else {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
