@@ -47,6 +47,9 @@ const searchBooks = () => {
       console.error("Error searching books:", error);
     });
 };
+const searchBtn = document.getElementById("search-btn");
+searchBtn.addEventListener("click", searchBooks);
+
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -169,8 +172,8 @@ logoutButtonElement.addEventListener("click", async () => {
     const response = await fetch("/api/auth/logout", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
 
     if (response.ok) {
