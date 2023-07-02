@@ -3,6 +3,7 @@ const router = express.Router();
 const { Users } = require("../models");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
+const middleware = require("../middlewares/auth-middleware");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -73,4 +74,17 @@ router.post("/users/signup", async (req, res) => {
   }
 });
 
+// 모든 유저의 닉네임 유저아이디 가져오김
+router.get("/users/all-users", middleware, async (req, res) => {
+  const { userId } = res.locals.user;
+  // 자신을 제외한 모든 유저정보 가져오기
+  const allUsers = await Users.findAll({
+    where: {
+      userId: { [Op.ne]: userId }
+    },
+    attributes: ["userId", "nickname", "profileImage"]
+  });
+
+  res.status(200).json({ usersData: allUsers });
+});
 module.exports = router; // router 모듈을 외부로 내보냅니다.

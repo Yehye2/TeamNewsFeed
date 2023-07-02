@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>모든 유저들</title>
+    <link rel="stylesheet" href="./assets/allUsers.css" />
+    <link rel="stylesheet" href="./assets/header.css" />
+    <link rel="stylesheet" href="./assets/container.css" />
+    <script src="./javascript/allUser.js" defer></script>
+    <script src="./javascript/logout.js"></script>
+  </head>
+  <body>
+    <nav>
+      <a id="home" href="/">
+        <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
+      </a>
+      <ul>
+        <li id="all-user">
+          <a class="category_btn" href="/allUser">모든 유저</a>
+        </li>
+        <li>
+          <a id="top_rated" class="category_btn" href="/profile">마이페이지</a>
+        </li>
+        <li>
+          <a id="popular" class="category_btn" onclick="logout()" href="/">로그아웃</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="main-container">
+      <section class="section-box">
+        <div>
+          <h1 class="title">유저 검색</h1>
+          <div class="search-form">
+            <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title" />
+            <button onclick="searchBooks()" class="search-button">Search</button>
+          </div>
+        </div>
+        <div id="searchResults" class="result-list"></div>
+      </section>
+      <section class="section-box">
+        <h2>모든 유저</h2>
+        <div id="user-list"></div>
+      </section>
+    </div>
+  </body>
+</html>
