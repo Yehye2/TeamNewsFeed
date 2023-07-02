@@ -58,3 +58,22 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+.commentbox {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  width: 100%;
+}
+.comment {
+  width: 900px;
+}
+
+.commentbtn {
+  float: right;
+  cursor: pointer;
+  padding: 10px;
+  color: #aaa;
+  outline: none;
+}
