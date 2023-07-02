@@ -78,23 +78,6 @@ function displayBestsellers() {
     });
 }
 
-// async function getUserNickname() {
-//   let data = await isLoggedIn();
-//   let userId = data.user.id;
-
-//   fetch(`/api/users/${userId}`, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json"
-//     }
-//   })
-//     .then(response => response.json())
-//     .then(data => {
-//       const userNickname = data;
-//       generatePostCards(userNickname);
-//     });
-// }
-// getUserNickname();
 function generatePostCards(posts, postsList) {
   posts.forEach(post => {
     const userId = post.UserId;
