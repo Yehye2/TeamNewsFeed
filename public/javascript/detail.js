@@ -1,3 +1,18 @@
+async function isLoggedIn() {
+  try {
+    const response = await fetch("/api/check-login");
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("Error checking login status");
+    }
+  } catch (error) {
+    console.error("Error checking login status:", error);
+    return false;
+  }
+}
+
 // 페이지 url에서 postId 추출
 const url = window.location.pathname;
 const postId = url.split("/posts/")[1];
