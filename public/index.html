@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>메인페이지</title>
+  <link rel="stylesheet" href="./assets/index.css" />
+  <link rel="stylesheet" href="./assets/header.css" />
+</head>
+
+<!-- <header>
+  <h1>My Website</h1>
+  <span id="loginStatus"></span>
+</header> -->
+
 <body>
-  <nav id="nav">
+  <nav>
     <a id="home" href="/">
       <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
     </a>
-    <ul id="nav-menu">
+    <ul>
       <li id="all-user">
-        <a class="category_btn" href="/all-user">모든 유저</a>
-      </li>
+        <a class="category_btn" href="/allUser">모든 유저</a>
       <li>
-        <a id="login-signup" class="category_btn" href="/login">로그인/회원가입</a>
+        <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
       </li>
       <li>
         <a id="my-page" class="category_btn">마이페이지</a>
@@ -30,19 +42,18 @@
           <button id="search-btn" class="search-button">Search</button>
         </div>
       </div>
-  </div>
-  <div id="searchResults" class="result-list"></div>
-  </section>
-  <section class="section-box">
-    <div class="bestsellers">
-      <h2>Bestsellers</h2>
-      <ul id="bestsellersList" class="bestsellers-list"></ul>
-    </div>
-  </section>
-  <section class="section-box">
-    <h2>Posts</h2>
-    <div id="posts-list"></div>
-  </section>
+      <div id="searchResults" class="result-list"></div>
+    </section>
+    <section class="section-box">
+      <div class="bestsellers">
+        <h2>Bestsellers</h2>
+        <ul id="bestsellersList" class="bestsellers-list"></ul>
+      </div>
+    </section>
+    <section class="section-box">
+      <h2>Posts</h2>
+      <div id="posts-list"></div>
+    </section>
   </div>
 </body>
 <script type="module" src="./javascript/main.js"></script>

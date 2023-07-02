@@ -19,10 +19,6 @@ router.get("/posts/:postId", (req, res) => {
   res.sendFile(path.join(__dirname, "../detail.html"));
 });
 
-router.get("/all-user", (req, res) => {
-  res.sendFile(path.join(__dirname, "../allUser.html"));
-});
-
 router.get("/search", (req, res) => {
   const query = req.query.q;
 
