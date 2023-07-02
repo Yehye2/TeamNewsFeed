@@ -101,18 +101,18 @@ function generatePostCards(posts, postsList) {
 
         const postResult = document.createElement("div");
         postResult.innerHTML = `<div class="item" >
-                              <div class="front">
-                                <img
-                                  src="${post.img}"
-                                  alt=""
-                                  onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
-                                />
-                              </div>
-                              <div class="movie-info">
-                                <h2>${post.title}</h2>
-                                <h3 data-user-id=${post.UserId} >${userNickname}</h3>
-                              </div>
-                            </div>`;
+                                  <div class="front">
+                                    <img
+                                      src="${post.img}"
+                                      alt=""
+                                      onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
+                                    />
+                                  </div>
+                                  <div class="movie-info">
+                                    <h2>${post.title}</h2>
+                                    <h3 data-user-id=${post.UserId} >${userNickname}</h3>
+                                  </div>
+                                </div>`;
         postResult.addEventListener("click", function (e) {
           if (e.target.hasAttribute("data-user-id")) {
             //닉네임 클릭 시 개인 페이지로
