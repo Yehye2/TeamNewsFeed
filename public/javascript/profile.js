@@ -189,22 +189,22 @@ async function getUserPosts() {
   let postImg = document.getElementById("post-img");
   let postTitle = document.getElementById("post-title");
   let postContent = document.getElementById("post-content");
-  fetch(`/api/users/${userId}/posts`)
-    .then(response => response.json())
-    .then(data => {
-      $(".row-2").empty();
+  const response = await fetch(`/api/users/${userId}/posts`);
+  const result = await response.json();
 
-      let results = data.forEach(item => {
-        let img = item.img;
-        // if (!img) {
-        //   img =
-        //     "https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg";
-        // }
+  $(".row-2").empty();
 
-        let title = item.title;
-        let content = item.content;
+  result.forEach(item => {
+    let img = item.img;
+    // if (!img) {
+    //   img =
+    //     "https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg";
+    // }
 
-        let temp_html = `<div class="post-container">
+    let title = item.title;
+    let content = item.content;
+
+    let temp_html = `<div data-post-id="${item.postId}" class="post-container">
                                   <div id="post-img">
                                       <img src="${img}" onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"/>
                                   </div>
@@ -213,9 +213,18 @@ async function getUserPosts() {
                                       <p>${content}</p>
                                   </div>
                               </div>`;
-        $(".row-2").append(temp_html);
-      });
+    $(".row-2").append(temp_html);
+  });
+
+  const postCards = document.querySelectorAll(".post-container");
+  postCards.forEach(postCard => {
+    postCard.addEventListener("click", () => {
+      // Retrieve the postId from the clicked card
+      const postId = postCard.getAttribute("data-post-id");
+      // Redirect to the post detail page with the postId
+      window.location.href = `/posts/${postId}`;
     });
+  });
 }
 
 // 프로필 수정 모달창에 수정버튼 이벤트 추가

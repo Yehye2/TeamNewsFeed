@@ -2,55 +2,58 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <title>메인페이지</title>
-    <link rel="stylesheet" href="./assets/index.css" />
-    <link rel="stylesheet" href="./assets/header.css" />
-    <script src="./javascript/includeHTML.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <title>메인페이지</title>
+  <link rel="stylesheet" href="./assets/index.css" />
+  <link rel="stylesheet" href="./assets/header.css" />
 </head>
 
+<header>
+  <h1>My Website</h1>
+  <span id="loginStatus"></span>
+</header>
 
 <body>
-    <nav>
-        <a id="home" href="/">
-            <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
-        </a>
-        <ul>
-            <li>
-                <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
-            </li>
-            <li>
-                <a id="top_rated" class="category_btn" href="/profile">마이페이지</a>
-            </li>
-            <li>
-                <span id="loginStatus"></span>
-            </li>
-        </ul>
-    </nav>
-    <div class="main-container">
-        <section class="section-box">
-            <div>
-                <h1 class="title">Book Search</h1>
-                <div class="search-form">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title" />
-                    <button onclick="searchBooks()" class="search-button">Search</button>
-                </div>
-            </div>
-            <div id="searchResults" class="result-list"></div>
-        </section>
-        <section class="section-box">
-            <div class="bestsellers">
-                <h2>Bestsellers</h2>
-                <ul id="bestsellersList" class="bestsellers-list"></ul>
-            </div>
-        </section>
-        <section class="section-box">
-            <h2>Posts</h2>
-            <div id="posts-list"></div>
-        </section>
-    </div>
+  <nav>
+    <a id="home" href="/">
+      <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" alt="" />
+    </a>
+    <ul>
+      <li>
+        <a id="popular" class="category_btn" href="/login">로그인/회원가입</a>
+      </li>
+      <li>
+        <a id="top_rated" class="category_btn" href="/profile">마이페이지</a>
+      </li>
+      <li>
+        <span id="loginStatus"></span>
+      </li>
+    </ul>
+  </nav>
+  <div class="main-container">
+    <section class="section-box">
+      <div>
+        <h1 class="title">Book Search</h1>
+        <div class="search-form">
+          <input type="text" id="searchInput" class="search-input" placeholder="Enter a book title" />
+          <button onclick="searchBooks()" class="search-button">Search</button>
+        </div>
+      </div>
+      <div id="searchResults" class="result-list"></div>
+    </section>
+    <section class="section-box">
+      <div class="bestsellers">
+        <h2>Bestsellers</h2>
+        <ul id="bestsellersList" class="bestsellers-list"></ul>
+      </div>
+    </section>
+    <section class="section-box">
+      <h2>Posts</h2>
+      <div id="posts-list"></div>
+    </section>
+  </div>
 </body>
 <script src="./javascript/main.js"></script>
 
