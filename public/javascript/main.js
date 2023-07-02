@@ -130,7 +130,7 @@ function generatePostCards(posts, postsList) {
 
 function displayPosts() {
   const postsList = document.getElementById("posts-list");
-  fetch("api/posts")
+  fetch("/api/posts")
     .then(function (response) {
       return response.json();
     })
