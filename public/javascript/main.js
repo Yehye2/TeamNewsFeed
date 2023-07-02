@@ -38,7 +38,6 @@ const searchBooks = () => {
 };
 const searchBtn = document.getElementById("search-btn");
 searchBtn.addEventListener("click", searchBooks);
-
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
