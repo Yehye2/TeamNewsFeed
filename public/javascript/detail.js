@@ -28,9 +28,9 @@ postUpdateButton.addEventListener("click", e => {
   postUpdateModal.classList.replace("d-none", "show");
 });
 
-// 수정 모달 닫기
-postUpdateModalClose.addEventListener("click", () => {
-  postUpdateModal.classList.replace("show", "d-none");
+const postModalCloseButton = document.querySelector("#postModal-close");
+postModalCloseButton.addEventListener("click", () => {
+  postUpdateModal.classList.add("d-none");
 });
 
 // 수정 모달폼 - 수정하기 버튼
@@ -50,10 +50,11 @@ modalUpdateButton.addEventListener("click", async e => {
     });
     const result = await response.json();
     if (response.ok) {
-      console.log(result.message);
+      alert(Object.values(result)[0]);
       location.reload();
     } else {
-      console.log(result.errorMessage);
+      alert(Object.values(result)[0]);
+      location.reload();
     }
   } catch (error) {
     console.error(error);
