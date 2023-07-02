@@ -181,9 +181,11 @@ searchBooks();
 displayBestsellers();
 const nav = document.querySelector("nav ul");
 
+const allUserButton = document.getElementById("all-user");
+
 async function initializePage() {
   const result = await isLoggedIn(); // 로그인 상태 확인
-  // 로그인 상태인 경우
+
   if (!result.errorMessage) {
     const logoutButton = document.createElement("li");
     logoutButton.innerHTML = `<button class="logout-btn" id="logoutButton">로그아웃</button>`;
@@ -212,6 +214,11 @@ async function initializePage() {
       } catch (error) {
         console.error(error);
       }
+    });
+
+    allUserButton.style.display = "block"; // "모든 유저" 버튼을 보이도록 설정
+    allUserButton.addEventListener("click", () => {
+      window.location.href = "/allUser.html";
     });
 
     displayFollowingPosts(); // 로그인 상태인 경우 displayFollowingPosts() 실행
