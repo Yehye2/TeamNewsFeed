@@ -4,7 +4,6 @@
 
 body {
   font-family: Arial;
-  padding: 20px;
   background: #f1f1f1;
 }
 
@@ -40,7 +39,7 @@ body {
 .card {
   background-color: white;
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 50px;
   width: 900px;
   height: 700px;
 }

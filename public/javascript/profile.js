@@ -99,13 +99,7 @@ postBtn.addEventListener("click", createPost);
 // 닉네임, 자기소개, 이미지 조회
 async function getProfile() {
   try {
-    // let data = await isLoggedIn();
-    // console.log(data.user.id);
-    // let userId = data.user.id;
-    // console.log(userId);
-
     let nicknameId = document.getElementById("nickname");
-    let proImgId = document.getElementById("proImg");
     let introductionId = document.getElementById("introduction");
 
     fetch(`/api/users/${userId}`, {
@@ -140,9 +134,6 @@ async function getProfile() {
 // 팔로워 수 조회
 async function getFollowers() {
   try {
-    // let data = await isLoggedIn();
-    // let userId = data.user.id;
-
     const allFollowers = document.getElementById("followers-count");
     fetch(`/api/users/${userId}/followers`)
       .then(response => response.json())
@@ -161,9 +152,6 @@ async function getFollowers() {
 // 해당 사용자의 게시글 수 조회
 async function getPostsCount() {
   try {
-    // let data = await isLoggedIn();
-    // let userId = data.user.id;
-
     const userPostsCount = document.getElementById("posts-count");
     fetch(`/api/users/${userId}/posts`)
       .then(response => response.json())
@@ -182,23 +170,14 @@ async function getPostsCount() {
 // 해당 사용자의 게시글 조회
 async function getUserPosts() {
   try {
-    // let data = await isLoggedIn();
-    // let userId = data.user.id;
-
     let postImg = document.getElementById("post-img");
     let postTitle = document.getElementById("post-title");
     let postContent = document.getElementById("post-content");
     const response = await fetch(`/api/users/${userId}/posts`);
     const result = await response.json();
 
-    $(".row-2").empty();
-
     result.forEach(item => {
       let img = item.img;
-      // if (!img) {
-      //   img =
-      //     "https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg";
-      // }
 
       let title = item.title;
       let content = item.content;
