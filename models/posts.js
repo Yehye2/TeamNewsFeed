@@ -43,7 +43,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE" // 만약 Users 모델의 userId가 삭제되면, Posts 모델의 데이터가 삭제됩니다.
       },
-      nickname: { type: DataTypes.STRING, allowNull: false },
+      nickname: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       title: {
         allowNull: false,
         type: DataTypes.STRING

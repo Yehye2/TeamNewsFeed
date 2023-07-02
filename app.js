@@ -1,16 +1,7 @@
 const express = require("express");
-const axios = require("axios");
 const cookieParser = require("cookie-parser");
-const usersRouter = require("./routes/users");
-const authRouter = require("./routes/auth");
-const profileRouter = require("./routes/profile");
-const postsRouter = require("./routes/posts");
-const likesRouter = require("./routes/likes");
-const followRouter = require("./routes/followers");
-const emailAuthRouter = require("./routes/emailAuth");
-const checkLoginRouter = require("./routes/checkLogin");
-const path = require("path");
-const commentsRouter = require("./routes/comments");
+const routes = require("./routes");
+const pageRouter = require("./public/router");
 
 require("dotenv").config();
 
@@ -21,82 +12,8 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/api", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter, emailAuthRouter, checkLoginRouter, commentsRouter]);
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
-
-app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
-});
-
-app.get("/profile", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "profile.html"));
-});
-
-app.get("/posts/:postId", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "detail.html"));
-});
-
-app.get("/search", (req, res) => {
-  const query = req.query.q;
-
-  axios
-    .get("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx", {
-      params: {
-        ttbkey: "ttbtiwh11427001",
-        Query: query,
-        QueryType: "Title",
-        MaxResults: 10,
-        start: 1,
-        SearchTarget: "Book",
-        output: "js", // JSON 형식의 응답을 요청
-        Version: "20131101"
-      }
-    })
-    .then(response => {
-      const books = response.data.item;
-
-      if (books && books.length > 0) {
-        res.json(books);
-      } else {
-        res.json({ message: "No books found." });
-      }
-    })
-    .catch(error => {
-      console.error("Error searching books:", error);
-      res.status(500).json({ error: "An error occurred while searching books." });
-    });
-});
-
-app.get("/bestsellers", (req, res) => {
-  axios
-    .get("http://www.aladin.co.kr/ttb/api/ItemList.aspx", {
-      params: {
-        ttbkey: "ttbtiwh11427001",
-        QueryType: "BestSeller",
-        MaxResults: 5,
-        start: 1,
-        SearchTarget: "Book",
-        output: "js",
-        Version: "20131101"
-      }
-    })
-    .then(response => {
-      const bestsellers = response.data.item;
-
-      if (bestsellers && bestsellers.length > 0) {
-        res.json(bestsellers);
-      } else {
-        res.json({ message: "No bestsellers found." });
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching bestsellers:", error);
-      res.status(500).json({ error: "An error occurred while fetching bestsellers." });
-    });
-});
+app.use("/api", routes);
+app.use("/", pageRouter);
 
 app.listen(PORT, () => {
   console.log(PORT, "포트 번호로 서버가 실행되었습니다.");

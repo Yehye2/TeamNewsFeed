@@ -72,11 +72,12 @@ document.getElementById("login-form").addEventListener("submit", async e => {
       body: JSON.stringify({ email, password })
     });
 
-    if (response.ok) {
+    const result = await response.json();
+    if (result.message) {
       window.location.href = "/"; // 로그인 성공 후 이동할 페이지의 경로
     } else {
-      const errorData = await response.json();
-      console.error(errorData.errorMessage);
+      window.alert(`${result.errorMessage}`);
+      console.error(result.errorMessage);
     }
   } catch (error) {
     console.error("로그인에 실패했습니다.", error);
