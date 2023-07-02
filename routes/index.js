@@ -9,7 +9,8 @@ const likesRouter = require("./likes");
 const followRouter = require("./followers");
 const emailAuthRouter = require("./emailAuth");
 const checkLoginRouter = require("./checkLogin");
+const commentRouter = require("./comments");
 
-router.use("/", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter, emailAuthRouter, checkLoginRouter]);
+router.use("/", [usersRouter, profileRouter, authRouter, postsRouter, followRouter, likesRouter, emailAuthRouter, checkLoginRouter, commentRouter]);
 
 module.exports = router;

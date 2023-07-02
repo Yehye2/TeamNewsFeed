@@ -99,13 +99,7 @@ postBtn.addEventListener("click", createPost);
 // 닉네임, 자기소개, 이미지 조회
 async function getProfile() {
   try {
-    // let data = await isLoggedIn();
-    // console.log(data.user.id);
-    // let userId = data.user.id;
-    // console.log(userId);
-
     let nicknameId = document.getElementById("nickname");
-    let proImgId = document.getElementById("proImg");
     let introductionId = document.getElementById("introduction");
 
     fetch(`/api/users/${userId}`, {

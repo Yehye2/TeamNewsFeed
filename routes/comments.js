@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { Comments, Users } = require("../models");
+const { Comments } = require("../models");
 const authMiddleware = require("../middlewares/auth-middleware");
 
-router.post("/:postId/comments", authMiddleware, async (req, res) => {
+router.post(`/posts/:postId/comments`, authMiddleware, async (req, res) => {
   const PostId = req.params.postId;
   const UserId = res.locals.user.dataValues.userId;
-
   try {
     const { comment } = req.body;
 
@@ -28,19 +27,13 @@ router.post("/:postId/comments", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/:postId/comments", async (req, res) => {
+router.get("/posts/:postId/comments", async (req, res) => {
   const PostId = req.params.postId;
 
   const result = await Comments.findAll({
     where: { PostId },
-    include: [
-      {
-        model: Users,
-        attributes: ["nickname"]
-      }
-    ]
+    order: [["createdAt", "desc"]]
   });
-  console.log("comments = ", result);
   res.status(200).json({ data: result });
 });
 
