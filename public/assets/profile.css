@@ -247,7 +247,7 @@
 
 .container-1 .row .profile-section .post-follow {
   justify-content: center;
-  width: 100%;
+  width: 105%;
   display: inline-flex;
 }
 
@@ -266,7 +266,7 @@
 }
 
 .container-1 .row .profile-section .profile-introduction {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   background-color: white;
   border-radius: 10px;
 
