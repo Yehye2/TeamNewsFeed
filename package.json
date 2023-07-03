@@ -22,5 +22,6 @@
     "nodemon": "^2.0.22",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1"
-  }
+  },
+  "keywords": []
 }
