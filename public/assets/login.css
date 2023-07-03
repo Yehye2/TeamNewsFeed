@@ -1,3 +1,46 @@
+.login {
+  font-size: 5rem;
+  margin-left: 10px;
+  margin-right: auto;
+  padding: 10px;
+}
+.email-box {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  font-size: 1.3rem;
+}
+.password-box {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  font-size: 1.3rem;
+}
+.email-in {
+  border-radius: 5px;
+  width: 13.8rem;
+  height: 30px;
+}
+.password-in {
+  border-radius: 5px;
+  width: 12rem;
+  height: 30px;
+}
+.buttons{
+  padding: 5px;
+}
+.loginbutton {
+  border-radius: 5px;
+  width: 8rem;
+  padding: 2px;
+  margin-left: 20px;
+}
+.signupbutton {
+  border-radius: 5px;
+  width: 8rem;
+  padding: 2px;
+  margin-left: 20px;
+}
 .modal {
   display: none;
   position: fixed;
