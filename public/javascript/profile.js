@@ -1,7 +1,11 @@
-import { updateLoginStatus } from "./isLoggedIn.js";
+import { updateLoginStatus, isLoggedIn } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
-myPage();
-updateLoginStatus();
+
+$(document).ready(() => {
+  myPage();
+  updateLoginStatus();
+  initializePage();
+});
 
 const profileUrl = window.location.pathname;
 let userId = profileUrl.split("/profile/")[1];
@@ -134,9 +138,6 @@ async function getProfile() {
 // 팔로워 수 조회
 async function getFollowers() {
   try {
-    // let data = await isLoggedIn();
-    // let userId = data.user.id;
-
     const allFollowers = document.getElementById("followers-count");
     fetch(`/api/users/${userId}/followers`)
       .then(response => response.json())
@@ -155,9 +156,6 @@ async function getFollowers() {
 // 해당 사용자의 게시글 수 조회
 async function getPostsCount() {
   try {
-    // let data = await isLoggedIn();
-    // let userId = data.user.id;
-
     const userPostsCount = document.getElementById("posts-count");
     fetch(`/api/users/${userId}/posts`)
       .then(response => response.json())
@@ -176,24 +174,11 @@ async function getPostsCount() {
 // 해당 사용자의 게시글 조회
 async function getUserPosts() {
   try {
-    // let data = await isLoggedIn();
-    // let userId = data.user.id;
-
-    let postImg = document.getElementById("post-img");
-    let postTitle = document.getElementById("post-title");
-    let postContent = document.getElementById("post-content");
     const response = await fetch(`/api/users/${userId}/posts`);
     const result = await response.json();
 
-    $(".row-2").empty();
-
     result.forEach(item => {
       let img = item.img;
-      // if (!img) {
-      //   img =
-      //     "https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg";
-      // }
-
       let title = item.title;
       let content = item.content;
 
@@ -229,8 +214,6 @@ editProfileBtn.addEventListener("click", editProfile);
 
 async function editProfile() {
   try {
-    // const data = await isLoggedIn();
-    // const userId = data.user.id;
     const newNicknameInput = document.getElementById("newNickname").value;
     const newUrlInput = document.getElementById("newUrl").value;
     const newIntroductionInput = document.getElementById("newIntroduction").value;
@@ -265,5 +248,82 @@ async function editProfile() {
     window.location.reload();
   } catch (error) {
     console.log(error);
+  }
+}
+
+// 팔로우 함수
+function follow() {
+  fetch(`/api/users/${userId}/follow`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(Object.values(data)[0]);
+      window.location.reload();
+    })
+    .catch(err => console.log(err));
+}
+
+const followBtn = document.getElementById("follow-btn");
+followBtn.addEventListener("click", follow);
+
+// 언팔로우 함수
+function unfollow() {
+  fetch(`/api/users/${userId}/unfollow`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(Object.values(data)[0]);
+      window.location.reload();
+    })
+    .catch(err => console.log(err));
+}
+
+const unfollowBtn = document.getElementById("unfollow-btn");
+unfollowBtn.addEventListener("click", unfollow);
+
+// 여기
+const nav = document.querySelector("nav ul");
+async function initializePage() {
+  const result = await isLoggedIn(); // 로그인 상태 확인
+  // 로그인 상태인 경우
+  if (!result.errorMessage) {
+    const logoutButton = document.createElement("li");
+    logoutButton.innerHTML = `<button class="logout-btn1" id="logoutButton">로그아웃</button>`;
+    nav.appendChild(logoutButton);
+
+    const logoutButtonElement = document.getElementById("logoutButton");
+
+    logoutButtonElement.addEventListener("click", async () => {
+      try {
+        const response = await fetch("/api/auth/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result.message);
+          // 로그아웃 성공 시 페이지 리로드 또는 다른 동작 수행
+          window.location.href = "/";
+        } else {
+          const result = await response.json();
+          console.log(result.errorMessage);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  } else {
+    console.log("알 슈 없는 에뤄가 발생했슙니다.");
   }
 }

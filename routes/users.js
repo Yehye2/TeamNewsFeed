@@ -41,7 +41,7 @@ router.post("/users/signup", async (req, res) => {
       return;
     }
 
-    // 패스워드는 최소 4자, 닉네임과 같은 값이 포함되어ㅏ 있으면 에러
+    // 패스워드는 최소 4자, 닉네임과 같은 값이 포함되어 있으면 에러
 
     if (!passwordExp.test(password)) {
       res.status(412).json({ errorMessage: "패스워드는 최소 4자리 이상이어야합니다." });
@@ -70,12 +70,13 @@ router.post("/users/signup", async (req, res) => {
     });
     res.status(200).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
+    console.log(error);
+
     res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
   }
-  console.log(error);
 });
 
-// 모든 유저의 닉네임 유저아이디 가져오김
+// 모든 유저의 닉네임 유저아이디 가져오기
 router.get("/users/all-users", middleware, async (req, res) => {
   const { userId } = res.locals.user;
   // 자신을 제외한 모든 유저정보 가져오기

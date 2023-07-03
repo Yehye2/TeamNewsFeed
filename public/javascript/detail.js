@@ -1,7 +1,11 @@
 import { isLoggedIn, updateLoginStatus } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
-myPage();
-updateLoginStatus();
+
+$(document).ready(() => {
+  myPage();
+  updateLoginStatus();
+  getPosts();
+});
 
 // 페이지 url에서 postId 추출
 const url = window.location.pathname;
@@ -26,16 +30,16 @@ postModalCloseButton.addEventListener("click", () => {
 const modalUpdateButton = document.querySelector("#modalUpdateButton");
 
 modalUpdateButton.addEventListener("click", async e => {
-  console.log("수정 로직 실행");
   try {
     const title = document.querySelector("#update-title").value;
     const content = document.querySelector("#update-content").value;
+    const img = document.querySelector("#update-img").value;
     const response = await fetch(`/api/posts/${postId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ title, content })
+      body: JSON.stringify({ title, content, img })
     });
     const result = await response.json();
     if (response.ok) {
@@ -54,7 +58,6 @@ const postDeleteButton = document.querySelector("#postDelete");
 
 // 게시글 삭제 버튼에 이벤트 추가
 postDeleteButton.addEventListener("click", async e => {
-  console.log("삭제 버튼 클릭됨");
   try {
     const isDelete = confirm("정말 삭제하시겠습니까?");
     if (!isDelete) return;
@@ -87,42 +90,34 @@ async function getPosts() {
 
     const { post } = result;
 
-    // if 작성 날짜 추가 시, 년월일만을 createdAt에 할당
-    // const createdAt = post.createdAt.split("T")[0];
-
     const contentWrapper = document.querySelector(".content");
+    let postImg = post.img;
+    if (!post.img) {
+      postImg = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+    }
 
-    const postHtml = `<div class="card">
-                      <h2>${post.title}</h2>
-                      <h4>${post.nickname}</h4>
-                      <p>${post.content}</p>
-                    </div>`;
+    const postHtml = ` <div class="post-container-2">
+    <div class="card">
+      <div class="post-title">
+        <h2>${post.title}</h2>
+      </div>
+
+      <div class="post-nickname">
+        <h4>${post.nickname}</h4>
+      </div>
+
+      <div class="post-content">
+        <div class="post-img">
+          <img src="${postImg}">
+        </div>
+        <div class="post-contents">
+          <h6>
+            ${post.content}
+          </h6>
+        </div>
+      </div>`;
     contentWrapper.innerHTML = postHtml;
   } catch (error) {
     console.log(error);
   }
 }
-getPosts();
-
-// 좋아요 조회
-async function getLikes() {
-  const like = document.querySelector(".like");
-
-  try {
-    const response = await fetch(`/api/likes/${postId}`);
-    const result = await response.json();
-    if (result.errorMessage) {
-      return console.log(result.errorMessage);
-    }
-    console.log(`result : ${result}`);
-    console.log(result.data);
-    // 조회가 되는가? 유저가 이 게시물에 좋아요를 눌렀는가?
-    if (result.data) {
-      like.classList.remove("liked");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-getLikes();

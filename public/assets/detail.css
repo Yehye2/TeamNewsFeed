@@ -4,20 +4,93 @@
 
 body {
   font-family: Arial;
-  padding: 20px;
   background: #f1f1f1;
 }
 
+/* Header/Blog Title */
+.header {
+  padding: 30px;
+  font-size: 40px;
+  text-align: center;
+  background: white;
+}
+
+.post-container-2 {
+  border-radius: 5px;
+  background-color: gray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
+  margin: 4rem;
+  height: 800px;
+}
+
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+
+  width: 900px;
+  height: 700px;
+}
 
 .content {
   margin-top: 50px;
   display: flex;
   justify-content: center;
 
-  /* align-items: center; */
+  align-items: center;
   width: 100%;
 }
 
+.post-title {
+  height: 7rem;
+}
+
+.post-title h2 {
+  margin-top: 1.5rem;
+  font-size: 3rem;
+}
+
+.post-nickname {
+  height: 3rem;
+}
+
+.post-content {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  background-color: white;
+  width: 850px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.post-contents {
+  width: 384.27px;
+  margin: 4rem;
+  height: 300px;
+  overflow: auto;
+}
+
+.post-content h6 {
+  font-size: 2rem;
+  margin: 2rem;
+}
+
+.post-img {
+  width: 300px;
+  margin: 1rem;
+}
+
+.post-img img {
+  width: 100%;
+}
 .buttons {
   display: flex;
   justify-content: flex-end;
@@ -29,14 +102,6 @@ body {
   outline: none;
   background: none;
   margin-left: 10px;
-}
-
-.card {
-  background-color: white;
-  padding: 20px;
-  margin-top: 20px;
-  width: 900px;
-  height: 700px;
 }
 
 .footer {
@@ -136,8 +201,8 @@ body {
   width: 100%;
 }
 .comment {
-  margin-left:auto ;
-  margin-right:auto ;
+  margin-left: auto;
+  margin-right: auto;
   height: 70px;
   margin-bottom: 1rem;
   border-radius: 5px;
@@ -170,8 +235,8 @@ body {
 }
 
 .all-comments {
-  margin-left:auto ;
-  margin-right:auto ;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -183,7 +248,6 @@ body {
 }
 
 .comment-container {
-
   background-color: white;
   width: 850px;
   margin: 1rem;
@@ -197,5 +261,5 @@ body {
 }
 
 .comment-text {
-  color: black
+  color: black;
 }
