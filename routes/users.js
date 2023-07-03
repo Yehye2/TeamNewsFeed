@@ -70,9 +70,10 @@ router.post("/users/signup", async (req, res) => {
     });
     res.status(200).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
+    console.log(error);
+
     res.status(400).json({ errorMessage: "회원가입에 실패하였습니다." });
   }
-  console.log(error);
 });
 
 // 모든 유저의 닉네임 유저아이디 가져오기

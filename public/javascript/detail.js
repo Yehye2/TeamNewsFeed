@@ -33,12 +33,13 @@ modalUpdateButton.addEventListener("click", async e => {
   try {
     const title = document.querySelector("#update-title").value;
     const content = document.querySelector("#update-content").value;
+    const img = document.querySelector("#update-img").value;
     const response = await fetch(`/api/posts/${postId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ title, content })
+      body: JSON.stringify({ title, content, img })
     });
     const result = await response.json();
     if (response.ok) {
