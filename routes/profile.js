@@ -33,7 +33,6 @@ router.patch("/users/:userId", authMiddleware, async (req, res) => {
   const { nickname, profileImage, description, password, confirmPassword } = req.body;
   const nickNameExp = /^[a-z0-9]{3,}$/;
   const authorizedId = res.locals.user.dataValues.userId;
-  console.log(authorizedId);
 
   try {
     // userId를 기준으로 해당 사용자의 프로필을 조회합니다.

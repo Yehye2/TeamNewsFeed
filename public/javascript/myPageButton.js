@@ -2,6 +2,7 @@ import { isLoggedIn } from "./isLoggedIn.js";
 
 export default function myPage() {
   const myPageButton = document.querySelector("#my-page");
+
   myPageButton.addEventListener("click", async e => {
     try {
       const result = await isLoggedIn();

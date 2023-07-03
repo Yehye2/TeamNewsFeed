@@ -1,9 +1,8 @@
-const profileUrl = window.location.pathname;
-let userId = profileUrl.split("/profile/")[1];
+import myPage from "./myPageButton.js";
+myPage();
 
 function allUsers() {
   try {
-    console.log("모든 유저 가져오기");
     fetch("api/users/all-users")
       .then(function (response) {
         return response.json();
@@ -11,25 +10,26 @@ function allUsers() {
       .then(function (response) {
         const userList = document.getElementById("user-list");
         const { usersData } = response;
-        console.log("users = ", usersData);
         if (usersData) {
           usersData.forEach(x => {
-            console.log(x);
-            // console.log(x)
-            const userCard = document.createElement("div");
-            userCard.innerHTML = `<div id="user-list">
+            if (!x.profileImage) {
+              let profileImage = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+
+              const userCard = document.createElement("div");
+              userCard.innerHTML = `<div id="${x.userId}" >
                                     <div class="user-card">
-                                      <div class="img-box">
-                                        <img src="${x.profileImage}" alt="" onerror="src='https://item.kakaocdn.net/do/dc9561970173c28a13654c3f14180b4b617ea012db208c18f6e83b1a90a7baa7'" />
-                                      </div>
-                                      <h3>${x.nickname}</h3>
-                                      <div>
-                                        <button onclick="follow(${x.userId})">팔로우</button>
-                                        <button onclick="unfollow(${x.userId})">팔로우취소</button>
-                                      </div>
+                                     <div class="img-box">
+                                        <img src="${profileImage}" alt="" onerror="src='https://item.kakaocdn.net/do/dc9561970173c28a13654c3f14180b4b617ea012db208c18f6e83b1a90a7baa7'" />
                                     </div>
-                                  </div>`;
-            userList.append(userCard);
+                                     <h3>${x.nickname}</h3>
+                                  </div>
+                                </div>`;
+              userList.append(userCard);
+              userCard.addEventListener("click", e => {
+                const userId = userCard.firstChild.id;
+                window.location.href = `/profile/${userId}`;
+              });
+            }
           });
         } else {
           var noPostsMessage = document.createElement("li");
@@ -46,4 +46,29 @@ function allUsers() {
   }
 }
 
-// allUsers();
+allUsers();
+
+const logoutButtonElement = document.getElementById("logoutButton");
+
+logoutButtonElement.addEventListener("click", async () => {
+  try {
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result.message);
+      // 로그아웃 성공 시 페이지 리로드 또는 다른 동작 수행
+      window.location.href = "/";
+    } else {
+      const result = await response.json();
+      console.log(result.errorMessage);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});

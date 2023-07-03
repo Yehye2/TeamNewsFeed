@@ -1,7 +1,11 @@
 import { updateLoginStatus, isLoggedIn } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
-myPage();
-updateLoginStatus();
+
+$(document).ready(() => {
+  myPage();
+  updateLoginStatus();
+  initializePage();
+});
 
 const profileUrl = window.location.pathname;
 let userId = profileUrl.split("/profile/")[1];
@@ -210,8 +214,6 @@ editProfileBtn.addEventListener("click", editProfile);
 
 async function editProfile() {
   try {
-    // const data = await isLoggedIn();
-    // const userId = data.user.id;
     const newNicknameInput = document.getElementById("newNickname").value;
     const newUrlInput = document.getElementById("newUrl").value;
     const newIntroductionInput = document.getElementById("newIntroduction").value;
@@ -312,7 +314,7 @@ async function initializePage() {
           const result = await response.json();
           console.log(result.message);
           // 로그아웃 성공 시 페이지 리로드 또는 다른 동작 수행
-          location.reload();
+          window.location.href = "/";
         } else {
           const result = await response.json();
           console.log(result.errorMessage);
@@ -322,8 +324,6 @@ async function initializePage() {
       }
     });
   } else {
-    console.log("에러");
+    console.log("알 슈 없는 에뤄가 발생했슙니다.");
   }
 }
-
-initializePage();

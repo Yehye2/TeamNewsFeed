@@ -12,9 +12,7 @@ router.delete("/posts/:postId", authMiddleware, remove);
 // 게시글등록
 async function create(req, res) {
   try {
-    console.log("create");
     const { title, content, img } = req.body;
-    console.log("title, content, img", title, content, img);
 
     const { userId: UserId, nickname } = res.locals.user;
     const post = new Posts({ UserId, nickname, title, content, img });
@@ -50,7 +48,7 @@ async function getOne(req, res) {
   try {
     const { postId } = req.params;
     const post = await Posts.findOne({
-      attributes: ["postId", "UserId", "nickname", "title", "content", "createdAt", "updatedAt"],
+      attributes: ["postId", "UserId", "nickname", "title", "content", "createdAt", "updatedAt", "img"],
       where: { postId }
     });
 

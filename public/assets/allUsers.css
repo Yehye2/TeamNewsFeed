@@ -1,6 +1,17 @@
 #user-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  height: 15rem;
+}
+
+body {
+  margin-top: 5rem;
+}
+
+.section-box {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .user-card {

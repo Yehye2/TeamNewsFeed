@@ -1,7 +1,13 @@
 import { isLoggedIn, updateLoginStatus } from "./isLoggedIn.js";
 import myPage from "./myPageButton.js";
-myPage();
-updateLoginStatus();
+
+$(document).ready(() => {
+  initializePage();
+  myPage();
+  updateLoginStatus();
+  searchBooks();
+  displayBestsellers();
+});
 
 const searchBooks = () => {
   const query = document.getElementById("searchInput").value;
@@ -19,7 +25,6 @@ const searchBooks = () => {
         resultsContainer.appendChild(noResultsMessage);
       } else {
         resultsContainer.innerHTML = "";
-        console.log("resultsContainer = ", resultsContainer);
         books.forEach(x => {
           const searchResults = document.createElement("div");
           searchResults.innerHTML = `<div class="list-item">
@@ -38,6 +43,7 @@ const searchBooks = () => {
 };
 const searchBtn = document.getElementById("search-btn");
 searchBtn.addEventListener("click", searchBooks);
+
 function displayBestsellers() {
   const bestsellersList = document.getElementById("bestsellersList");
   fetch("/bestsellers")
@@ -81,12 +87,17 @@ function generatePostCards(posts, postsList) {
       .then(response => response.json())
       .then(data => {
         let userNickname = data.nickname;
+        let postImg = post.img;
+
+        if (!postImg) {
+          postImg = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+        }
 
         const postResult = document.createElement("div");
         postResult.innerHTML = `<div class="item" >
                               <div class="front">
                                 <img
-                                  src="${post.img}"
+                                  src="${postImg}"
                                   alt=""
                                   onerror="src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'"
                                 />
@@ -135,10 +146,8 @@ function displayPosts() {
 
 async function displayFollowingPosts() {
   const postsList = document.getElementById("posts-list");
-  //const loggedIn = await isLoggedIn(); // 로그인 상태 확인
   let data = await isLoggedIn();
   let userId = data.user.id;
-  console.log("test", userId);
 
   fetch(`/api/users/${userId}/following-posts`)
     .then(function (response) {
@@ -159,9 +168,6 @@ async function displayFollowingPosts() {
       console.error("Error fetching posts:", error);
     });
 }
-
-searchBooks();
-displayBestsellers();
 
 const nav = document.querySelector("nav ul");
 
@@ -190,7 +196,7 @@ async function initializePage() {
           const result = await response.json();
           console.log(result.message);
           // 로그아웃 성공 시 페이지 리로드 또는 다른 동작 수행
-          location.reload();
+          window.location.href = "/";
         } else {
           const result = await response.json();
           console.log(result.errorMessage);
@@ -210,5 +216,3 @@ async function initializePage() {
     displayPosts(); // 비로그인 상태인 경우 displayPosts() 실행
   }
 }
-
-initializePage();

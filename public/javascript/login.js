@@ -14,12 +14,12 @@ signupModalClose.addEventListener("click", () => {
   signupModal.style.display = "none";
 });
 
-// 모달 외부 클릭 시 모달 닫기
-window.addEventListener("click", e => {
-  if (e.target === signupModal) {
-    signupModal.style.display = "none";
-  }
-});
+// 모달 외부 클릭 시 모달 닫기 <= 거슬려서 일단 주석
+// window.addEventListener("click", e => {
+//   if (e.target === signupModal) {
+//     signupModal.style.display = "none";
+//   }
+// });
 
 // 회원가입 폼 제출 시 처리
 signupForm.addEventListener("submit", async e => {
@@ -41,7 +41,8 @@ signupForm.addEventListener("submit", async e => {
     });
 
     if (response.ok) {
-      console.log("회원가입 성공");
+      alert("회원가입 성공.");
+      location.reload();
       // 회원가입 성공 시 원하는 동작 수행
     } else {
       const errorData = await response.json();
@@ -140,7 +141,6 @@ emailAuthButton.addEventListener("click", async e => {
       } else {
         emailHelp.style.color = "red";
         emailHelp.innerText = "인증코드가 일치하지 않습니다.";
-        console.log(verifiedEmail);
       }
     } catch (error) {
       console.error(error);
